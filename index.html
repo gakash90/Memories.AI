@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Vault - Dark Mode Homepage with Sidebar</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%);
+            color: #E2E8F0;
+            min-height: 100vh;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border-right: 1px solid rgba(160, 174, 192, 0.2);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            color: #F7FAFC;
+            margin-bottom: 10px;
+        }
+
+        .recent-chats {
+            list-style: none;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .chat-item {
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #A0AEC0;
+            transition: background 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-item:hover {
+            background: rgba(79, 209, 197, 0.2);
+            color: #F7FAFC;
+        }
+
+        .chat-item.active {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+        }
+
+        .chat-icon {
+            font-size: 16px;
+        }
+
+        .sidebar-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .sidebar-btn {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            padding: 10px;
+            border-radius: 10px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            text-align: left;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .sidebar-btn:hover {
+            box-shadow: 0 0 15px rgba(79, 209, 197, 0.7);
+            transform: scale(1.02);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 500;
+            color: #F7FAFC;
+            margin-bottom: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .action-btn:hover {
+            box-shadow: 0 0 15px rgba(79, 209, 197, 0.7);
+            transform: scale(1.05);
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .collection-card {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .collection-card h3 {
+            font-size: 18px;
+            color: #F7FAFC;
+            margin-bottom: 10px;
+        }
+
+        .collection-card .sub-info {
+            font-size: 14px;
+            color: #A0AEC0;
+            margin-bottom: 15px;
+        }
+
+        .memory-icons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .memory-icon {
+            width: 30px;
+            height: 30px;
+            background: rgba(79, 209, 197, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            color: #4FD1C5;
+            box-shadow: 0 0 8px rgba(79, 209, 197, 0.5);
+        }
+
+        .chat-btn {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .chat-btn:hover {
+            box-shadow: 0 0 15px rgba(79, 209, 197, 0.7);
+            transform: scale(1.05);
+        }
+
+        /* Chat Interface */
+        .chat-view {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 32, 44, 0.95);
+            backdrop-filter: blur(8px);
+            flex-direction: column;
+            padding: 40px;
+            z-index: 10;
+        }
+
+        .chat-view.active {
+            display: flex;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .chat-header h2 {
+            font-size: 22px;
+            color: #F7FAFC;
+        }
+
+        .close-chat {
+            background: none;
+            border: none;
+            color: #A0AEC0;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .suggested-prompts {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+        }
+
+        .prompt-chip {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .prompt-chip:hover {
+            transform: scale(1.05);
+        }
+
+        .chat-container {
+            flex-grow: 1;
+            background: rgba(45, 55, 72, 0.9);
+            border-radius: 16px;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .chat-message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
+        .chat-bubble {
+            max-width: 60%;
+            padding: 12px 18px;
+            border-radius: 16px;
+            font-size: 14px;
+            line-height: 1.5;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.3s ease;
+        }
+
+        .chat-message.user .chat-bubble {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-message.ai .chat-bubble {
+            background: rgba(74, 85, 104, 0.9);
+            color: #F7FAFC;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+            padding: 20px 0;
+        }
+
+        .chat-input input {
+            flex-grow: 1;
+            padding: 12px;
+            border: 1px solid rgba(160, 174, 192, 0.3);
+            border-radius: 12px;
+            font-size: 14px;
+            background: rgba(45, 55, 72, 0.9);
+            color: #F7FAFC;
+            outline: none;
+        }
+
+        .chat-input button {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            align-items: center;
+            justify-content: center;
+            z-index: 20;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(45, 55, 72, 0.9);
+            backdrop-filter: blur(12px);
+            padding: 20px;
+            border-radius: 16px;
+            width: 400px;
+            text-align: center;
+            color: #F7FAFC;
+        }
+
+        .modal-content input, .modal-content select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid rgba(160, 174, 192, 0.3);
+            border-radius: 8px;
+            background: rgba(74, 85, 104, 0.9);
+            color: #F7FAFC;
+        }
+
+        .modal-content button {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        /* Privacy Icon */
+        .privacy-icon {
+            position: fixed;
+            top: 20px;
+            right: 100px;
+            font-size: 18px;
+            color: #A0AEC0;
+            cursor: pointer;
+        }
+
+        .privacy-icon:hover::after {
+            content: 'Your memories are secure';
+            position: absolute;
+            background: #2D3748;
+            color: #F7FAFC;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            top: 25px;
+            right: 0;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+        }
+
+        .mode-toggle select {
+            padding: 8px;
+            border: 1px solid rgba(160, 174, 192, 0.3);
+            border-radius: 8px;
+            background: rgba(45, 55, 72, 0.9);
+            color: #F7FAFC;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Recent Chats</h2>
+            <ul class="recent-chats">
+                <li class="chat-item">
+                    <span class="chat-icon">💬</span>
+                    Italy Trip Summary
+                </li>
+                <li class="chat-item">
+                    <span class="chat-icon">💬</span>
+                    Dad’s Voice Notes
+                </li>
+                <li class="chat-item">
+                    <span class="chat-icon">💬</span>
+                    Q1 Work Docs
+                </li>
+            </ul>
+            <div class="sidebar-actions">
+                <button class="sidebar-btn" onclick="toggleNewCollectionModal()">Create New Collection</button>
+                <button class="sidebar-btn" onclick="toggleAddMemoryModal()">Add Memory to Collection</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="header">
+                <h1>Welcome back. What would you like to remember today?</h1>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="action-btn" onclick="toggleNewCollectionModal()">Create New Collection</button>
+                <button class="action-btn" onclick="toggleAddMemoryModal()">Add Memory to Collection</button>
+            </div>
+
+            <!-- Collection Grid -->
+            <div class="collection-grid">
+                <div class="collection-card">
+                    <h3>Dad’s Voice Notes</h3>
+                    <div class="sub-info">2 Audios, 3 Texts</div>
+                    <div class="memory-icons">
+                        <div class="memory-icon">🎙️</div>
+                        <div class="memory-icon">📝</div>
+                    </div>
+                    <button class="chat-btn" onclick="openChat('Dad’s Voice Notes')">Chat with Collection</button>
+                </div>
+                <div class="collection-card">
+                    <h3>Work Docs Q1</h3>
+                    <div class="sub-info">5 Documents</div>
+                    <div class="memory-icons">
+                        <div class="memory-icon">📄</div>
+                    </div>
+                    <button class="chat-btn" onclick="openChat('Work Docs Q1')">Chat with Collection</button>
+                </div>
+                <div class="collection-card">
+                    <h3>Italy Trip 2021</h3>
+                    <div class="sub-info">10 Images, 2 Audios</div>
+                    <div class="memory-icons">
+                        <div class="memory-icon">🖼️</div>
+                        <div class="memory-icon">🎙️</div>
+                    </div>
+                    <button class="chat-btn" onclick="openChat('Italy Trip 2021')">Chat with Collection</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chat-view" id="chatView">
+        <div class="chat-header">
+            <h2 id="chatTitle"></h2>
+            <button class="close-chat" onclick="closeChat()">×</button>
+        </div>
+        <div class="suggested-prompts">
+            <div class="prompt-chip">What happened in this trip?</div>
+            <div class="prompt-chip">Summarize the work notes</div>
+        </div>
+        <div class="chat-container">
+            <div class="chat-message ai">
+                <div class="chat-bubble">Let’s dive into this collection. What would you like to explore?</div>
+            </div>
+            <div class="chat-message user">
+                <div class="chat-bubble">Can you summarize the key moments?</div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" placeholder="Ask about this collection…">
+            <button>Send</button>
+        </div>
+    </div>
+
+    <!-- New Collection Modal -->
+    <div class="modal" id="newCollectionModal">
+        <div class="modal-content">
+            <h3>New Collection</h3>
+            <input type="text" placeholder="Collection Name">
+            <button onclick="toggleNewCollectionModal()">Create</button>
+            <button onclick="toggleNewCollectionModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Add Memory Modal -->
+    <div class="modal" id="addMemoryModal">
+        <div class="modal-content">
+            <h3>Add Memory to Collection</h3>
+            <select>
+                <option>Dad’s Voice Notes</option>
+                <option>Work Docs Q1</option>
+                <option>Italy Trip 2021</option>
+            </select>
+            <input type="file" accept=".txt,.pdf,.jpg,.png,.mp3">
+            <button onclick="toggleAddMemoryModal()">Add</button>
+            <button onclick="toggleAddMemoryModal()">Cancel</button>
+        </div>
+    </div>
+
+    <!-- Privacy Icon -->
+    <div class="privacy-icon">🔒</div>
+
+    <!-- Mode Toggle -->
+    <div class="mode-toggle">
+        <select onchange="toggleMode(this.value)">
+            <option>Personal Mode</option>
+            <option>Work Mode</option>
+        </select>
+    </div>
+
+    <script>
+        function openChat(collectionName) {
+            const chatView = document.getElementById('chatView');
+            const chatTitle = document.getElementById('chatTitle');
+            chatTitle.textContent = collectionName;
+            chatView.classList.add('active');
+            const chatContainer = document.querySelector('.chat-container');
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function closeChat() {
+            const chatView = document.getElementById('chatView');
+            chatView.classList.remove('active');
+        }
+
+        function toggleNewCollectionModal() {
+            const modal = document.getElementById('newCollectionModal');
+            modal.classList.toggle('active');
+        }
+
+        function toggleAddMemoryModal() {
+            const modal = document.getElementById('addMemoryModal');
+            modal.classList.toggle('active');
+        }
+
+        function toggleMode(mode) {
+            const promptChips = document.querySelectorAll('.prompt-chip');
+            promptChips.forEach(chip => {
+                chip.textContent = mode === 'Work Mode' ? 'Summarize the work notes' : 'What happened in this trip?';
+            });
+        }
+
+        // Microinteractions
+        const cards = document.querySelectorAll('.collection-card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transition = 'transform 0.3s, box-shadow 0.3s';
+            });
+        });
+
+        const chatItems = document.querySelectorAll('.chat-item');
+        chatItems.forEach(item => {
+            item.addEventListener('click', () => {
+                chatItems.forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+            });
+        });
+
+        const promptChips = document.querySelectorAll('.prompt-chip');
+        promptChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                chip.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    chip.style.transform = 'scale(1)';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

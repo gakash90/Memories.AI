@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diary - Memory Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    :root {
+        --primary-color: #6366f1;
+        --primary-light: #818cf8;
+        --primary-dark: #4f46e5;
+        --secondary-color: #8b5cf6;
+        --accent-color: #f59e0b;
+        --text-color: #e5e7eb;
+        --text-light: #9ca3af;
+        --text-muted: #6b7280;
+        --background-color: #111827;
+        --card-bg: #1f2937;
+        --sidebar-bg: #1f2937;
+        --sidebar-active: rgba(99, 102, 241, 0.1);
+        --border-color: #374151;
+        --error-color: #ef4444;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        min-height: 100vh;
+        font-size: 14px;
+    }
+    
+    /* App Container */
+    .app-container {
+        display: flex;
+        min-height: 100vh;
+        background-color: var(--background-color);
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+        background-color: var(--sidebar-bg);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        transition: var(--transition);
+        background: linear-gradient(135deg, var(--card-bg) 0%, rgba(31, 41, 55, 0.95) 100%);
+        backdrop-filter: blur(10px);
+    }
+    
+    .sidebar-header {
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+    }
+    
+    .sidebar-header .logo-icon {
+        margin-right: 12px;
+        fill: var(--primary-color);
+        transition: var(--transition);
+    }
+    
+    .sidebar-header .logo-icon:hover {
+        fill: var(--primary-light);
+    }
+    
+    .sidebar-header .app-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.025em;
+    }
+    
+    .sidebar-nav {
+        flex: 1;
+        padding: 0 12px;
+        overflow-y: auto;
+    }
+    
+    .sidebar-nav ul {
+        list-style: none;
+        margin: 0;
+    }
+    
+    .sidebar-nav li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        margin: 0.125rem 0;
+        font-weight: 500;
+    }
+    
+    .sidebar-nav a:hover {
+        background-color: var(--sidebar-active);
+        color: var(--primary-color);
+        transform: translateX(4px);
+    }
+    
+    .sidebar-nav li.active a {
+        background: linear-gradient(90deg, var(--sidebar-active), transparent);
+        color: var(--primary-color);
+        font-weight: 600;
+        border-left: 3px solid var(--primary-color);
+        padding-left: 13px;
+    }
+    
+    .sidebar-nav svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        fill: currentColor;
+        transition: var(--transition);
+    }
+    
+    .sidebar-footer {
+        padding: 24px;
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        background-color: rgba(99, 102, 241, 0.05);
+        border-radius: var(--radius-lg);
+        transition: var(--transition);
+    }
+    
+    .user-info:hover {
+        background-color: rgba(99, 102, 241, 0.1);
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--primary-color);
+    }
+    
+    .user-avatar svg {
+        width: 18px;
+        height: 18px;
+        fill: white;
+    }
+    
+    .user-name {
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: -0.025em;
+    }
+    
+    .logout-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-light);
+        text-decoration: none;
+        padding: 0.75rem;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        font-weight: 500;
+    }
+    
+    .logout-button:hover {
+        color: var(--primary-color);
+        background-color: var(--sidebar-active);
+    }
+    
+    .logout-button svg {
+        margin-right: 8px;
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+    }
+    .main-content {
+        flex: 1;
+        margin-left: 280px;
+        padding: 32px;
+        max-width: calc(100% - 280px);
+        background-color: var(--background-color);
+    }
+    
+
+        .content-header {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .content-header-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .content-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .diary-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .diary-card {
+            background-color: var(--card-bg-light);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow);
+            padding: 25px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid transparent;
+            transform: perspective(1000px);
+            min-height: 220px;
+        }
+
+        .diary-card:hover {
+            transform: perspective(1000px) translateY(-8px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--primary-light);
+            background-color: var(--card-bg);
+        }
+
+        .diary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        .diary-card:hover::before {
+            opacity: 1;
+        }
+
+        .diary-card-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .diary-card-svg svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .diary-card-content {
+            position: relative;
+            z-index: 1;
+            padding: 10px;
+        }
+
+        .diary-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .diary-card-header h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-color);
+            letter-spacing: -0.025em;
+            background: linear-gradient(to right, var(--text-color), var(--text-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            max-width: 70%;
+        }
+
+        .diary-card-header .entry-count {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background-color: rgba(99, 102, 241, 0.1);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+        }
+
+        .edit-diary-name, .delete-diary {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .edit-diary-name:hover, .delete-diary:hover {
+            color: var(--primary-color);
+            transform: scale(1.1);
+        }
+
+        .delete-diary:hover {
+            color: var(--danger-color);
+        }
+
+        .diary-card-icon {
+            width: 32px;
+            height: 32px;
+            color: var(--primary-light);
+            opacity: 0.2;
+            transition: var(--transition);
+        }
+
+        .diary-card:hover .diary-card-icon {
+            opacity: 0.5;
+            transform: scale(1.1);
+        }
+
+        .diary-card-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .diary-card-actions .btn {
+            padding: 12px 18px;
+            font-size: 0.95rem;
+        }
+
+        .new-badge {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 30px;
+            height: 30px;
+            transform: rotate(45deg);
+            opacity: 0.8;
+            transition: var(--transition);
+            z-index: 2;
+        }
+
+        .diary-card:hover .new-badge {
+            opacity: 1;
+            transform: rotate(45deg) scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+            padding: 25px;
+            max-width: 500px;
+            width: 90%;
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--primary-color);
+        }
+
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .modal-form label {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .modal-form input, .modal-form textarea {
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            background-color: var(--card-bg);
+            outline: none;
+            transition: var(--transition);
+            font-family: inherit;
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        .modal-form textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .modal-form input:focus, .modal-form textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+
+        .btn {
+            padding: 10px 15px;
+            border-radius: var(--radius-lg);
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: 1px solid transparent;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 14px -1px rgba(99, 102, 241, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: var(--card-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--sidebar-active);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+            border: 1px solid transparent;
+        }
+
+        .btn-danger:hover {
+            background-color: var(--danger-dark);
+            transform: translateY(-2px);
+        }
+
+        #notification-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        .notification {
+            padding: 15px 20px;
+            border-radius: var(--radius-lg);
+            margin-bottom: 10px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.3s forwards;
+            border: 1px solid;
+        }
+
+        .notification.success {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .notification.error {
+            background-color: rgba(239, 68, 68, 0.1);
+            color: var(--error-color);
+            border-color: var(--error-color);
+        }
+
+        .notification i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 70px;
+            }
+
+            .sidebar-header .app-name, 
+            .sidebar-nav span, 
+            .user-details,
+            .logout-button span {
+                display: none;
+            }
+
+            .user-avatar {
+                margin-right: 0;
+            }
+
+            .sidebar-header {
+                justify-content: center;
+            }
+
+            .sidebar-header .logo-icon {
+                margin-right: 0;
+            }
+
+            .main-content {
+                margin-left: 70px;
+                padding: 20px;
+            }
+
+            .diary-list {
+                grid-template-columns: 1fr;
+            }
+
+            .diary-card {
+                transform: none;
+                padding: 20px;
+                min-height: auto;
+            }
+
+            .diary-card:hover {
+                transform: translateY(-5px);
+            }
+
+            .diary-card-header h3 {
+                max-width: 60%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <svg class="logo-icon" viewBox="0 0 24 24" width="32" height="32">
+                    <path d="M21 8.75v7.5a.75.75 0 0 1-.75.75H17V7h3.25c.41 0 .75.34.75.75Z"/>
+                    <path d="M7 7h8v10H7z"/>
+                    <path d="M3 8.75V10h3V7H3.75a.75.75 0 0 0-.75.75Z"/>
+                    <path d="M3 16.25a.75.75 0 0 0 .75.75H6v-3H3v1.5"/><path d="M7 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3a1 1 0 0 0-1 1v12H8V6a1 1 0 0 0-1-1Z"/>
+                </svg>
+                <h1 class="app-name">Memories.AI</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>             
+                        <a href="/">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="/collections">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M22 19H2v-2h20v2zm0-6H2v-2h20v2zM2 9h20V7H2v2zm0-6h20v2H2V3z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Collections</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/chats">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3C7.03 3 3 6.58 3 11c0 1.67.55 3.22 1.52 4.43L3 20l5.85-1.54c1.08.48 2.18.54 3.15.54 4.97 0 9-3.58 9-8s-4.03-8-9-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Chats</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/diary">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15H3V6h18v13z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 8h12v2H8V8zm0 4h12v2H8v-2zm0 4h8v2H8v-2zM4 8h2v2H4V8zm0 4h2v2H4v-2zm0 4h2v2H4v-2z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Personal Diary</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name" id="current-username">Username</p>
+                    </div>
+                </div>
+                <a href="/logout" class="logout-button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+    
+        <main class="main-content">
+            <header class="content-header">
+                <div class="content-header-left">
+                    <div class="breadcrumb">
+                        <a href="/">Dashboard</a>
+                        <i class="fas fa-angle-right"></i>
+                        <span>Diaries</span>
+                    </div>
+                    <h1 class="content-title">My Diaries</h1>
+                </div>
+                <button class="btn btn-primary" id="new-diary"><i class="fas fa-plus"></i> New Diary</button>
+            </header>
+
+            <section class="diary-section">
+                <div class="diary-list" id="diary-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="diary-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-diary-modal"><i class="fas fa-times"></i></button>
+            <div class="modal-form">
+                <h3 id="diary-modal-title">Create New Diary</h3>
+                <label for="diary-name-input">Diary Name</label>
+                <input type="text" id="diary-name-input" placeholder="Enter diary name">
+                <button class="btn btn-primary" id="save-diary"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="add-page-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-add-page-modal"><i class="fas fa-times"></i></button>
+            <div class="modal-form">
+                <h3>Add New Page</h3>
+                <label for="page-title">Title</label>
+                <input type="text" id="page-title" placeholder="Enter page title">
+                <label for="page-text">Text</label>
+                <textarea id="page-text" placeholder="Write your thoughts here..."></textarea>
+                <label for="page-caption">Caption</label>
+                <input type="text" id="page-caption" placeholder="Enter image caption">
+                <button class="btn btn-primary" id="save-page"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="delete-diary-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-delete-diary-modal"><i class="fas fa-times"></i></button>
+            <div class="modal-form">
+                <h3>Delete Diary</h3>
+                <p>Are you sure you want to delete "<span id="delete-diary-name"></span>"? This action cannot be undone.</p>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn btn-danger" id="confirm-delete-diary"><i class="fas fa-trash"></i> Delete</button>
+                    <button class="btn btn-secondary" id="cancel-delete-diary"><i class="fas fa-times"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification-container"></div>
+
+    <script>
+
+let currentUser;
+        const currentUsernameEl = document.getElementById('current-username');
+
+    document.addEventListener('DOMContentLoaded', () => {
+    console.log('Diary list page loaded');
+
+    // Safety function for parsing IDs
+    function safeParseInt(value) {
+        if (!value || (typeof value !== 'string' && typeof value !== 'number')) {
+            console.error('Invalid value passed to safeParseInt:', value);
+            return null;
+        }
+        const parsed = parseInt(value, 10);
+        if (isNaN(parsed) || parsed <= 0) {
+            console.error('Value could not be parsed as positive integer:', value);
+            return null;
+        }
+        return parsed;
+    }
+
+    // API endpoints with safety checks
+    const API = {
+        diaries: '/api/diaries',
+        diary: function(id) {
+            const safeId = safeParseInt(id);
+            if (safeId === null) {
+                console.error('Invalid diary ID in API.diary:', id);
+                return null;
+            }
+            return `/api/diaries/${safeId}`;
+        },
+        entries: function(diaryId) {
+            const safeId = safeParseInt(diaryId);
+            if (safeId === null) {
+                console.error('Invalid diary ID in API.entries:', diaryId);
+                return null;
+            }
+            return `/api/diaries/${safeId}/entries`;
+        },
+        entry: function(diaryId, entryId) {
+            const safeDiaryId = safeParseInt(diaryId);
+            const safeEntryId = safeParseInt(entryId);
+            if (safeDiaryId === null || safeEntryId === null) {
+                console.error('Invalid IDs in API.entry - diaryId:', diaryId, 'entryId:', entryId);
+                return null;
+            }
+            return `/api/diaries/${safeDiaryId}/entries/${safeEntryId}`;
+        }
+    };
+
+    // Variables for pagination
+    let currentEntryIndex = 0;
+    let allEntries = [];
+
+    // Fetch all diaries with error handling
+    async function fetchDiaries() {
+        try {
+            console.log('Fetching all diaries');
+            const response = await fetch(API.diaries);
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('API error:', response.status, errorText);
+                throw new Error(`Error ${response.status}: ${errorText}`);
+            }
+            
+            const data = await response.json();
+            console.log('Diaries fetched successfully:', data.diaries?.length || 0, 'diaries');
+            return data.success ? data.diaries : [];
+        } catch (error) {
+            console.error('Failed to fetch diaries:', error);
+            showNotification('Failed to load diaries. Please try again.', 'error');
+            return [];
+        }
+    }
+
+    // Create a new diary
+    async function createDiary(name) {
+        try {
+            console.log('Creating new diary:', name);
+            const response = await fetch(API.diaries, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Diary created successfully:', data.diary);
+            return data.success ? data.diary : null;
+        } catch (error) {
+            console.error('Failed to create diary:', error);
+            showNotification(`Failed to create diary: ${error.message}`, 'error');
+            return null;
+        }
+    }
+
+    // Update a diary
+    async function updateDiary(id, name) {
+        try {
+            const url = API.diary(id);
+            if (!url) {
+                throw new Error('Invalid diary ID');
+            }
+            
+            console.log('Updating diary:', id, 'with name:', name);
+            const response = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ name })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Diary updated successfully:', data.diary);
+            return data.success ? data.diary : null;
+        } catch (error) {
+            console.error('Failed to update diary:', error);
+            showNotification(`Failed to update diary: ${error.message}`, 'error');
+            return null;
+        }
+    }
+
+    // Delete a diary
+    async function deleteDiary(id) {
+        try {
+            const url = API.diary(id);
+            if (!url) {
+                throw new Error('Invalid diary ID');
+            }
+            
+            console.log('Deleting diary:', id);
+            const response = await fetch(url, {
+                method: 'DELETE'
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Diary deleted successfully');
+            return data.success;
+        } catch (error) {
+            console.error('Failed to delete diary:', error);
+            showNotification(`Failed to delete diary: ${error.message}`, 'error');
+            return false;
+        }
+    }
+
+    // Create a diary chat session
+    async function createDiaryChatSession(diaryId) {
+    try {
+        showNotification('Creating chat session...', 'success');
+        
+        // Make sure diaryId is a number
+        diaryId = Number(diaryId);
+        if (isNaN(diaryId) || diaryId <= 0) {
+            throw new Error('Invalid diary ID');
+        }
+        
+        // Always create a new chat session
+        const response = await fetch(`/api/diaries/${diaryId}/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            // Adding a timestamp to ensure we're not getting a cached response
+            body: JSON.stringify({ 
+                timestamp: new Date().getTime() 
+            })
+        });
+        
+        if (!response.ok) {
+            console.error('Error creating chat session:', response.status, response.statusText);
+            const errorText = await response.text();
+            console.error('Error response:', errorText);
+            
+            try {
+                const errorData = JSON.parse(errorText);
+                throw new Error(errorData.error || `Error: ${response.status}`);
+            } catch (jsonError) {
+                throw new Error(`Error ${response.status}: ${response.statusText}`);
+            }
+        }
+        
+        const data = await response.json();
+        console.log('Chat session created:', data);
+        
+        if (data.success && data.chat && data.chat.id) {
+            // Make sure we have a valid chat ID before navigating
+            console.log(`Navigating to /diary/${diaryId}/chat/${data.chat.id}`);
+            
+            // Navigate to the chat page
+            window.location.href = `/diary/${diaryId}/chat/${data.chat.id}`;
+        } else {
+            console.error('Chat session created but no valid ID returned:', data);
+            throw new Error('Failed to create chat session - no valid ID returned');
+        }
+    } catch (error) {
+        console.error('Error creating chat session:', error);
+        showNotification(`Failed to create chat session: ${error.message}`, 'error');
+    }
+}
+
+    // Render diary list
+    function renderDiaries(diaries) {
+        console.log('Rendering diary list with', diaries.length, 'diaries');
+        const diaryList = document.getElementById('diary-list');
+        if (!diaryList) {
+            console.error('Diary list container not found');
+            showNotification('Failed to load diaries', 'error');
+            return;
+        }
+        
+        diaryList.innerHTML = diaries.length ? diaries.map(diary => {
+            // Check if the diary has been updated in the last 7 days
+            const hasRecentUpdates = (() => {
+                try {
+                    const updatedDate = new Date(diary.updated_at);
+                    const now = new Date();
+                    const diffDays = (now - updatedDate) / (1000 * 60 * 60 * 24);
+                    return diffDays <= 7;
+                } catch (e) {
+                    console.error('Invalid update date:', diary.updated_at, e);
+                    return false;
+                }
+            })();
+            
+            return `
+            <div class="diary-card" data-id="${diary.id}">
+                <div class="diary-card-svg">
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="cardGradient${diary.id}" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:${diary.id % 2 ? '#6366f1' : '#8b5cf6'};stop-opacity:0.3"/>
+                                <stop offset="100%" style="stop-color:${diary.id % 2 ? '#8b5cf6' : '#6366f1'};stop-opacity:0.1"/>
+                            </linearGradient>
+                        </defs>
+                        <rect x="0" y="0" width="100" height="100" fill="url(#cardGradient${diary.id})"/>
+                        <path d="M0,0 L100,0 L90,100 L0,100 Z" fill="none" stroke="${diary.id % 2 ? '#818cf8' : '#a78bfa'}" stroke-width="2" opacity="0.2"/>
+                    </svg>
+                </div>
+                ${hasRecentUpdates ? `
+                <svg class="new-badge" viewBox="0 0 100 100">
+                    <path d="M50,0 L100,50 L50,100 L0,50 Z" fill="var(--accent-color)"/>
+                    <text x="50" y="60" font-size="16" fill="white" text-anchor="middle" transform="rotate(-45 50 50)">New</text>
+                </svg>` : ''}
+                <div class="diary-card-content">
+                    <div class="diary-card-header">
+                        <svg class="diary-card-icon" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 16H6c-.55 0-1-.45-1-1V6c0-.55.45-1 1-1h12c.55 0 1 .45 1 1v12c0 .55-.45 1-1 1zM8 7h8v2H8V7zm0 4h8v2H8v-2zm0 4h5v2H8v-2z"/>
+                        </svg>
+                        <h3>${diary.name}</h3>
+                        <span class="entry-count">${diary.entry_count} ${diary.entry_count === 1 ? 'entry' : 'entries'}</span>
+                        <button class="edit-diary-name" data-id="${diary.id}" title="Edit Diary Name"><i class="fas fa-pencil-alt"></i></button>
+                        <button class="delete-diary" data-id="${diary.id}" title="Delete Diary"><i class="fas fa-trash"></i></button>
+                    </div>
+                    <div class="diary-card-actions">
+                        <button class="btn btn-primary add-page" data-id="${diary.id}" title="Add Page"><i class="fas fa-plus"></i> Add Page</button>
+                        <button class="btn btn-secondary view-diary" data-id="${diary.id}" title="View Pages"><i class="fas fa-book-open"></i> View</button>
+                        <button class="btn btn-secondary read-diary" data-id="${diary.id}" title="Read Pages"><i class="fas fa-eye"></i> Read</button>
+                        <button class="btn btn-secondary chat-diary" data-id="${diary.id}" title="Chat"><i class="fas fa-comments"></i> Chat</button>
+                    </div>
+                </div>
+            </div>
+        `}).join('') : '<p>No diaries found. Create a new one!</p>';
+        
+        // Log rendered elements for debugging
+        console.log('Diary elements rendered, checking data-id attributes:');
+        document.querySelectorAll('[data-id]').forEach(el => {
+            console.log(`Element ${el.tagName} has data-id: "${el.dataset.id}"`);
+        });
+    }
+
+    // Load diaries and render them
+    async function loadDiaries() {
+        console.log('Starting to load diaries');
+        const diaries = await fetchDiaries();
+        console.log('Fetched diaries:', diaries);
+        renderDiaries(diaries);
+        console.log('Diaries rendered successfully');
+    }
+
+    // Initial load
+    loadDiaries();
+
+    // New diary
+    document.getElementById('new-diary')?.addEventListener('click', () => {
+        console.log('Opening new diary modal');
+        const modal = document.getElementById('diary-modal');
+        if (modal) {
+            document.getElementById('diary-modal-title').textContent = 'Create New Diary';
+            document.getElementById('diary-name-input').value = '';
+            document.getElementById('save-diary').dataset.action = 'new';
+            modal.classList.add('active');
+        }
+    });
+
+    // Edit diary name
+    document.getElementById('diary-list')?.addEventListener('click', async (e) => {
+        const editButton = e.target.closest('.edit-diary-name');
+        if (editButton) {
+            console.log('Edit button clicked');
+            
+            // Get the diary ID and validate it
+            const diaryIdStr = editButton.dataset.id;
+            console.log('Edit button data-id attribute:', diaryIdStr);
+            
+            const diaryId = safeParseInt(diaryIdStr);
+            if (diaryId === null) {
+                console.error('Invalid diary ID for edit:', diaryIdStr);
+                showNotification('Invalid diary ID. Please refresh the page and try again.', 'error');
+                return;
+            }
+            
+            console.log('Editing diary:', diaryId);
+            
+            try {
+                const url = API.diary(diaryId);
+                if (!url) {
+                    throw new Error('Invalid diary ID');
+                }
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API error:', response.status, errorText);
+                    throw new Error(`Error ${response.status}: ${errorText}`);
+                }
+                
+                const data = await response.json();
+                if (data.success && data.diary) {
+                    const modal = document.getElementById('diary-modal');
+                    if (modal) {
+                        document.getElementById('diary-modal-title').textContent = 'Edit Diary Name';
+                        document.getElementById('diary-name-input').value = data.diary.name;
+                        document.getElementById('save-diary').dataset.action = 'edit';
+                        document.getElementById('save-diary').dataset.id = diaryId;
+                        modal.classList.add('active');
+                    }
+                } else {
+                    showNotification('Diary not found', 'error');
+                }
+            } catch (error) {
+                console.error('Failed to fetch diary details:', error);
+                showNotification('Failed to load diary details: ' + error.message, 'error');
+            }
+        }
+    });
+
+    // Delete diary
+    document.getElementById('diary-list')?.addEventListener('click', (e) => {
+        const deleteButton = e.target.closest('.delete-diary');
+        if (deleteButton) {
+            console.log('Delete button clicked');
+            
+            // Get the diary ID and validate it
+            const diaryIdStr = deleteButton.dataset.id;
+            console.log('Delete button data-id attribute:', diaryIdStr);
+            
+            const diaryId = safeParseInt(diaryIdStr);
+            if (diaryId === null) {
+                console.error('Invalid diary ID for delete:', diaryIdStr);
+                showNotification('Invalid diary ID. Please refresh the page and try again.', 'error');
+                return;
+            }
+            
+            console.log('Opening delete diary modal:', diaryId);
+            
+            const modal = document.getElementById('delete-diary-modal');
+            if (modal) {
+                // Find the diary name from the card
+                const diaryCard = deleteButton.closest('.diary-card');
+                const diaryName = diaryCard.querySelector('h3').textContent;
+                
+                document.getElementById('delete-diary-name').textContent = diaryName;
+                document.getElementById('confirm-delete-diary').dataset.id = diaryId;
+                modal.classList.add('active');
+            }
+        }
+    });
+
+
+    async function getCurrentUser() {
+        try {
+            const response = await fetch('/api/user/current');
+            if (!response.ok) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                currentUser = data.user;
+                currentUsernameEl.textContent = currentUser.username;
+            } else {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+            window.location.href = '/login';
+        }
+    }
+
+
+    document.getElementById('current-username')
+
+    // Confirm delete diary
+    document.getElementById('confirm-delete-diary')?.addEventListener('click', async () => {
+        const deleteButton = document.getElementById('confirm-delete-diary');
+        const diaryIdStr = deleteButton.dataset.id;
+        console.log('Confirm delete button data-id attribute:', diaryIdStr);
+        
+        const diaryId = safeParseInt(diaryIdStr);
+        if (diaryId === null) {
+            console.error('Invalid diary ID for confirm delete:', diaryIdStr);
+            showNotification('Invalid diary ID. Please refresh the page and try again.', 'error');
+            return;
+        }
+        
+        console.log('Deleting diary:', diaryId);
+        
+        const success = await deleteDiary(diaryId);
+        if (success) {
+            document.getElementById('delete-diary-modal').classList.remove('active');
+            showNotification('Diary deleted successfully!', 'success');
+            loadDiaries();
+        }
+    });
+
+    // Cancel delete diary
+    document.getElementById('cancel-delete-diary')?.addEventListener('click', () => {
+        console.log('Canceling delete diary');
+        document.getElementById('delete-diary-modal').classList.remove('active');
+    });
+
+    // Save diary (new or edit)
+    document.getElementById('save-diary')?.addEventListener('click', async () => {
+        console.log('Save diary button clicked');
+        const name = document.getElementById('diary-name-input').value.trim();
+        if (!name) {
+            showNotification('Please enter a diary name', 'error');
+            return;
+        }
+        
+        const action = document.getElementById('save-diary').dataset.action;
+        console.log('Save action:', action);
+        
+        let diary;
+        
+        if (action === 'new') {
+            diary = await createDiary(name);
+        } else {
+            const saveButton = document.getElementById('save-diary');
+            const diaryIdStr = saveButton.dataset.id;
+            console.log('Save button data-id attribute:', diaryIdStr);
+            
+            const diaryId = safeParseInt(diaryIdStr);
+            if (diaryId === null) {
+                console.error('Invalid diary ID for save:', diaryIdStr);
+                showNotification('Invalid diary ID. Please refresh the page and try again.', 'error');
+                return;
+            }
+            
+            diary = await updateDiary(diaryId, name);
+        }
+        
+        if (diary) {
+            document.getElementById('diary-modal').classList.remove('active');
+            showNotification(action === 'new' ? 'Diary created successfully!' : 'Diary name updated successfully!', 'success');
+            loadDiaries();
+        }
+    });
+
+    // Add page (entry)
+    document.getElementById('diary-list')?.addEventListener('click', (e) => {
+        const addButton = e.target.closest('.add-page');
+        if (addButton) {
+            console.log('Add page button clicked');
+            
+            // Get the diary ID and validate it
+            const diaryIdStr = addButton.dataset.id;
+            console.log('Add page button data-id attribute:', diaryIdStr);
+            
+            const diaryId = safeParseInt(diaryIdStr);
+            if (diaryId === null) {
+                console.error('Invalid diary ID for add page:', diaryIdStr);
+                showNotification('Invalid diary ID. Please refresh the page and try again.', 'error');
+                return;
+            }
+            
+            console.log('Opening add page modal for diary:', diaryId);
+            const modal = document.getElementById('add-page-modal');
+            if (modal) {
+                document.getElementById('page-title').value = '';
+                document.getElementById('page-text').value = '';
+                document.getElementById('page-caption').value = '';
+                document.getElementById('save-page').dataset.diaryId = diaryId;
+                modal.classList.add('active');
+            }
+        }
+    });
+
+    // Save page (entry)
+    document.getElementById('save-page')?.addEventListener('click', async () => {
+        console.log('Save page button clicked');
+        const saveButton = document.getElementById('save-page');
+        const diaryIdStr = saveButton.dataset.diaryId;
+        console.log('Save page button data-diaryId attribute:', diaryIdStr);
+        
+        const diaryId = safeParseInt(diaryIdStr);
+        if (diaryId === null) {
+            console.error('Invalid diary ID for save page:', diaryIdStr);
+            showNotification('Invalid diary ID. Please refresh the page and try again.', 'error');
+            return;
+        }
+        
+        const title = document.getElementById('page-title').value.trim();
+        const text = document.getElementById('page-text').value.trim();
+        const caption = document.getElementById('page-caption').value.trim();
+        
+        if (!title || !text) {
+            showNotification('Title and text are required', 'error');
+            return;
+        }
+        
+        try {
+            const url = API.entries(diaryId);
+            if (!url) {
+                throw new Error('Invalid diary ID');
+            }
+            
+            console.log('Creating new entry for diary:', diaryId);
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title, text, caption })
+            });
+            
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || `Error: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            if (data.success) {
+                document.getElementById('add-page-modal').classList.remove('active');
+                showNotification('Page added successfully!', 'success');
+                loadDiaries();
+            } else {
+                throw new Error(data.error || 'Failed to add page');
+            }
+        } catch (error) {
+            console.error('Failed to add page:', error);
+            showNotification(`Failed to add page: ${error.message}`, 'error');
+        }
+    });
+
+    // View/Read/Chat diary
+    document.getElementById('diary-list')?.addEventListener('click', (e) => {
+        const button = e.target.closest('.view-diary, .read-diary, .chat-diary');
+        if (button) {
+            console.log('View/Read/Chat button clicked:', button.className);
+            
+            // Get the diary ID and validate it
+            const diaryIdStr = button.dataset.id;
+            console.log('Button data-id attribute:', diaryIdStr);
+            
+            const diaryId = safeParseInt(diaryIdStr);
+            if (diaryId === null) {
+                console.error('Invalid diary ID for view/read/chat:', diaryIdStr);
+                showNotification('Invalid diary ID. Please refresh the page and try again.', 'error');
+                return;
+            }
+            
+            if (button.classList.contains('view-diary')) {
+                console.log('Viewing diary:', diaryId);
+                window.location.href = `/diary/${diaryId}`;
+            } else if (button.classList.contains('read-diary')) {
+                console.log('Reading diary:', diaryId);
+                window.location.href = `/diary/${diaryId}?mode=read`;
+            } else if (button.classList.contains('chat-diary')) {
+                console.log('Chatting about diary:', diaryId);
+                // Create a new chat session
+                createDiaryChatSession(diaryId);
+            }
+        }
+    });
+
+    // Close modals
+    ['close-diary-modal', 'close-add-page-modal', 'close-delete-diary-modal'].forEach(id => {
+        document.getElementById(id)?.addEventListener('click', () => {
+            console.log(`Closing modal: ${id}`);
+            document.getElementById(id).closest('.modal').classList.remove('active');
+        });
+    });
+
+    // Notification
+    function showNotification(message, type = 'success') {
+        console.log(`Showing notification: ${message} (${type})`);
+        const container = document.getElementById('notification-container');
+        if (!container) {
+            console.error('Notification container not found');
+            return;
+        }
+        
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+        container.appendChild(notification);
+        setTimeout(() => {
+            notification.style.animation = 'slideIn 0.3s reverse';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    window.addEventListener('DOMContentLoaded', getCurrentUser);
+
+
+    // Make clearAllFilters globally accessible
+    window.clearAllFilters = function() {
+        console.log('Clearing all filters');
+        searchChatsInput.value = '';
+        chatTypeFilter.value = 'all';
+        renderChats();
+    };
+});
+    </script>
+</body>
+</html>

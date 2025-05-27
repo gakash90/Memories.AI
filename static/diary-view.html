@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diary View - Memory Vault</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+    :root {
+        --primary-color: #6366f1;
+        --primary-light: #818cf8;
+        --primary-dark: #4f46e5;
+        --secondary-color: #8b5cf6;
+        --accent-color: #f59e0b;
+        --text-color: #e5e7eb;
+        --text-light: #9ca3af;
+        --text-muted: #6b7280;
+        --background-color: #111827;
+        --card-bg: #1f2937;
+        --sidebar-bg: #1f2937;
+        --sidebar-active: rgba(99, 102, 241, 0.1);
+        --border-color: #374151;
+        --error-color: #ef4444;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        min-height: 100vh;
+        font-size: 14px;
+    }
+    
+    /* App Container */
+    .app-container {
+        display: flex;
+        min-height: 100vh;
+        background-color: var(--background-color);
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+        background-color: var(--sidebar-bg);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        transition: var(--transition);
+        background: linear-gradient(135deg, var(--card-bg) 0%, rgba(31, 41, 55, 0.95) 100%);
+        backdrop-filter: blur(10px);
+    }
+    
+    .sidebar-header {
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+    }
+    
+    .sidebar-header .logo-icon {
+        margin-right: 12px;
+        fill: var(--primary-color);
+        transition: var(--transition);
+    }
+    
+    .sidebar-header .logo-icon:hover {
+        fill: var(--primary-light);
+    }
+    
+    .sidebar-header .app-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.025em;
+    }
+    
+    .sidebar-nav {
+        flex: 1;
+        padding: 0 12px;
+        overflow-y: auto;
+    }
+    
+    .sidebar-nav ul {
+        list-style: none;
+        margin: 0;
+    }
+    
+    .sidebar-nav li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        margin: 0.125rem 0;
+        font-weight: 500;
+    }
+    
+    .sidebar-nav a:hover {
+        background-color: var(--sidebar-active);
+        color: var(--primary-color);
+        transform: translateX(4px);
+    }
+    
+    .sidebar-nav li.active a {
+        background: linear-gradient(90deg, var(--sidebar-active), transparent);
+        color: var(--primary-color);
+        font-weight: 600;
+        border-left: 3px solid var(--primary-color);
+        padding-left: 13px;
+    }
+    
+    .sidebar-nav svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        fill: currentColor;
+        transition: var(--transition);
+    }
+    
+    .sidebar-footer {
+        padding: 24px;
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+    }
+    
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        background-color: rgba(99, 102, 241, 0.05);
+        border-radius: var(--radius-lg);
+        transition: var(--transition);
+    }
+    
+    .user-info:hover {
+        background-color: rgba(99, 102, 241, 0.1);
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--primary-color);
+    }
+    
+    .user-avatar svg {
+        width: 18px;
+        height: 18px;
+        fill: white;
+    }
+    
+    .user-name {
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: -0.025em;
+    }
+    
+    .logout-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-light);
+        text-decoration: none;
+        padding: 0.75rem;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        font-weight: 500;
+    }
+    
+    .logout-button:hover {
+        color: var(--primary-color);
+        background-color: var(--sidebar-active);
+    }
+    
+    .logout-button svg {
+        margin-right: 8px;
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+    }
+    
+    .main-content {
+        flex: 1;
+        margin-left: 280px;
+        padding: 32px;
+        max-width: calc(100% - 280px);
+        background-color: var(--background-color);
+    }
+    
+    .content-header {
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .content-header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .breadcrumb {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.875rem;
+        color: var(--text-light);
+    }
+    
+    .breadcrumb a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: var(--transition);
+    }
+    
+    .breadcrumb a:hover {
+        color: var(--primary-color);
+    }
+    
+    .content-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-color);
+        letter-spacing: -0.025em;
+    }
+    
+    /* Diary Book styling */
+    .diary-book-container {
+        display: flex;
+        position: relative;
+        margin: 20px auto;
+        max-width: 1000px;
+    }
+    
+    .diary-book {
+        position: relative;
+        flex: 1;
+        background-color: var(--card-bg);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        min-height: 600px;
+        padding: 40px;
+        border-left: 5px solid var(--primary-color);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .diary-book::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 100%;
+        background: linear-gradient(90deg, 
+            rgba(99, 102, 241, 0.2) 0%, 
+            rgba(0, 0, 0, 0) 100%);
+        z-index: 1;
+    }
+    
+    .diary-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .diary-header h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-color);
+        letter-spacing: -0.025em;
+    }
+    
+    .diary-meta {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .entry-count {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        background-color: rgba(99, 102, 241, 0.1);
+        padding: 4px 8px;
+        border-radius: var(--radius-sm);
+    }
+    
+    .diary-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .entry-card {
+        background-color: var(--card-bg-light);
+        border-radius: var(--radius-lg);
+        margin-bottom: 20px;
+        padding: 20px;
+        transition: var(--transition);
+        box-shadow: var(--shadow);
+    }
+    
+    .entry-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-lg);
+    }
+    
+    .entry-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    .entry-header h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+    
+    .entry-meta {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .entry-date {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+    
+    .entry-actions {
+        display: flex;
+        gap: 10px;
+    }
+    
+    .entry-actions button {
+        background: none;
+        border: none;
+        color: var(--text-light);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .entry-actions button:hover {
+        color: var(--primary-color);
+        transform: scale(1.1);
+    }
+    
+    .entry-actions .delete-entry:hover {
+        color: var(--error-color);
+    }
+    
+    .entry-content {
+        font-size: 1rem;
+        color: var(--text-light);
+        line-height: 1.6;
+        margin-bottom: 15px;
+    }
+    
+    .entry-content p {
+        margin-bottom: 0.75rem;
+    }
+    
+    .entry-caption {
+        font-size: 0.85rem;
+        font-style: italic;
+        color: var(--text-muted);
+        margin-top: 10px;
+        padding-top: 10px;
+        border-top: 1px dashed var(--border-color);
+    }
+    
+    /* Pagination controls */
+    .pagination-controls {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    .entry-navigation {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .pagination-button {
+        background-color: var(--card-bg);
+        border: 1px solid var(--border-color);
+        color: var(--text-light);
+        padding: 8px 12px;
+        border-radius: var(--radius-lg);
+        cursor: pointer;
+        transition: var(--transition);
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .pagination-button:hover:not(:disabled) {
+        background-color: var(--sidebar-active);
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+    
+    .pagination-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+    
+    .entry-position {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+    }
+    
+    .btn {
+        padding: 10px 15px;
+        border-radius: var(--radius-lg);
+        border: none;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .btn i {
+        margin-right: 8px;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: 1px solid transparent;
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 14px -1px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-secondary {
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+    }
+    
+    .btn-secondary:hover {
+        background-color: var(--sidebar-active);
+        border-color: var(--primary-color);
+        transform: translateY(-2px);
+    }
+    
+    .btn-danger {
+        background-color: var(--error-color);
+        color: white;
+        border: 1px solid transparent;
+    }
+    
+    .btn-danger:hover {
+        background-color: #dc2626;
+        transform: translateY(-2px);
+    }
+    
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .modal.active {
+        display: flex;
+    }
+    
+    .modal-content {
+        background-color: var(--card-bg);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        padding: 25px;
+        max-width: 500px;
+        width: 90%;
+        border: 1px solid var(--border-color);
+        position: relative;
+    }
+    
+    .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: none;
+        border: none;
+        color: var(--text-light);
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .modal-close:hover {
+        color: var(--primary-color);
+    }
+    
+    .modal-form {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .modal-form h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 5px;
+    }
+    
+    .modal-form label {
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-color);
+    }
+    
+    .modal-form input, 
+    .modal-form textarea {
+        padding: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-md);
+        background-color: var(--card-bg);
+        outline: none;
+        transition: var(--transition);
+        font-family: inherit;
+        font-size: 0.95rem;
+        color: var(--text-color);
+    }
+    
+    .modal-form textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+    
+    .modal-form input:focus, 
+    .modal-form textarea:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+    }
+    
+    .modal-form .btn {
+        margin-top: 10px;
+    }
+    
+    .modal-actions {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+    
+    #notification-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+    }
+    
+    .notification {
+        padding: 15px 20px;
+        border-radius: var(--radius-lg);
+        margin-bottom: 10px;
+        box-shadow: var(--shadow-lg);
+        display: flex;
+        align-items: center;
+        animation: slideIn 0.3s forwards;
+        border: 1px solid;
+    }
+    
+    .notification.success {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success-color);
+        border-color: var(--success-color);
+    }
+    
+    .notification.error {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--error-color);
+        border-color: var(--error-color);
+    }
+    
+    .notification i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 60px 20px;
+        color: var(--text-muted);
+        border: 2px dashed var(--border-color);
+        border-radius: var(--radius-lg);
+        margin: 40px 0;
+    }
+    
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 70px;
+        }
+    
+        .sidebar-header .app-name, 
+        .sidebar-nav span, 
+        .user-details,
+        .logout-button span {
+            display: none;
+        }
+    
+        .user-avatar {
+            margin-right: 0;
+        }
+    
+        .sidebar-header {
+            justify-content: center;
+        }
+    
+        .sidebar-header .logo-icon {
+            margin-right: 0;
+        }
+    
+        .main-content {
+            margin-left: 70px;
+            padding: 20px;
+            max-width: calc(100% - 70px);
+        }
+    
+        .diary-book {
+            padding: 20px;
+        }
+    
+        .entry-header {
+            flex-direction: column;
+            gap: 10px;
+        }
+    
+        .entry-meta {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <svg class="logo-icon" viewBox="0 0 24 24" width="32" height="32">
+                    <path d="M21 8.75v7.5a.75.75 0 0 1-.75.75H17V7h3.25c.41 0 .75.34.75.75Z"/>
+                    <path d="M7 7h8v10H7z"/>
+                    <path d="M3 8.75V10h3V7H3.75a.75.75 0 0 0-.75.75Z"/>
+                    <path d="M3 16.25a.75.75 0 0 0 .75.75H6v-3H3v1.5"/><path d="M7 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3a1 1 0 0 0-1 1v12H8V6a1 1 0 0 0-1-1Z"/>
+                </svg>
+                <h1 class="app-name">Memories.AI</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>             
+                        <a href="/">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="/collections">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M22 19H2v-2h20v2zm0-6H2v-2h20v2zM2 9h20V7H2v2zm0-6h20v2H2V3z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Collections</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/chats">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3C7.03 3 3 6.58 3 11c0 1.67.55 3.22 1.52 4.43L3 20l5.85-1.54c1.08.48 2.18.54 3.15.54 4.97 0 9-3.58 9-8s-4.03-8-9-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Chats</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/diary">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15H3V6h18v13z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 8h12v2H8V8zm0 4h12v2H8v-2zm0 4h8v2H8v-2zM4 8h2v2H4V8zm0 4h2v2H4v-2zm0 4h2v2H4v-2z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Personal Diary</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name" id="current-username">Username</p>
+                    </div>
+                </div>
+                <a href="/logout" class="logout-button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+        <main class="main-content">
+            <header class="content-header">
+                <div class="content-header-left">
+                    <div class="breadcrumb">
+                        <a href="/">Dashboard</a>
+                        <i class="fas fa-angle-right"></i>
+                        <a href="/diary">Diaries</a>
+                        <i class="fas fa-angle-right"></i>
+                        <span id="diary-name">Diary Name</span>
+                    </div>
+                    <h1 class="content-title" id="diary-title">Diary Entries</h1>
+                </div>
+                <button class="btn btn-primary" id="new-entry"><i class="fas fa-plus"></i> New Entry</button>
+            </header>
+
+            <section class="diary-book-container">
+                <div class="diary-book">
+                    <div class="diary-header">
+                        <h2 id="diary-header-title">Diary Title</h2>
+                        <div class="diary-meta">
+                            <span class="entry-count" id="entry-counter">0 entries</span>
+                        </div>
+                    </div>
+                    
+                    <div class="diary-content" id="diary-content">
+                        <!-- Entries will be loaded here -->
+                        <div class="empty-state">
+                            No entries yet. Click "New Entry" to create your first diary entry.
+                        </div>
+                    </div>
+                    
+                    <div class="pagination-controls">
+                        <div class="entry-navigation" id="entry-navigation">
+                            <button class="pagination-button" id="prev-entry" disabled>
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </button>
+                            <span class="entry-position" id="entry-position">1 of 1</span>
+                            <button class="pagination-button" id="next-entry" disabled>
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div class="modal" id="entry-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-entry-modal"><i class="fas fa-times"></i></button>
+            <div class="modal-form">
+                <h3 id="entry-modal-title">Create New Entry</h3>
+                <label for="entry-title">Title</label>
+                <input type="text" id="entry-title" placeholder="Enter entry title">
+                <label for="entry-text">Text</label>
+                <textarea id="entry-text" placeholder="Write your thoughts here..."></textarea>
+                <label for="entry-caption">Caption</label>
+                <input type="text" id="entry-caption" placeholder="Enter image caption">
+                <button class="btn btn-primary" id="save-entry"><i class="fas fa-save"></i> Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="delete-entry-modal">
+        <div class="modal-content">
+            <button class="modal-close" id="close-delete-entry-modal"><i class="fas fa-times"></i></button>
+            <div class="modal-form">
+                <h3>Delete Entry</h3>
+                <p>Are you sure you want to delete "<span id="delete-entry-title"></span>"? This action cannot be undone.</p>
+                <div class="modal-actions">
+                    <button class="btn btn-danger" id="confirm-delete-entry"><i class="fas fa-trash"></i> Delete</button>
+                    <button class="btn btn-secondary" id="cancel-delete-entry"><i class="fas fa-times"></i> Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification-container"></div>
+
+    <script>
+         let currentUser;
+         const currentUsernameEl = document.getElementById('current-username');
+    document.addEventListener('DOMContentLoaded', () => {
+        console.log('Diary view page loaded');
+
+        // Safety function for parsing IDs
+        function safeParseInt(value) {
+            if (!value || (typeof value !== 'string' && typeof value !== 'number')) {
+                console.error('Invalid value passed to safeParseInt:', value);
+                return null;
+            }
+            const parsed = parseInt(value, 10);
+            if (isNaN(parsed) || parsed <= 0) {
+                console.error('Value could not be parsed as positive integer:', value);
+                return null;
+            }
+            return parsed;
+        }
+
+        // Extract diary ID from URL (supports both path and query parameter formats)
+        function extractDiaryIdFromUrl() {
+            // Try both methods to get diary ID
+            
+            // Method 1: From URL query parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const diaryIdParam = urlParams.get('diaryId');
+            if (diaryIdParam) {
+                const parsed = safeParseInt(diaryIdParam);
+                if (parsed) return parsed;
+            }
+            
+            // Method 2: From URL path
+            const pathParts = window.location.pathname.split('/');
+            for (const part of pathParts) {
+                const parsed = safeParseInt(part);
+                if (parsed) return parsed;
+            }
+            
+            console.error('No valid diary ID found in URL');
+            return null;
+        }
+
+        // Get diary ID and mode from URL
+        const diaryId = extractDiaryIdFromUrl();
+        console.log('Using diary ID:', diaryId);
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        const mode = urlParams.get('mode') || 'view';
+        console.log('Diary view mode:', mode);
+        
+        // If read-only mode, hide the new entry button
+        if (mode === 'read') {
+            const newEntryButton = document.getElementById('new-entry');
+            if (newEntryButton) {
+                newEntryButton.style.display = 'none';
+            }
+        }
+
+        // API endpoints with safety checks
+        const API = {
+            diaries: '/api/diaries',
+            diary: function(id) {
+                const safeId = safeParseInt(id);
+                if (safeId === null) {
+                    console.error('Invalid diary ID in API.diary:', id);
+                    return null;
+                }
+                return `/api/diaries/${safeId}`;
+            },
+            entries: function(diaryId) {
+                const safeId = safeParseInt(diaryId);
+                if (safeId === null) {
+                    console.error('Invalid diary ID in API.entries:', diaryId);
+                    return null;
+                }
+                return `/api/diaries/${safeId}/entries`;
+            },
+            entry: function(diaryId, entryId) {
+                const safeDiaryId = safeParseInt(diaryId);
+                const safeEntryId = safeParseInt(entryId);
+                if (safeDiaryId === null || safeEntryId === null) {
+                    console.error('Invalid IDs in API.entry - diaryId:', diaryId, 'entryId:', entryId);
+                    return null;
+                }
+                return `/api/diaries/${safeDiaryId}/entries/${safeEntryId}`;
+            }
+        };
+
+        // Variables for pagination
+        let currentEntryIndex = 0;
+        let allEntries = [];
+
+        // Fetch diary details with error handling
+        async function fetchDiary(id) {
+            try {
+                const url = API.diary(id);
+                if (!url) {
+                    throw new Error('Invalid diary ID');
+                }
+                
+                console.log('Fetching diary details for ID:', id);
+                const response = await fetch(url);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('API error:', response.status, errorText);
+                    throw new Error(`Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Diary fetched successfully:', data.diary?.name);
+                return data.success ? data.diary : null;
+            } catch (error) {
+                console.error('Failed to fetch diary:', error);
+                showNotification('Failed to load diary. Please try again.', 'error');
+                return null;
+            }
+        }
+
+        async function getCurrentUser() {
+            try {
+                const response = await fetch('/api/user/current');
+                if (!response.ok) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                const data = await response.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    currentUsernameEl.textContent = currentUser.username;
+                } else {
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+                window.location.href = '/login';
+            }
+        }
+
+        // Create a new entry
+        async function createEntry(diaryId, title, text, caption) {
+            try {
+                const url = API.entries(diaryId);
+                if (!url) {
+                    throw new Error('Invalid diary ID');
+                }
+                
+                console.log('Creating new entry for diary:', diaryId);
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, text, caption })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Entry created successfully');
+                return data.success ? data.entry : null;
+            } catch (error) {
+                console.error('Failed to create entry:', error);
+                showNotification(`Failed to create entry: ${error.message}`, 'error');
+                return null;
+            }
+        }
+
+        // Update an entry
+        async function updateEntry(diaryId, entryId, title, text, caption) {
+            try {
+                const url = API.entry(diaryId, entryId);
+                if (!url) {
+                    throw new Error('Invalid diary or entry ID');
+                }
+                
+                console.log('Updating entry:', entryId, 'for diary:', diaryId);
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, text, caption })
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Entry updated successfully');
+                return data.success ? data.entry : null;
+            } catch (error) {
+                console.error('Failed to update entry:', error);
+                showNotification(`Failed to update entry: ${error.message}`, 'error');
+                return null;
+            }
+        }
+
+        // Delete an entry
+        async function deleteEntry(diaryId, entryId) {
+            try {
+                const url = API.entry(diaryId, entryId);
+                if (!url) {
+                    throw new Error('Invalid diary or entry ID');
+                }
+                
+                console.log('Deleting entry:', entryId, 'from diary:', diaryId);
+                const response = await fetch(url, {
+                    method: 'DELETE'
+                });
+                
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Error: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('Entry deleted successfully');
+                return data.success;
+            } catch (error) {
+                console.error('Failed to delete entry:', error);
+                showNotification(`Failed to delete entry: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // Format date for display
+        function formatDate(dateString) {
+            try {
+                const date = new Date(dateString);
+                return date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                });
+            } catch (e) {
+                console.error('Invalid date format:', dateString, e);
+                return dateString;
+            }
+        }
+
+        // Navigation functions
+        function showPreviousEntry() {
+            if (currentEntryIndex > 0) {
+                showEntryByIndex(currentEntryIndex - 1);
+            }
+        }
+
+        function showNextEntry() {
+            if (currentEntryIndex < allEntries.length - 1) {
+                showEntryByIndex(currentEntryIndex + 1);
+            }
+        }
+
+        function showEntryByIndex(index) {
+            if (index < 0 || index >= allEntries.length) {
+                return;
+            }
+
+            currentEntryIndex = index;
+            const entry = allEntries[index];
+            renderSingleEntry(entry);
+            updateNavigationButtons();
+        }
+
+        function updateNavigationButtons() {
+            const prevButton = document.getElementById('prev-entry');
+            const nextButton = document.getElementById('next-entry');
+            const positionText = document.getElementById('entry-position');
+            
+            prevButton.disabled = currentEntryIndex === 0;
+            nextButton.disabled = currentEntryIndex === allEntries.length - 1;
+            
+            if (allEntries.length > 0) {
+                positionText.textContent = `${currentEntryIndex + 1} of ${allEntries.length}`;
+                document.getElementById('entry-navigation').style.display = 'flex';
+            } else {
+                document.getElementById('entry-navigation').style.display = 'none';
+            }
+        }
+
+        // Render diary content
+        function renderSingleEntry(entry) {
+            const contentContainer = document.getElementById('diary-content');
+            
+            contentContainer.innerHTML = `
+                <div class="entry-card" data-id="${entry.id}">
+                    <div class="entry-header">
+                        <h3>${entry.title}</h3>
+                        <div class="entry-meta">
+                            <span class="entry-date">${formatDate(entry.created_at)}</span>
+                            ${mode !== 'read' ? `
+                            <div class="entry-actions">
+                                <button class="edit-entry" data-id="${entry.id}" title="Edit Entry"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="delete-entry" data-id="${entry.id}" title="Delete Entry"><i class="fas fa-trash"></i></button>
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    <div class="entry-content">
+                        ${entry.text.split('\n').map(line => `<p>${line}</p>`).join('')}
+                    </div>
+                    ${entry.caption ? `
+                    <div class="entry-caption">
+                        <span class="caption-label">Caption:</span> ${entry.caption}
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            // Attach event listeners to the newly created elements
+            attachEntryEventListeners();
+        }
+
+        // Attach event listeners to entry elements
+        function attachEntryEventListeners() {
+            // Edit button
+            document.querySelectorAll('.edit-entry').forEach(button => {
+                button.addEventListener('click', function() {
+                    const entryId = safeParseInt(this.dataset.id);
+                    if (!entryId) return;
+                    
+                    const entry = allEntries.find(e => e.id === entryId);
+                    if (!entry) return;
+                    
+                    // Populate the modal
+                    document.getElementById('entry-modal-title').textContent = 'Edit Entry';
+                    document.getElementById('entry-title').value = entry.title;
+                    document.getElementById('entry-text').value = entry.text;
+                    document.getElementById('entry-caption').value = entry.caption || '';
+                    
+                    // Set action data
+                    document.getElementById('save-entry').dataset.action = 'edit';
+                    document.getElementById('save-entry').dataset.id = entryId;
+                    
+                    // Show the modal
+                    document.getElementById('entry-modal').classList.add('active');
+                });
+            });
+            
+            // Delete button
+            document.querySelectorAll('.delete-entry').forEach(button => {
+                button.addEventListener('click', function() {
+                    const entryId = safeParseInt(this.dataset.id);
+                    if (!entryId) return;
+                    
+                    const entry = allEntries.find(e => e.id === entryId);
+                    if (!entry) return;
+                    
+                    // Set entry title in delete confirmation
+                    document.getElementById('delete-entry-title').textContent = entry.title;
+                    document.getElementById('confirm-delete-entry').dataset.id = entryId;
+                    
+                    // Show the delete modal
+                    document.getElementById('delete-entry-modal').classList.add('active');
+                });
+            });
+        }
+
+        // Initialize diary view
+        async function initDiary() {
+            if (!diaryId) {
+                showNotification('Invalid diary ID', 'error');
+                document.getElementById('diary-content').innerHTML = '<div class="empty-state">Invalid diary ID. Please go back to the <a href="/diary">diary list</a>.</div>';
+                return;
+            }
+            
+            const diary = await fetchDiary(diaryId);
+            if (!diary) {
+                document.getElementById('diary-content').innerHTML = '<div class="empty-state">Failed to load diary. Please go back to the <a href="/diary">diary list</a>.</div>';
+                return;
+            }
+            
+            // Update diary info
+            document.getElementById('diary-name').textContent = diary.name;
+            document.getElementById('diary-title').textContent = diary.name;
+            document.getElementById('diary-header-title').textContent = diary.name;
+            document.getElementById('entry-counter').textContent = `${diary.entries.length} ${diary.entries.length === 1 ? 'entry' : 'entries'}`;
+            
+            // Store all entries for pagination
+            allEntries = diary.entries.sort((a, b) => {
+                return new Date(b.created_at) - new Date(a.created_at);
+            });
+            
+            // Set up pagination
+            document.getElementById('prev-entry').addEventListener('click', showPreviousEntry);
+            document.getElementById('next-entry').addEventListener('click', showNextEntry);
+            
+            // Display entries or empty state
+            if (allEntries.length > 0) {
+                showEntryByIndex(0);
+            } else {
+                document.getElementById('diary-content').innerHTML = '<div class="empty-state">No entries yet. Click "New Entry" to create your first diary entry.</div>';
+                updateNavigationButtons();
+            }
+        }
+
+        // New entry button
+        document.getElementById('new-entry')?.addEventListener('click', () => {
+            console.log('Opening new entry modal');
+            const modal = document.getElementById('entry-modal');
+            if (modal) {
+                document.getElementById('entry-modal-title').textContent = 'Create New Entry';
+                document.getElementById('entry-title').value = '';
+                document.getElementById('entry-text').value = '';
+                document.getElementById('entry-caption').value = '';
+                document.getElementById('save-entry').dataset.action = 'new';
+                modal.classList.add('active');
+            }
+        });
+
+        // Save entry (new or edit)
+        document.getElementById('save-entry')?.addEventListener('click', async () => {
+            const title = document.getElementById('entry-title').value.trim();
+            const text = document.getElementById('entry-text').value.trim();
+            const caption = document.getElementById('entry-caption').value.trim();
+            
+            if (!title || !text) {
+                showNotification('Title and text are required', 'error');
+                return;
+            }
+            
+            const action = document.getElementById('save-entry').dataset.action;
+            let entry;
+            
+            if (action === 'new') {
+                entry = await createEntry(diaryId, title, text, caption);
+            } else {
+                const entryId = safeParseInt(document.getElementById('save-entry').dataset.id);
+                if (!entryId) {
+                    showNotification('Invalid entry ID', 'error');
+                    return;
+                }
+                
+                entry = await updateEntry(diaryId, entryId, title, text, caption);
+            }
+            
+            if (entry) {
+                document.getElementById('entry-modal').classList.remove('active');
+                showNotification(action === 'new' ? 'Entry created successfully!' : 'Entry updated successfully!', 'success');
+                
+                // Reload the diary to show the updates
+                initDiary();
+            }
+        });
+
+        // Confirm delete entry
+        document.getElementById('confirm-delete-entry')?.addEventListener('click', async () => {
+            const entryId = safeParseInt(document.getElementById('confirm-delete-entry').dataset.id);
+            if (!entryId) {
+                showNotification('Invalid entry ID', 'error');
+                return;
+            }
+            
+            const success = await deleteEntry(diaryId, entryId);
+            if (success) {
+                document.getElementById('delete-entry-modal').classList.remove('active');
+                showNotification('Entry deleted successfully!', 'success');
+                
+                // Reload the diary to show the updates
+                initDiary();
+            }
+        });
+
+        // Cancel delete
+        document.getElementById('cancel-delete-entry')?.addEventListener('click', () => {
+            document.getElementById('delete-entry-modal').classList.remove('active');
+        });
+
+        // Close modals
+        document.querySelectorAll('.modal-close').forEach(button => {
+            button.addEventListener('click', function() {
+                this.closest('.modal').classList.remove('active');
+            });
+        });
+
+        // Notification
+        function showNotification(message, type) {
+            console.log(`Showing notification: ${message} (${type})`);
+            const container = document.getElementById('notification-container');
+            if (!container) {
+                console.error('Notification container not found');
+                return;
+            }
+            
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+            container.appendChild(notification);
+            setTimeout(() => {
+                notification.style.animation = 'slideIn 0.3s reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        window.addEventListener('DOMContentLoaded', getCurrentUser);
+
+
+        // Initialize the page
+        initDiary();
+    });
+
+    </script>
+</body>
+</html>

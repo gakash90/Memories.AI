@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memories.Ai - Chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        :root {
+        --primary-color: #6366f1;
+        --primary-light: #818cf8;
+        --primary-dark: #4f46e5;
+        --secondary-color: #8b5cf6;
+        --accent-color: #f59e0b;
+        --text-color: #e5e7eb;
+        --text-light: #9ca3af;
+        --text-muted: #6b7280;
+        --background-color: #111827;
+        --card-bg: #1f2937;
+        --sidebar-bg: #1f2937;
+        --sidebar-active: rgba(99, 102, 241, 0.1);
+        --border-color: #374151;
+        --error-color: #ef4444;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        min-height: 100vh;
+        font-size: 14px;
+    }
+    
+    /* App Container */
+    .app-container {
+        display: flex;
+        min-height: 100vh;
+        background-color: var(--background-color);
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+        background-color: var(--sidebar-bg);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        transition: var(--transition);
+        background: linear-gradient(135deg, var(--card-bg) 0%, rgba(31, 41, 55, 0.95) 100%);
+        backdrop-filter: blur(10px);
+    }
+    
+    .sidebar-header {
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+    }
+    
+    .sidebar-header .logo-icon {
+        margin-right: 12px;
+        fill: var(--primary-color);
+        transition: var(--transition);
+    }
+    
+    .sidebar-header .logo-icon:hover {
+        fill: var(--primary-light);
+    }
+    
+    .sidebar-header .app-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.025em;
+    }
+    
+    .sidebar-nav {
+        flex: 1;
+        padding: 0 12px;
+        overflow-y: auto;
+    }
+    
+    .sidebar-nav ul {
+        list-style: none;
+        margin: 0;
+    }
+    
+    .sidebar-nav li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        margin: 0.125rem 0;
+        font-weight: 500;
+    }
+    
+    .sidebar-nav a:hover {
+        background-color: var(--sidebar-active);
+        color: var(--primary-color);
+        transform: translateX(4px);
+    }
+    
+    .sidebar-nav li.active a {
+        background: linear-gradient(90deg, var(--sidebar-active), transparent);
+        color: var(--primary-color);
+        font-weight: 600;
+        border-left: 3px solid var(--primary-color);
+        padding-left: 13px;
+    }
+    
+    .sidebar-nav svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        fill: currentColor;
+        transition: var(--transition);
+    }
+    
+    .sidebar-footer {
+        padding: 24px;
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+    }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    padding: 0.75rem;
+    background-color: rgba(99, 102, 241, 0.05);
+    border-radius: var(--radius-lg);
+    transition: var(--transition);
+}
+
+.user-info:hover {
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--primary-color);
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: -0.025em;
+}
+
+.logout-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-light);
+        text-decoration: none;
+        padding: 0.75rem;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        font-weight: 500;
+    }
+    
+    .logout-button:hover {
+        color: var(--primary-color);
+        background-color: var(--sidebar-active);
+    }
+    
+    .logout-button svg {
+        margin-right: 8px;
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+    }
+
+/* Chat Container */
+.chat-container {
+    flex: 1;
+    margin-left: 280px;
+    display: flex;
+    height: 100vh;
+}
+
+
+
+/* Chat Sidebar */
+.chat-sidebar {
+    width: 300px;
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--card-bg);
+}
+
+.chat-sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.chat-sidebar-header h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+    word-break: break-word;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.chat-sessions {
+    flex: 1;
+    overflow-y: auto;
+    padding: 15px 0;
+}
+
+.chat-sessions h3 {
+    padding: 0 20px;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--text-light);
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.chat-sessions-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-session-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: var(--transition);
+    border-left: 3px solid transparent;
+    background-color: var(--card-bg);
+}
+
+.chat-session-item:hover {
+    background-color: var(--sidebar-active);
+    transform: translateX(4px);
+}
+
+.chat-session-item.active {
+    background: linear-gradient(90deg, var(--sidebar-active), transparent);
+    border-left-color: var(--primary-color);
+}
+
+.chat-session-name {
+    font-weight: 600;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: var(--text-color);
+}
+
+.chat-session-date {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.chat-sidebar-footer {
+    padding: 15px 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Main Chat Area */
+.chat-main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--background-color);
+}
+
+.chat-header {
+    padding: 15px 25px;
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-info h2 {
+    font-size: 1.2rem;
+    margin-bottom: 3px;
+    color: var(--text-color);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.chat-info span {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 30px;
+    text-align: center;
+    color: var(--text-light);
+    background-color: rgba(31, 41, 55, 0.5);
+    border-radius: var(--radius-xl);
+    border: 2px dashed var(--border-color);
+}
+
+.welcome-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    transition: var(--transition);
+}
+
+.welcome-icon:hover {
+    transform: scale(1.1);
+}
+
+.welcome-message h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.welcome-message p {
+    max-width: 400px;
+    color: var(--text-muted);
+}
+
+.message {
+    margin-bottom: 20px;
+    max-width: 85%;
+}
+
+.message.user-message {
+    margin-left: auto;
+}
+
+.message.ai-message {
+    margin-right: auto;
+}
+
+.message-content {
+    padding: 15px;
+    border-radius: var(--radius-lg);
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    background-color: var(--card-bg); /* Ensure consistent background */
+
+}
+
+.message-content:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.user-message .message-content {
+    background-color: rgba(99, 102, 241, 0.1); /* More visible user message bg */
+    border-bottom-right-radius: 0;
+}
+
+.ai-message .message-content {
+    background-color: rgba(31, 41, 55, 0.7); /* Darker AI message for better contrast */
+    border-bottom-left-radius: 0;
+}
+
+.message-text {
+    white-space: pre-wrap;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--text-color);
+}
+
+.message-references {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--light-border);
+}
+
+.message-references h4 {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.reference-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.reference-item {
+    background-color: rgba(241, 196, 15, 0.1);
+    color: var(--text-color);
+    padding: 3px 8px;
+    border-radius: var(--radius-md);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.reference-item:hover {
+    background-color: rgba(241, 196, 15, 0.2);
+    transform: translateY(-1px);
+}
+
+.message-meta {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+/* Chat Input */
+.chat-input-container {
+    padding: 15px 25px;
+    background-color: var(--card-bg);
+    border-top: 1px solid var(--border-color);
+}
+
+.thinking-indicator {
+    display: none;
+    align-items: center;
+    padding: 8px 15px;
+    border-radius: var(--radius-lg);
+    background-color: var(--ai-message-bg);
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+.thinking-indicator.active {
+    display: flex;
+}
+
+.thinking-indicator .dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--text-muted);
+    border-radius: 50%;
+    margin-right: 4px;
+    animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.thinking-indicator .dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.thinking-indicator .dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
+
+.thinking-indicator p {
+    margin-left: 5px;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+@keyframes bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1.0); }
+}
+
+.chat-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 5px 15px 5px 20px;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.chat-input:hover {
+    border-color: var(--primary-color);
+}
+
+.chat-input textarea {
+    flex: 1;
+    border: none;
+    background: transparent;
+    padding: 10px 0;
+    resize: none;
+    max-height: 100px;
+    min-height: 24px;
+    outline: none;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-color);
+}
+
+.chat-input textarea:focus {
+    border-color: var(--primary-color);
+}
+
+/* Referenced Memories Panel */
+.memories-panel {
+    width: 350px;
+    background-color: var(--card-bg);
+    border-left: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+}
+
+.memories-panel.active {
+    transform: translateX(0);
+}
+
+.memories-panel-header {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.memories-panel-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    letter-spacing: -0.025em;
+}
+
+.close-panel-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 1.1rem;
+    transition: var(--transition);
+    padding: 8px;
+    border-radius: var(--radius-md);
+}
+
+.close-panel-btn:hover {
+    color: var(--error-color);
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.memories-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.memory-item {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 15jx;
+    margin-bottom: 15px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.memory-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.memory-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.memory-type-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    transition: var(--transition);
+}
+
+.memory-item:hover .memory-type-icon {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+}
+
+.memory-details h4 {
+    font-size: 1rem;
+    margin-bottom: 3px;
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.memory-details small {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.memory-preview {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(31, 41, 55, 0.5);
+    border-radius: var(--radius-md);
+    font-size: 0.9rem;
+    max-height: 150px;
+    overflow-y: auto;
+    border: 1px solid var(--light-border);
+    color: var(--text-light);
+}
+
+.audio-preview audio {
+    width: 100%;
+    margin-top: 5px;
+}
+
+/* Empty States */
+.empty-state {
+    text-align: center;
+    padding: 20px;
+    color: var(--text-light);
+    background-color: rgba(31, 41, 55, 0.5);
+    border-radius: var(--radius-xl);
+    border: 2px dashed var(--border-color);
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 15px;
+    border-radius: var(--radius-lg);
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn-sm {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+}
+
+.btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.btn-icon i {
+    margin: 0;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid transparent;
+}
+
+
+.context-info {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    background-color: rgba(99, 102, 241, 0.1);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.context-info i {
+    margin-right: 4px;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px -1px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--sidebar-active);
+    border-color: var(--primary-color);
+}
+
+/* Notification */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.notification {
+    padding: 15px 20px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    animation: slideIn 0.3s forwards;
+    border: 1px solid;
+}
+
+.notification.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.notification.error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error-color);
+    border-color: var(--error-color);
+}
+
+.notification i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+.btn.disabled, .btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .chat-sidebar {
+        width: 260px;
+    }
+    
+    .memories-panel {
+        width: 300px;
+    }
+}
+
+@media (max-width: 992px) {
+    .chat-container {
+        display: grid;
+        grid-template-areas: 
+            "sidebar sidebar"
+            "main memories";
+        grid-template-columns: 1fr 0;
+        grid-template-rows: auto 1fr;
+    }
+    
+    .chat-sidebar {
+        grid-area: sidebar;
+        width: 100%;
+        height: auto;
+        max-height: 40vh;
+    }
+    
+    .chat-main {
+        grid-area: main;
+    }
+    
+    .memories-panel {
+        grid-area: memories;
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+    }
+    
+    .message {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar-header .app-name, 
+    .sidebar-nav span, 
+    .user-details,
+    .logout-button span {
+        display: none;
+    }
+
+    .user-avatar {
+        margin-right: 0;
+    }
+
+    .sidebar-header {
+        justify-content: center;
+    }
+
+    .sidebar-header .logo-icon {
+        margin-right: 0;
+    }
+
+    .chat-container {
+        margin-left: 70px;
+    }
+    
+    .message {
+        max-width: 95%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <svg class="logo-icon" viewBox="0 0 24 24" width="32" height="32">
+                    <path d="M21 8.75v7.5a.75.75 0 0 1-.75.75H17V7h3.25c.41 0 .75.34.75.75Z"/>
+                    <path d="M7 7h8v10H7z"/>
+                    <path d="M3 8.75V10h3V7H3.75a.75.75 0 0 0-.75.75Z"/>
+                    <path d="M3 16.25a.75.75 0 0 0 .75.75H6v-3H3v1.5"/><path d="M7 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3a1 1 0 0 0-1 1v12H8V6a1 1 0 0 0-1-1Z"/>
+                </svg>
+                <h1 class="app-name">Memories.AI</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>             
+                        <a href="/">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/collections">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M22 19H2v-2h20v2zm0-6H2v-2h20v2zM2 9h20V7H2v2zm0-6h20v2H2V3z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Collections</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/chats">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3C7.03 3 3 6.58 3 11c0 1.67.55 3.22 1.52 4.43L3 20l5.85-1.54c1.08.48 2.18.54 3.15.54 4.97 0 9-3.58 9-8s-4.03-8-9-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Chats</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/diary">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15H3V6h18v13z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 8h12v2H8V8zm0 4h12v2H8v-2zm0 4h8v2H8v-2zM4 8h2v2H4V8zm0 4h2v2H4v-2zm0 4h2v2H4v-2z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Personal Diary</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name" id="current-username">Username</p>
+                    </div>
+                </div>
+                <a href="/logout" class="logout-button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Chat Container -->
+        <div class="chat-container">
+            <!-- Chat Sidebar -->
+            <aside class="chat-sidebar">
+                <div class="chat-sidebar-header">
+                    <h2 id="entity-name">Collection/Memory Name</h2>
+                    <button id="new-chat-btn" class="btn btn-sm btn-primary">
+                        <i class="fas fa-plus"></i> New Chat
+                    </button>
+                </div>
+                <div class="chat-sessions">
+                    <h3>Chat Sessions</h3>
+                    <div class="chat-sessions-list" id="chat-sessions-container">
+                        <!-- Chat sessions will be loaded here -->
+                        <div class="empty-state" id="empty-chats">
+                            <p>No chat sessions yet. Start a new conversation!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-sidebar-footer">
+                    <a href="#" id="back-link" class="btn btn-secondary btn-sm">
+                        <i class="fas fa-arrow-left"></i> Back to Collection
+                    </a>
+                </div>
+            </aside>
+
+            <!-- Main Chat Area -->
+            <main class="chat-main">
+                <!-- Chat Header -->
+                <header class="chat-header">
+                    <div class="chat-info">
+                        <h2 id="chat-title">New Conversation</h2>
+                        <span id="chat-subtitle">Collection/Memory Name</span>
+                    </div>
+                    <div class="chat-actions">
+                        <button id="view-memories-btn" class="btn btn-icon" title="View Referenced Memories">
+                            <i class="fas fa-file-alt"></i>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Chat Messages -->
+                <div class="chat-messages" id="chat-messages">
+                    <!-- Messages will be loaded here -->
+                    <div class="welcome-message" id="welcome-message">
+                        <div class="welcome-icon">
+                            <i class="fas fa-comments"></i>
+                        </div>
+                        <h3>Start a conversation</h3>
+                        <p>Ask questions about your collection and get answers based on your memories.</p>
+                    </div>
+                </div>
+
+                <!-- Chat Input -->
+                <div class="chat-input-container">
+                    <div id="thinking-indicator" class="thinking-indicator">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <p>Thinking...</p>
+                    </div>
+                    <form id="chat-form" class="chat-input">
+                        <textarea 
+                            id="chat-input" 
+                            placeholder="Ask a question..."
+                            rows="1" 
+                            required
+                        ></textarea>
+                        <button type="submit" id="send-btn" class="btn btn-icon btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </main>
+
+            <!-- Referenced Memories Panel -->
+            <aside class="memories-panel active" id="memories-panel">
+                <div class="memories-panel-header">
+                    <h3>Referenced Memories</h3>
+                    <button class="close-panel-btn">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="memories-list" id="referenced-memories">
+                    <!-- Referenced memories will be loaded here -->
+                    <div class="empty-state" id="empty-references">
+                        <p>No memories referenced in this conversation yet.</p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <script>document.addEventListener('DOMContentLoaded', () => {
+        // DOM Elements
+        const entityNameEl = document.getElementById('entity-name');
+        const chatTitleEl = document.getElementById('chat-title');
+        const chatSubtitleEl = document.getElementById('chat-subtitle');
+        const newChatBtn = document.getElementById('new-chat-btn');
+        const backLinkEl = document.getElementById('back-link');
+        const viewMemoriesBtn = document.getElementById('view-memories-btn');
+        const memoriesPanel = document.getElementById('memories-panel');
+        const closePanelBtn = document.querySelector('.close-panel-btn');
+        const chatSessionsContainer = document.getElementById('chat-sessions-container');
+        const emptyChatsSessions = document.getElementById('empty-chats');
+        const chatMessagesContainer = document.getElementById('chat-messages');
+        const welcomeMessage = document.getElementById('welcome-message');
+        const chatForm = document.getElementById('chat-form');
+        const chatInput = document.getElementById('chat-input');
+        const sendBtn = document.getElementById('send-btn');
+        const thinkingIndicator = document.getElementById('thinking-indicator');
+        const referencedMemoriesContainer = document.getElementById('referenced-memories');
+        const emptyReferences = document.getElementById('empty-references');
+        const currentUsernameEl = document.getElementById('current-username');
+        const notificationContainer = document.getElementById('notification-container');
+    
+        // State
+        let entityType = 'collection'; // 'collection', 'memory', or 'diary'
+        let entityId = null;
+        let entityData = null;
+        let chatId = null;
+        let chatSessions = [];
+        let messages = [];
+        let referencedMemories = [];
+        let currentUser = null;
+        let isProcessing = false;
+    
+        // Get parameters from URL
+        const urlParams = getUrlParams();
+    
+        // Initialize
+        init();
+    
+        // Auto-resize the textarea as content changes
+        chatInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+    
+        // Get URL parameters
+        function getUrlParams() {
+            const path = window.location.pathname;
+            console.log('Current path:', path);
+            let params = {};
+            // Check if it's a collection chat
+            const collectionMatch = path.match(/\/collections\/([^\/]+)\/chat(?:\/([^\/]+))?$/);
+            if (collectionMatch) {
+                params.entityType = 'collection';
+                params.entityId = collectionMatch[1];
+                params.chatId = collectionMatch[2] || null;
+                return params;
+            }
+            // Check if it's a memory chat
+            const memoryMatch = path.match(/\/collections\/([^\/]+)\/memory\/([^\/]+)\/chat(?:\/([^\/]+))?$/);
+            if (memoryMatch) {
+                params.entityType = 'memory';
+                params.collectionId = memoryMatch[1];
+                params.entityId = memoryMatch[2];
+                params.chatId = memoryMatch[3] || null;
+                return params;
+            }
+            // Check if it's a diary chat
+            const diaryMatch = path.match(/\/diary\/(\d+)\/chat(?:\/(\d+))?$/);
+            if (diaryMatch) {
+                params.entityType = 'diary';
+                params.entityId = diaryMatch[1];
+                params.chatId = diaryMatch[2] || null;
+                console.log('Matched diary chat URL:', params);
+                return params;
+            }
+            console.error('Invalid URL pattern');
+            return null;
+        }
+    
+        // Initialize
+        async function init() {
+            if (!urlParams) {
+                showNotification('Invalid URL', 'error');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+                return;
+            }
+            console.log('URL Parameters:', urlParams);
+            entityType = urlParams.entityType;
+            entityId = urlParams.entityId;
+            chatId = urlParams.chatId;
+            // Validate entityId for diary
+            if (entityType === 'diary' && (isNaN(parseInt(entityId)) || parseInt(entityId) <= 0)) {
+                showNotification('Invalid diary ID', 'error');
+                setTimeout(() => {
+                    window.location.href = '/diary';
+                }, 2000);
+                return;
+            }
+            // Setup back link
+            if (entityType === 'collection') {
+                backLinkEl.href = `/collections/${entityId}`;
+            } else if (entityType === 'memory') {
+                backLinkEl.href = `/collections/${urlParams.collectionId}`;
+            } else if (entityType === 'diary') {
+                backLinkEl.href = `/diary/${entityId}`;
+            }
+            await getCurrentUser();
+            if (!currentUser) {
+                console.error('No authenticated user');
+                window.location.href = '/login';
+                return;
+            }
+            if (entityType === 'collection') {
+                await fetchCollection();
+            } else if (entityType === 'memory') {
+                await fetchMemory();
+            } else if (entityType === 'diary') {
+                await fetchDiary();
+            }
+            await fetchChatSessions();
+            // Only fetch messages if chatId is valid
+            if (chatId && !isNaN(parseInt(chatId))) {
+                await fetchChatMessages();
+            } else if (!chatId && chatSessions.length === 0) {
+                // Create a new chat session if none exist
+                await createChatSession();
+            }
+            setupEventListeners();
+        }
+    
+        // Get current user info
+        async function getCurrentUser() {
+            try {
+                const response = await fetch('/api/user/current');
+                if (!response.ok) {
+                    window.location.href = '/login';
+                    return;
+                }
+                const data = await response.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    currentUsernameEl.textContent = currentUser.username;
+                } else {
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+                window.location.href = '/login';
+            }
+        }
+    
+        // Fetch collection details
+        async function fetchCollection() {
+            try {
+                const response = await fetch(`/api/collections/${entityId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.success) {
+                    entityData = data.collection;
+                    entityNameEl.textContent = entityData.name;
+                    chatSubtitleEl.textContent = entityData.name;
+                    document.title = `Memory Vault - Chat with ${entityData.name}`;
+                } else {
+                    showNotification(data.error || 'Failed to load collection', 'error');
+                    setTimeout(() => {
+                        window.location.href = '/collections';
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Error fetching collection:', error);
+                showNotification('An error occurred while loading the collection', 'error');
+                setTimeout(() => {
+                    window.location.href = '/collections';
+                }, 3000);
+            }
+        }
+    
+        // Fetch memory details
+        async function fetchMemory() {
+            try {
+                const response = await fetch(`/api/collections/${urlParams.collectionId}/memories/${entityId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.success) {
+                    entityData = data.memory;
+                    entityNameEl.textContent = entityData.title;
+                    chatSubtitleEl.textContent = entityData.title;
+                    document.title = `Memory Vault - Chat with ${entityData.title}`;
+                } else {
+                    showNotification(data.error || 'Failed to load memory', 'error');
+                    setTimeout(() => {
+                        window.location.href = `/collections/${urlParams.collectionId}`;
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Error fetching memory:', error);
+                showNotification('An error occurred while loading the memory', 'error');
+                setTimeout(() => {
+                    window.location.href = `/collections/${urlParams.collectionId}`;
+                }, 3000);
+            }
+        }
+    
+        // Fetch diary details
+        async function fetchDiary() {
+            try {
+                console.log('fetchDiary: entityId =', entityId);
+                const response = await fetch(`/api/diaries/${entityId}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.success) {
+                    entityData = data.diary;
+                    entityNameEl.textContent = entityData.name;
+                    chatSubtitleEl.textContent = entityData.name;
+                    document.title = `Memory Vault - Chat with ${entityData.name}`;
+                } else {
+                    showNotification(data.error || 'Failed to load diary', 'error');
+                    setTimeout(() => {
+                        window.location.href = '/diary';
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Error fetching diary:', error);
+                showNotification('An error occurred while loading the diary', 'error');
+                setTimeout(() => {
+                    window.location.href = '/diary';
+                }, 3000);
+            }
+        }
+    
+        // Fetch chat sessions
+        async function fetchChatSessions() {
+            try {
+                let url;
+                if (entityType === 'collection') {
+                    url = `/api/collections/${entityId}/chats`;
+                } else if (entityType === 'memory') {
+                    url = `/api/collections/${urlParams.collectionId}/memory/${entityId}/chats`;
+                } else if (entityType === 'diary') {
+                    url = `/api/diaries/${entityId}/chats`;
+                } else {
+                    throw new Error(`Unsupported entityType: ${entityType}`);
+                }
+                console.log('Fetching chat sessions from:', url);
+                const response = await fetch(url);
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        console.warn('Chat sessions endpoint not found');
+                        return;
+                    }
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.success) {
+                    chatSessions = data.chats;
+                    renderChatSessions();
+                    // If no chatId is set and sessions exist, select the most recent
+                    if (!chatId && chatSessions.length > 0) {
+                        chatId = chatSessions[0].id;
+                        await fetchChatMessages();
+                        let newUrl;
+                        if (entityType === 'collection') {
+                            newUrl = `/collections/${entityId}/chat/${chatId}`;
+                        } else if (entityType === 'memory') {
+                            newUrl = `/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}`;
+                        } else if (entityType === 'diary') {
+                            newUrl = `/diary/${entityId}/chat/${chatId}`;
+                        }
+                        window.history.pushState({ path: newUrl }, '', newUrl);
+                    }
+                    // If no sessions and no chatId, create a new chat
+                    if (chatSessions.length === 0 && !chatId) {
+                        await createChatSession();
+                    }
+                } else {
+                    console.warn('Failed to load chat sessions:', data.error);
+                    showNotification('Failed to load chat sessions', 'error');
+                }
+            } catch (error) {
+                console.error('Error fetching chat sessions:', error);
+                showNotification('Failed to load chat sessions', 'error');
+            }
+        }
+    
+        // Fetch chat messages
+        async function fetchChatMessages() {
+            if (!chatId) {
+                console.warn('No chatId provided for fetchChatMessages');
+                return;
+            }
+            try {
+                let url;
+                if (entityType === 'collection') {
+                    url = `/api/collections/${entityId}/chat/${chatId}/messages`;
+                } else if (entityType === 'memory') {
+                    url = `/api/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}/messages`;
+                } else if (entityType === 'diary') {
+                    url = `/api/diaries/${entityId}/chat/${chatId}/messages`;
+                } else {
+                    throw new Error(`Unsupported entityType: ${entityType}`);
+                }
+                console.log('Fetching chat messages from:', url);
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.success) {
+                    // Update chat title
+                    chatTitleEl.textContent = data.chat.title;
+                    // Update messages
+                    messages = data.messages;
+                    renderMessages();
+                    // Highlight active chat session
+                    highlightActiveChat();
+                    // Show chat area, hide welcome message
+                    if (messages.length > 0) {
+                        welcomeMessage.style.display = 'none';
+                    }
+                } else {
+                    showNotification(data.error || 'Failed to load chat messages', 'error');
+                }
+            } catch (error) {
+                console.error('Error fetching chat messages:', error);
+                showNotification('An error occurred while loading the chat messages', 'error');
+            }
+        }
+    
+        // Create a new chat session
+        async function createChatSession() {
+            try {
+                let url;
+                if (entityType === 'collection') {
+                    url = `/api/collections/${entityId}/chat`;
+                } else if (entityType === 'memory') {
+                    url = `/api/collections/${urlParams.collectionId}/memory/${entityId}/chat`;
+                } else if (entityType === 'diary') {
+                    url = `/api/diaries/${entityId}/chat`;
+                } else {
+                    throw new Error(`Unsupported entityType: ${entityType}`);
+                }
+                console.log('Creating chat session at:', url);
+                const response = await fetch(url, {
+                    method: 'POST'
+                });
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                if (data.success) {
+                    chatId = data.chat.id;
+                    // Update chat title
+                    chatTitleEl.textContent = data.chat.title;
+                    // Clear messages
+                    messages = [];
+                    renderMessages();
+                    // Show welcome message
+                    welcomeMessage.style.display = 'flex';
+                    // Refresh chat sessions
+                    await fetchChatSessions();
+                    // Update URL without reloading the page
+                    let newUrl;
+                    if (entityType === 'collection') {
+                        newUrl = `/collections/${entityId}/chat/${chatId}`;
+                    } else if (entityType === 'memory') {
+                        newUrl = `/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}`;
+                    } else if (entityType === 'diary') {
+                        newUrl = `/diary/${entityId}/chat/${chatId}`;
+                    }
+                    window.history.pushState({ path: newUrl }, '', newUrl);
+                } else {
+                    showNotification(data.error || 'Failed to create chat session', 'error');
+                }
+            } catch (error) {
+                console.error('Error creating chat session:', error);
+                showNotification('An error occurred while creating the chat session', 'error');
+            }
+        }
+    
+        // Send a message
+        async function sendMessage(message) {
+    if (!chatId || isProcessing) return;
+    isProcessing = true;
+    sendBtn.disabled = true;
+    sendBtn.classList.add('disabled');
+    thinkingIndicator.classList.add('active');
+    try {
+        let url;
+        if (entityType === 'collection') {
+            url = `/api/collections/${entityId}/chat/${chatId}/query`;
+        } else if (entityType === 'memory') {
+            url = `/api/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}/query`;
+        } else if (entityType === 'diary') {
+            url = `/api/diaries/${entityId}/chat/${chatId}/query`;
+        } else {
+            throw new Error(`Unsupported entityType: ${entityType}`);
+        }
+        console.log('DEBUG: Sending message to URL:', url);
+        console.log('DEBUG: Message data:', { query: message });
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ query: message })
+        });
+        console.log('DEBUG: Send message response status:', response.status);
+        if (!response.ok) {
+            console.log('DEBUG: Send message response error:', response.statusText);
+            const errorText = await response.text();
+            console.log('DEBUG: Full error response:', errorText);
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('DEBUG: Send message response data:', data);
+        if (data.success) {
+            // Create and display user message with context info if needed
+            // const userMessageEl = document.createElement('div');
+            // userMessageEl.className = 'message user-message';
+            // userMessageEl.innerHTML = `
+            //     <div class="message-content">
+            //         <div class="message-text">${formatMessageText(message)}</div>
+            //     </div>
+            //     <div class="message-meta">
+            //         <span>${new Date().toLocaleString()}</span>
+            //     </div>
+            // `;
+            // chatMessagesContainer.appendChild(userMessageEl);
+            
+            // Create and display AI message with context info if applicable
+            const aiMessageEl = document.createElement('div');
+            aiMessageEl.className = 'message ai-message';
+            
+            // Add context indicator if this is a followup query
+            let contextInfo = '';
+            if (data.is_followup && data.expanded_query) {
+                contextInfo = `
+                    <div class="context-info">
+                        <span><i class="fas fa-link"></i> I understood this as: "${data.expanded_query}"</span>
+                    </div>
+                `;
+            }
+            
+            let referencesHtml = '';
+            if (entityType === 'diary' && data.relevant_entries && data.relevant_entries.length > 0) {
+                referencesHtml = `
+                    <div class="message-references">
+                        <h4>Referenced Entries:</h4>
+                        <div class="reference-list">
+                            ${data.relevant_entries.map(entry => `
+                                <span class="reference-item" data-id="${entry.id}">
+                                    ${entry.title}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else if (data.relevant_memories && data.relevant_memories.length > 0) {
+                referencesHtml = `
+                    <div class="message-references">
+                        <h4>Referenced Memories:</h4>
+                        <div class="reference-list">
+                            ${data.relevant_memories.map(memory => `
+                                <span class="reference-item" data-id="${memory.id}">
+                                    ${memory.title}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            aiMessageEl.innerHTML = `
+                <div class="message-content">
+                    ${contextInfo}
+                    <div class="message-text">${formatMessageText(data.response)}</div>
+                    ${referencesHtml}
+                </div>
+                <div class="message-meta">
+                    <span>${new Date().toLocaleString()}</span>
+                </div>
+            `;
+            
+            chatMessagesContainer.appendChild(aiMessageEl);
+            scrollToBottom();
+            
+            // Update referenced memories panel
+            if (entityType === 'diary' && data.relevant_entries) {
+                referencedMemories = data.relevant_entries;
+                renderReferencedMemories();
+            } else if (data.relevant_memories) {
+                referencedMemories = data.relevant_memories;
+                renderReferencedMemories();
+            }
+        } else {
+            showNotification(data.error || 'Failed to send message', 'error');
+        }
+    } catch (error) {
+        console.log('DEBUG: Exception in sendMessage:', error.message, error.stack);
+        showNotification('An error occurred while sending the message', 'error');
+    } finally {
+        isProcessing = false;
+        sendBtn.disabled = false;
+        sendBtn.classList.remove('disabled');
+        thinkingIndicator.classList.remove('active');
+    }
+}
+    
+        // Render chat sessions
+        function renderChatSessions() {
+            if (chatSessions.length === 0) {
+                emptyChatsSessions.style.display = 'block';
+                return;
+            }
+            emptyChatsSessions.style.display = 'none';
+            chatSessionsContainer.innerHTML = '';
+            chatSessions.forEach(session => {
+                const sessionDate = new Date(session.updated_at).toLocaleString();
+                const sessionEl = document.createElement('div');
+                sessionEl.className = 'chat-session-item';
+                sessionEl.dataset.id = session.id;
+                if (session.id === chatId) {
+                    sessionEl.classList.add('active');
+                }
+                sessionEl.innerHTML = `
+                    <div class="chat-session-name">${session.title}</div>
+                    <div class="chat-session-date">${sessionDate}</div>
+                `;
+                chatSessionsContainer.appendChild(sessionEl);
+                sessionEl.addEventListener('click', () => {
+                    if (session.id === chatId) return;
+                    chatId = session.id;
+                    fetchChatMessages();
+                    // Update URL without reloading the page
+                    let newUrl;
+                    if (entityType === 'collection') {
+                        newUrl = `/collections/${entityId}/chat/${chatId}`;
+                    } else if (entityType === 'memory') {
+                        newUrl = `/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}`;
+                    } else if (entityType === 'diary') {
+                        newUrl = `/diary/${entityId}/chat/${chatId}`;
+                    }
+                    window.history.pushState({ path: newUrl }, '', newUrl);
+                });
+            });
+        }
+    
+        // Render messages
+        function renderMessages() {
+            if (messages.length === 0) {
+                chatMessagesContainer.innerHTML = '';
+                return;
+            }
+            chatMessagesContainer.innerHTML = '';
+            const allReferencedIds = new Set();
+            messages.forEach(message => {
+                const timestamp = new Date(message.timestamp).toLocaleString();
+                const isUser = message.is_user;
+                const messageEl = document.createElement('div');
+                messageEl.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+                let referencesHtml = '';
+                if (!isUser && message.relevant_memory_ids && message.relevant_memory_ids.length > 0) {
+                    const referencedIds = message.relevant_memory_ids;
+                    referencedIds.forEach(id => allReferencedIds.add(id));
+                    referencesHtml = `
+                        <div class="message-references">
+                            <h4>Referenced ${entityType === 'diary' ? 'Entries' : 'Memories'}:</h4>
+                            <div class="reference-list">
+                                ${referencedIds.map(id => `
+                                    <span class="reference-item" data-id="${id}">
+                                        ${entityType === 'diary' ? 'Entry' : 'Memory'} ${id.substring(0, 6)}...
+                                    </span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+                messageEl.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-text">${formatMessageText(message.content)}</div>
+                        ${referencesHtml}
+                    </div>
+                    <div class="message-meta">
+                        <span>${timestamp}</span>
+                    </div>
+                `;
+                chatMessagesContainer.appendChild(messageEl);
+                // Add click events to reference items
+                const referenceItems = messageEl.querySelectorAll('.reference-item');
+                referenceItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        viewMemoriesBtn.click();
+                        // Highlight the referenced item
+                        const id = item.dataset.id;
+                        const el = document.querySelector(`.memory-item[data-id="${id}"]`);
+                        if (el) {
+                            el.scrollIntoView({ behavior: 'smooth' });
+                            el.classList.add('highlight');
+                            setTimeout(() => {
+                                el.classList.remove('highlight');
+                            }, 2000);
+                        }
+                    });
+                });
+            });
+            // Load all referenced items
+            if (allReferencedIds.size > 0) {
+                loadAllReferencedItems(Array.from(allReferencedIds));
+            }
+            scrollToBottom();
+        }
+    
+        // Load all referenced memories or entries
+        async function loadAllReferencedItems(ids) {
+            try {
+                let promises;
+                if (entityType === 'diary') {
+                    // Fetch diary entries
+                    promises = ids.map(id =>
+                        fetch(`/api/diaries/${entityId}/entries/${id}`)
+                            .then(res => res.json())
+                            .then(data => data.success ? data.entry : null)
+                    );
+                } else {
+                    // Fetch memories
+                    promises = ids.map(id =>
+                        fetch(`/api/collections/${urlParams.collectionId || entityId}/memories/${id}`)
+                            .then(res => res.json())
+                            .then(data => data.success ? data.memory : null)
+                    );
+                }
+                const items = await Promise.all(promises);
+                referencedMemories = items.filter(m => m !== null);
+                renderReferencedMemories();
+            } catch (error) {
+                console.error('Error loading referenced items:', error);
+            }
+        }
+    
+        // Render referenced memories or entries
+        function renderReferencedMemories() {
+            if (referencedMemories.length === 0) {
+                emptyReferences.style.display = 'block';
+                return;
+            }
+            emptyReferences.style.display = 'none';
+            referencedMemoriesContainer.innerHTML = '';
+            referencedMemories.forEach(item => {
+                const itemEl = document.createElement('div');
+                itemEl.className = 'memory-item';
+                itemEl.dataset.id = item.id;
+                if (entityType === 'diary') {
+                    // Diary entry
+                    itemEl.innerHTML = `
+                        <div class="memory-header">
+                            <div class="memory-type-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="memory-details">
+                                <h4>${item.title}</h4>
+                                <small>Diary Entry • Created: ${new Date(item.created_at).toLocaleString()}</small>
+                            </div>
+                        </div>
+                        <p>${item.caption || 'No caption provided.'}</p>
+                        <div class="memory-preview">
+                            <p>${item.text.substring(0, 100)}${item.text.length > 100 ? '...' : ''}</p>
+                        </div>
+                    `;
+                } else {
+                    // Memory
+                    let icon;
+                    switch(item.type) {
+                        case 'text':
+                            icon = 'fa-file-alt';
+                            break;
+                        case 'pdf':
+                            icon = 'fa-file-pdf';
+                            break;
+                        case 'audio':
+                            icon = 'fa-headphones';
+                            break;
+                        default:
+                            icon = 'fa-file';
+                    }
+                    itemEl.innerHTML = `
+                        <div class="memory-header">
+                            <div class="memory-type-icon">
+                                <i class="fas ${icon}"></i>
+                            </div>
+                            <div class="memory-details">
+                                <h4>${item.title}</h4>
+                                <small>${item.type} • ${item.original_filename || 'Unknown file'}</small>
+                            </div>
+                        </div>
+                        <p>${item.description || 'No description provided.'}</p>
+                        <div class="memory-preview">
+                            <div class="memory-basic-info">
+                                <p>Type: <strong>${item.type}</strong></p>
+                                ${item.description ? `<p>Description: ${item.description}</p>` : ''}
+                                <p>Created: ${new Date(item.created_at).toLocaleString()}</p>
+                            </div>
+                        </div>
+                    `;
+                }
+                referencedMemoriesContainer.appendChild(itemEl);
+            });
+        }
+    
+        // Load memory preview
+        function loadMemoryPreview(memory, previewContainer) {
+            previewContainer.innerHTML = `
+                <div class="memory-basic-info">
+                    <p>Type: <strong>${memory.type}</strong></p>
+                    ${memory.description ? `<p>Description: ${memory.description}</p>` : ''}
+                    <p>Created: ${new Date(memory.created_at).toLocaleString()}</p>
+                </div>
+            `;
+        }
+    
+        // Highlight active chat
+        function highlightActiveChat() {
+            document.querySelectorAll('.chat-session-item').forEach(item => {
+                if (item.dataset.id === chatId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+        }
+    
+        // Scroll chat to bottom
+        function scrollToBottom() {
+            chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+        }
+    
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            const icon = document.createElement('i');
+            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            notification.appendChild(icon);
+            const messageText = document.createElement('span');
+            messageText.textContent = message;
+            notification.appendChild(messageText);
+            notificationContainer.appendChild(notification);
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notificationContainer.removeChild(notification);
+                }, 300);
+            }, 5000);
+        }
+    
+        // Format message text with markdown-like syntax
+        function formatMessageText(text) {
+            // Replace URLs with hyperlinks
+            text = text.replace(
+                /(https?:\/\/[^\s]+)/g,
+                '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+            );
+            // Replace newlines with <br>
+            text = text.replace(/\n/g, '<br>');
+            return text;
+        }
+    
+        // Setup event listeners
+        function setupEventListeners() {
+            // New chat button
+            newChatBtn.addEventListener('click', async () => {
+                await createChatSession();
+            });
+            // Chat form submission
+            chatForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const message = chatInput.value.trim();
+                if (!message|| isProcessing) return;
+                // Clear input and reset height
+                chatInput.value = '';
+                chatInput.style.height = 'auto';
+                // Add message to UI immediately
+                const messageEl = document.createElement('div');
+                messageEl.className = 'message user-message';
+                messageEl.innerHTML = `
+                    <div class="message-content">
+                        <div class="message-text">${formatMessageText(message)}</div>
+                    </div>
+                    <div class="message-meta">
+                        <span>${new Date().toLocaleString()}</span>
+                    </div>
+                `;
+                welcomeMessage.style.display = 'none';
+                chatMessagesContainer.appendChild(messageEl);
+                scrollToBottom();
+                // Send message to server
+                sendMessage(message);
+            });
+            // Toggle memories panel
+            viewMemoriesBtn.addEventListener('click', () => {
+                memoriesPanel.classList.toggle('active');
+            });
+            // Close memories panel
+            closePanelBtn.addEventListener('click', () => {
+                memoriesPanel.classList.remove('active');
+            });
+        }
+
+        if (chatInput) {
+        chatInput.addEventListener('keydown', (e) => {
+            // Send message on Enter (without Shift)
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                
+                // Only trigger if not already processing and input has content
+                if (!isProcessing && chatInput.value.trim()) {
+                    chatForm.dispatchEvent(new Event('submit'));
+                }
+            }
+        });
+    }
+
+    });</script>
+</body>
+</html>

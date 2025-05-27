@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>Memories.AI - Collections</title>
+    <style>
+    :root {
+        --primary-color: #6366f1;
+        --primary-light: #818cf8;
+        --primary-dark: #4f46e5;
+        --secondary-color: #8b5cf6;
+        --accent-color: #f59e0b;
+        --text-color: #e5e7eb;
+        --text-light: #9ca3af;
+        --text-muted: #6b7280;
+        --background-color: #111827;
+        --card-bg: #1f2937;
+        --sidebar-bg: #1f2937;
+        --sidebar-active: rgba(99, 102, 241, 0.1);
+        --border-color: #374151;
+        --error-color: #ef4444;
+        --success-color: #10b981;
+        --warning-color: #f59e0b;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+        --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        --radius-sm: 0.375rem;
+        --radius-md: 0.5rem;
+        --radius-lg: 0.75rem;
+        --radius-xl: 1rem;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        min-height: 100vh;
+        font-size: 14px;
+    }
+    
+    /* App Container */
+    .app-container {
+        display: flex;
+        min-height: 100vh;
+        background-color: var(--background-color);
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 280px;
+        background-color: var(--sidebar-bg);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        transition: var(--transition);
+        background: linear-gradient(135deg, var(--card-bg) 0%, rgba(31, 41, 55, 0.95) 100%);
+        backdrop-filter: blur(10px);
+    }
+    
+    .sidebar-header {
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+    }
+    
+    .sidebar-header .logo-icon {
+        margin-right: 12px;
+        fill: var(--primary-color);
+        transition: var(--transition);
+    }
+    
+    .sidebar-header .logo-icon:hover {
+        fill: var(--primary-light);
+    }
+    
+    .sidebar-header .app-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.025em;
+    }
+    
+    .sidebar-nav {
+        flex: 1;
+        padding: 0 12px;
+        overflow-y: auto;
+    }
+    
+    .sidebar-nav ul {
+        list-style: none;
+        margin: 0;
+    }
+    
+    .sidebar-nav li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        margin: 0.125rem 0;
+        font-weight: 500;
+    }
+    
+    .sidebar-nav a:hover {
+        background-color: var(--sidebar-active);
+        color: var(--primary-color);
+        transform: translateX(4px);
+    }
+    
+    .sidebar-nav li.active a {
+        background: linear-gradient(90deg, var(--sidebar-active), transparent);
+        color: var(--primary-color);
+        font-weight: 600;
+        border-left: 3px solid var(--primary-color);
+        padding-left: 13px;
+    }
+    
+    .sidebar-nav svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        fill: currentColor;
+        transition: var(--transition);
+    }
+    
+    .sidebar-footer {
+        padding: 24px;
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+    }
+    .user-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        background-color: rgba(99, 102, 241, 0.05);
+        border-radius: var(--radius-lg);
+        transition: var(--transition);
+    }
+    
+    .user-info:hover {
+        background-color: rgba(99, 102, 241, 0.1);
+    }
+    
+    .user-avatar {
+        width: 40px;
+        height: 40px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 12px;
+        box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--primary-color);
+    }
+    
+    .user-avatar svg {
+        width: 18px;
+        height: 18px;
+        fill: white;
+    }
+    
+    .user-name {
+        font-weight: 600;
+        font-size: 1rem;
+        letter-spacing: -0.025em;
+    }
+    
+    .logout-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--text-light);
+        text-decoration: none;
+        padding: 0.75rem;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        font-weight: 500;
+    }
+    
+    .logout-button:hover {
+        color: var(--primary-color);
+        background-color: var(--sidebar-active);
+    }
+    
+    .logout-button svg {
+        margin-right: 8px;
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+    }
+    
+    /* Main Content */
+    .main-content {
+        flex: 1;
+        margin-left: 280px;
+        padding: 32px;
+        max-width: calc(100% - 280px);
+        background-color: var(--background-color);
+    }
+    
+    .content-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 32px;
+    }
+    
+    .content-header h1 {
+        font-size: 2rem;
+        color: var(--text-color);
+        font-weight: 800;
+        letter-spacing: -0.025em;
+        background: linear-gradient(to right, var(--text-color), var(--text-light));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .header-actions {
+        display: flex;
+        gap: 12px;
+    }
+    
+    /* Collections Section */
+    .collections-section {
+        margin-bottom: 40px;
+    }
+    
+    .section-header {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+    
+    .search-container {
+        position: relative;
+        width: 320px;
+    }
+    
+    .search-container input {
+        width: 100%;
+        padding: 10px 16px 10px 48px;
+        border-radius: var(--radius-lg);
+        border: 1px solid var(--border-color);
+        background-color: var(--card-bg);
+        color: var(--text-color);
+        outline: none;
+        transition: var(--transition);
+        font-size: 0.9375rem;
+    }
+    
+    .search-container input:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        background-color: rgba(31, 41, 55, 0.5);
+    }
+    
+    .search-container svg {
+        position: absolute;
+        left: 16px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        fill: var(--text-light);
+        transition: var(--transition);
+    }
+    
+    .search-container input:focus + svg {
+        fill: var(--primary-color);
+    }
+    
+    /* Collections Grid */
+    .collections-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 24px;
+    }
+    
+    .collection-card {
+        background-color: var(--card-bg);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        padding: 24px;
+        transition: var(--transition);
+        cursor: pointer;
+        position: relative;
+        border: 1px solid var(--border-color);
+    }
+    
+    .collection-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, transparent, rgba(99, 102, 241, 0.05));
+        opacity: 0;
+        transition: var(--transition);
+    }
+    
+    .collection-card:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
+    }
+    
+    .collection-card:hover::before {
+        opacity: 1;
+    }
+    
+    .collection-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+    }
+    
+    .collection-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: var(--text-color);
+        letter-spacing: -0.025em;
+    }
+    
+    .collection-actions {
+        position: relative;
+        z-index: 10; /* Increase z-index */
+
+    }
+    
+    .collection-actions button {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-light);
+        padding: 8px;
+        border-radius: var(--radius-md);
+        transition: var(--transition);
+    }
+    
+    .collection-actions button:hover {
+        color: var(--primary-color);
+        background-color: var(--sidebar-active);
+    }
+    
+    .collection-actions svg {
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
+    
+    .dropdown-menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: var(--card-bg);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
+        z-index: 5;
+        min-width: 200px;
+        display: none;
+        overflow: hidden;
+        margin-top: 8px;
+    }
+    
+    .dropdown-menu.active {
+        display: block;
+    }
+    
+    .dropdown-menu ul {
+        list-style: none;
+    }
+    
+    .dropdown-menu li {
+        padding: 0;
+        transition: var(--transition);
+    }
+    
+    .dropdown-menu li:hover {
+        background-color: var(--sidebar-active);
+    }
+    
+    .dropdown-menu a {
+        color: var(--text-color);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        padding: 12px 16px;
+        font-size: 0.875rem;
+        font-weight: 500;
+    }
+    
+    .dropdown-menu svg {
+        margin-right: 12px;
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+    }
+    
+    .collection-description {
+        color: var(--text-light);
+        font-size: 0.875rem;
+        margin-bottom: 16px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.6;
+    }
+    
+    .collection-meta {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.75rem;
+        color: var(--text-muted);
+    }
+    
+    .collection-meta div {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .collection-meta svg {
+        width: 14px;
+        height: 14px;
+        fill: currentColor;
+    }
+    
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 56px 24px;
+        color: var(--text-light);
+        background-color: var(--card-bg);
+        border-radius: var(--radius-xl);
+        box-shadow: var(--shadow);
+        border: 2px dashed var(--border-color);
+        transition: var(--transition);
+    }
+    
+    .empty-state:hover {
+        border-color: var(--primary-color);
+        background-color: rgba(99, 102, 241, 0.05);
+    }
+    
+    .empty-state svg {
+        width: 64px;
+        height: 64px;
+        fill: var(--text-muted);
+        margin-bottom: 16px;
+        opacity: 0.5;
+    }
+    
+    .empty-state p {
+        margin-bottom: 24px;
+        max-width: 400px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+    
+    /* Buttons */
+    .btn {
+        padding: 10px 20px;
+        border-radius: var(--radius-lg);
+        border: none;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        letter-spacing: -0.025em;
+        box-shadow: var(--shadow-sm);
+    }
+    
+    .btn svg {
+        width: 18px;
+        height: 18px;
+        margin-right: 8px;
+        fill: currentColor;
+    }
+    
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+        border: 1px solid transparent;
+    }
+    
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 14px -1px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-primary:active {
+        transform: translateY(0);
+        box-shadow: none;
+    }
+    
+    .btn-secondary {
+        background-color: transparent;
+        color: var(--text-color);
+        border: 1px solid var(--border-color);
+    }
+    
+    .btn-secondary:hover {
+        background-color: var(--sidebar-active);
+        border-color: var(--primary-color);
+    }
+    
+    /* Modal */
+    .modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s linear 0.3s, opacity 0.3s;
+    }
+    
+    .modal.active {
+        visibility: visible;
+        opacity: 1;
+        transition-delay: 0s;
+    }
+
+    .chat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.1));
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    transition: var(--transition);
+}
+.chat-icon {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.2));
+}
+    
+    .modal-content {
+        background-color: var(--card-bg);
+        border-radius: var(--radius-xl);
+        width: 90%;
+        max-width: 480px;
+        box-shadow: var(--shadow-lg);
+        border: 1px solid var(--border-color);
+        overflow: hidden;
+        transform: scale(0.95);
+        transition: transform 0.3s ease-out;
+    }
+    
+    .modal.active .modal-content {
+        transform: scale(1);
+    }
+    
+    .modal-header {
+        padding: 24px;
+        border-bottom: 1px solid var(--border-color);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .modal-header h2 {
+        font-size: 1.5rem;
+        color: var(--text-color);
+        font-weight: 700;
+        letter-spacing: -0.025em;
+    }
+    
+    .close-modal {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--text-light);
+        transition: var(--transition);
+        padding: 8px;
+        border-radius: var(--radius-md);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .close-modal:hover {
+        color: var(--error-color);
+        background-color: rgba(239, 68, 68, 0.1);
+    }
+    
+    .close-modal svg {
+        width: 24px;
+        height: 24px;
+        fill: currentColor;
+    }
+    
+    .modal-body {
+        padding: 24px;
+    }
+    
+    .form-group {
+        margin-bottom: 24px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: var(--text-color);
+        font-size: 0.875rem;
+        letter-spacing: -0.025em;
+    }
+    
+    .form-group input, .form-group textarea {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--radius-lg);
+        background-color: rgba(31, 41, 55, 0.5);
+        color: var(--text-color);
+        outline: none;
+        transition: var(--transition);
+        font-family: inherit;
+        font-size: 0.875rem;
+    }
+    
+    .form-group input:focus, .form-group textarea:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        background-color: rgba(31, 41, 55, 0.7);
+    }
+    
+    .form-group textarea {
+        min-height: 100px;
+        resize: vertical;
+    }
+    
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 32px;
+    }
+    
+    /* Notification */
+    #notification-container {
+        position: fixed;
+        top: 24px;
+        right: 24px;
+        z-index: 1000;
+    }
+    .chat-stats {
+    margin-bottom: 30px;
+}
+.stats-card {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: var(--transition);
+    border: 1px solid var(--border-color);
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.stats-card:hover::before {
+    opacity: 1;
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: var(--transition);
+}
+
+.stat-icon:hover {
+    transform: scale(1.1);
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -0.025em;
+}
+
+.stat-label {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+    .notification {
+        padding: 16px 24px;
+        border-radius: var(--radius-lg);
+        margin-bottom: 12px;
+        box-shadow: var(--shadow-lg);
+        display: flex;
+        align-items: center;
+        animation: slideIn 0.3s ease-out forwards;
+        min-width: 300px;
+        border: 1px solid;
+    }
+    
+    .notification.success {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: var(--success-color);
+        border-color: var(--success-color);
+    }
+    
+    .notification.error {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: var(--error-color);
+        border-color: var(--error-color);
+    }
+    
+    .notification svg {
+        margin-right: 12px;
+        width: 20px;
+        height: 20px;
+        fill: currentColor;
+    }
+    
+    @keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+    
+    /* Responsive styles */
+    @media (max-width: 1024px) {
+        .sidebar {
+            width: 240px;
+        }
+        
+        .main-content {
+            margin-left: 240px;
+            max-width: calc(100% - 240px);
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 72px;
+        }
+        
+        .sidebar-header {
+            padding: 16px;
+        }
+    
+        .sidebar-header .app-name, 
+        .sidebar-nav span, 
+        .user-details,
+        .logout-button span {
+            display: none;
+        }
+    
+        .user-avatar {
+            margin-right: 0;
+        }
+    
+        .main-content {
+            margin-left: 72px;
+            padding: 24px;
+            max-width: calc(100% - 72px);
+        }
+    
+        .content-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+    
+        .section-header {
+            justify-content: center;
+        }
+    
+        .search-container {
+            width: 100%;
+        }
+    
+        .collections-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <svg class="logo-icon" viewBox="0 0 24 24" width="32" height="32">
+                    <path d="M21 8.75v7.5a.75.75 0 0 1-.75.75H17V7h3.25c.41 0 .75.34.75.75Z"/>
+                    <path d="M7 7h8v10H7z"/>
+                    <path d="M3 8.75V10h3V7H3.75a.75.75 0 0 0-.75.75Z"/>
+                    <path d="M3 16.25a.75.75 0 0 0 .75.75H6v-3H3v1.5"/><path d="M7 5H3a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-3a1 1 0 0 0-1 1v12H8V6a1 1 0 0 0-1-1Z"/>
+                </svg>
+                <h1 class="app-name">Memories.AI</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>             
+                        <a href="/">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/collections">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M22 19H2v-2h20v2zm0-6H2v-2h20v2zM2 9h20V7H2v2zm0-6h20v2H2V3z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Collections</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/chats">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3C7.03 3 3 6.58 3 11c0 1.67.55 3.22 1.52 4.43L3 20l5.85-1.54c1.08.48 2.18.54 3.15.54 4.97 0 9-3.58 9-8s-4.03-8-9-8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Chats</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/diary">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15H3V6h18v13z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 8h12v2H8V8zm0 4h12v2H8v-2zm0 4h8v2H8v-2zM4 8h2v2H4V8zm0 4h2v2H4v-2zm0 4h2v2H4v-2z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Personal Diary</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name" id="current-username">Username</p>
+                    </div>
+                </div>
+                <a href="/logout" class="logout-button">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" fill="none" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+    
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <header class="content-header">
+                <h1>Your Collections</h1>
+                <div class="header-actions">
+                    <button id="create-collection-btn" class="btn btn-primary">
+                        <svg viewBox="0 0 24 24">
+                            <line x1="12" y1="5" x2="12" y2="19" stroke="currentColor" stroke-width="2"/>
+                            <line x1="5" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        Create Collection
+                    </button>
+                </div>
+            </header>
+
+            <section class="chat-stats">
+                <div class="stats-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="collections-count">0</div>
+                        <div class="stat-label">Total Collections</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Collections Section -->
+            <section class="collections-section">
+                <div class="section-header">
+                    <div class="search-container">
+                        <input type="text" id="search-collections" placeholder="Search collections...">
+                        <svg viewBox="0 0 24 24">
+                            <circle cx="11" cy="11" r="8" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                    </div>
+                </div>
+                
+                <div class="collections-grid" id="collections-container">
+                    <!-- Collections will be inserted here by JS -->
+                    <div class="empty-state" id="empty-collections">
+                        <i class="fas fa-folder-open"></i>
+                        <p>You don't have any collections yet. Create your first collection to get started!</p>
+                        <button id="empty-create-collection-btn" class="btn btn-secondary">Create Collection</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Create Collection Modal -->
+    <div class="modal" id="create-collection-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create New Collection</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="create-collection-form">
+                    <div class="form-group">
+                        <label for="collection-name">Collection Name</label>
+                        <input type="text" id="collection-name" name="name" placeholder="My Collection" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="collection-description">Description (Optional)</label>
+                        <textarea id="collection-description" name="description" placeholder="What's this collection about?"></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary cancel-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Create Collection</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <script>document.addEventListener('DOMContentLoaded', () => {
+        // DOM Elements
+        const createCollectionBtn = document.getElementById('create-collection-btn');
+        const emptyCreateCollectionBtn = document.getElementById('empty-create-collection-btn');
+        const createCollectionModal = document.getElementById('create-collection-modal');
+        const closeModalBtn = document.querySelector('.close-modal');
+        const cancelModalBtn = document.querySelector('.cancel-modal');
+        const createCollectionForm = document.getElementById('create-collection-form');
+        const collectionsContainer = document.getElementById('collections-container');
+        const emptyCollections = document.getElementById('empty-collections');
+        const searchCollectionsInput = document.getElementById('search-collections');
+        const notificationContainer = document.getElementById('notification-container');
+        const collectionsCountEl = document.getElementById('collections-count');
+
+        const currentUsernameEl = document.getElementById('current-username');
+    
+        // State
+        let collections = [];
+        let currentUser = null;
+    
+        // Initialize
+        init();
+    
+        async function init() {
+            await getCurrentUser();
+            await fetchCollections();
+        }
+    
+        // Get current user info
+        async function getCurrentUser() {
+            try {
+                const response = await fetch('/api/user/current');
+                if (!response.ok) {
+                    window.location.href = '/login';
+                    return;
+                }
+    
+                const data = await response.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    currentUsernameEl.textContent = currentUser.username;
+                } else {
+                    window.location.href = '/login';
+                }
+            } catch (error) {
+                console.error('Error fetching user info:', error);
+                window.location.href = '/login';
+            }
+        }
+    
+        // Fetch collections from API
+        async function fetchCollections() {
+            try {
+                const response = await fetch('/api/collections');
+                const data = await response.json();
+                
+                if (data.success) {
+                    collections = data.collections;
+                    renderCollections();
+                    updateStats()
+                } else {
+                    showNotification(data.error || 'Failed to load collections', 'error');
+                }
+            } catch (error) {
+                console.error('Error fetching collections:', error);
+                showNotification('An error occurred while loading collections', 'error');
+            }
+        }
+    
+        // Render collections to the DOM
+        function renderCollections() {
+            if (collections.length === 0) {
+                emptyCollections.style.display = 'block';
+                collectionsContainer.innerHTML = '';
+                return;
+            }
+    
+            emptyCollections.style.display = 'none';
+            
+            // Clear previous collections
+            collectionsContainer.innerHTML = '';
+            
+            // Filter collections if search is active
+            const searchTerm = searchCollectionsInput.value.toLowerCase();
+            const filteredCollections = searchTerm 
+                ? collections.filter(collection => 
+                    collection.name.toLowerCase().includes(searchTerm) ||
+                    (collection.description && collection.description.toLowerCase().includes(searchTerm))
+                )
+                : collections;
+            
+            // Render each collection
+            filteredCollections.forEach(collection => {
+                const memoriesCount = collection.memories ? collection.memories.length : 0;
+                const dateCreated = new Date(collection.created_at).toLocaleDateString();
+                
+                const collectionEl = document.createElement('div');
+                collectionEl.className = 'collection-card';
+                collectionEl.dataset.id = collection.id;
+                
+                collectionEl.innerHTML = `
+                    <div class="collection-header">
+                          <div class="chat-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 4C3 2.89543 3.89543 2 5 2H9L11 4H19C20.1046 4 21 4.89543 21 6V18C21 19.1046 20.1046 20 19 20H5C3.89543 20 3 19.1046 3 18V4Z" fill="currentColor"/>
+            </svg>
+        </div>                       
+                        <h3 class="collection-title">${collection.name}</h3>
+                        <div class="collection-actions">
+                            <button class="actions-toggle"><i class="fas fa-ellipsis-v"></i></button>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li><a href="/collections/${collection.id}"><i class="fas fa-eye"></i> View Details</a></li>
+                                    <li><a href="/collections/${collection.id}/upload"><i class="fas fa-upload"></i> Add Memory</a></li>
+                                    <li><a href="/collections/${collection.id}/chat"><i class="fas fa-comments"></i> Start Chat</a></li>
+                                    <li class="delete-collection" data-id="${collection.id}"><a href="#"><i class="fas fa-trash"></i> Delete</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="collection-description">${collection.description || 'No description provided.'}</p>
+                    <div class="collection-meta">
+                        <div>
+                            <i class="fas fa-file"></i> ${memoriesCount} memories
+                        </div>
+                        <div>
+                            <i class="fas fa-calendar-alt"></i> ${dateCreated}
+                        </div>
+                    </div>
+                `;
+                
+                collectionsContainer.appendChild(collectionEl);
+                
+                // Setup action button
+                const actionBtn = collectionEl.querySelector('.actions-toggle');
+                const dropdownMenu = collectionEl.querySelector('.dropdown-menu');
+                
+                actionBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    dropdownMenu.classList.toggle('active');
+                });
+                
+                // Handle dropdown menu item clicks
+                const deleteBtn = collectionEl.querySelector('.delete-collection');
+                deleteBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const collectionId = deleteBtn.dataset.id;
+                    confirmDeleteCollection(collectionId, collection.name);
+                });
+                
+                // Open collection on card click
+                collectionEl.addEventListener('click', () => {
+                    window.location.href = `/collections/${collection.id}`;
+                });
+            });
+            
+            // Close dropdown menus when clicking outside
+            document.addEventListener('click', () => {
+                document.querySelectorAll('.dropdown-menu.active').forEach(menu => {
+                    menu.classList.remove('active');
+                });
+            });
+        }
+    
+
+        function updateStats() {
+    // Update collections count
+    collectionsCountEl.textContent = collections.length;
+}
+        // Create a new collection
+        async function createCollection(name, description) {
+            try {
+                const response = await fetch('/api/collections', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, description })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    collections.push(data.collection);
+                    renderCollections();
+                    updateStats()
+                    showNotification('Collection created successfully!', 'success');
+                    return true;
+                } else {
+                    showNotification(data.error || 'Failed to create collection', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error creating collection:', error);
+                showNotification('An error occurred while creating the collection', 'error');
+                return false;
+            }
+        }
+    
+        // Delete a collection()
+        async function deleteCollection(id) {
+            try {
+                const response = await fetch(`/api/collections/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    collections = collections.filter(collection => collection.id !== id);
+                    renderCollections();
+                    updateStats()
+                    showNotification('Collection deleted successfully!', 'success');
+                    return true;
+                } else {
+                    showNotification(data.error || 'Failed to delete collection', 'error');
+                    return false;
+                }
+            } catch (error) {
+                console.error('Error deleting collection:', error);
+                showNotification('An error occurred while deleting the collection', 'error');
+                return false;
+            }
+        }
+    
+        // Confirm delete collection
+        function confirmDeleteCollection(id, name) {
+            if (confirm(`Are you sure you want to delete the collection "${name}"? This action cannot be undone and will delete all memories and chats associated with this collection.`)) {
+                deleteCollection(id);
+            }
+        }
+    
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            // Add appropriate icon
+            const icon = document.createElement('i');
+            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            notification.appendChild(icon);
+            
+            // Add message
+            const messageText = document.createElement('span');
+            messageText.textContent = message;
+            notification.appendChild(messageText);
+            
+            // Add notification to container
+            notificationContainer.appendChild(notification);
+            
+            // Auto-remove notification after 5 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notificationContainer.removeChild(notification);
+                }, 300);
+            }, 5000);
+        }
+    
+        // Event Listeners
+        
+        // Create collection modal
+        createCollectionBtn.addEventListener('click', () => {
+            createCollectionModal.classList.add('active');
+        });
+        
+        emptyCreateCollectionBtn.addEventListener('click', () => {
+            createCollectionModal.classList.add('active');
+        });
+        
+        closeModalBtn.addEventListener('click', () => {
+            createCollectionModal.classList.remove('active');
+        });
+        
+        cancelModalBtn.addEventListener('click', () => {
+            createCollectionModal.classList.remove('active');
+        });
+        
+        // Close modal on outside click
+        createCollectionModal.addEventListener('click', (e) => {
+            if (e.target === createCollectionModal) {
+                createCollectionModal.classList.remove('active');
+            }
+        });
+        
+        // Collection form submission
+        createCollectionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const nameInput = document.getElementById('collection-name');
+            const descriptionInput = document.getElementById('collection-description');
+            
+            const name = nameInput.value.trim();
+            const description = descriptionInput.value.trim();
+            
+            if (!name) {
+                showNotification('Collection name is required', 'error');
+                return;
+            }
+            
+            const success = await createCollection(name, description);
+            
+            if (success) {
+                // Reset form
+                nameInput.value = '';
+                descriptionInput.value = '';
+                
+                // Close modal
+                createCollectionModal.classList.remove('active');
+            }
+        });
+        
+        // Search collections
+        searchCollectionsInput.addEventListener('input', () => {
+            renderCollections();
+        });
+    });</script>
+</body>
+</html>

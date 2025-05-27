@@ -1,0 +1,38 @@
+[Page 1]
+                                                                          MERN Stack Developer 
+                                                                          Assignment Project 
+Dear Candidate, 
+Please find below the details of the assignment project as part of our interview process. 
+ 
+1. DEFINING THE TASK: 
+We have all encountered chat over the web, that can be Facebook, Instagram ,WhatsApp and the list goes on. Just to 
+give a bit of context , you send a message to a person or a group of people, they see the message and reply back .So 
+your task is to develop a simple chat like Facebook/WhatsApp Messenger. Here is what you will be using to built this 
+application 
+Front End: React.JS 
+Backend: NodeJS & ExpressJS 
+Real Time Communication: Socket.IO 
+Database: MongoDB (with Mongoose) 
+2. REQUIREMENTS: 
+A. You are required to create a simple chat; this is the only requirement. No fancy features are needed, just a simple chat 
+B. One-to-one chat when one user sends a message then another user receives the message in real time. 
+C. When one user goes offline then the other user sees ‘the user is offline’ and when the user starts typing then it 
+shows a message in chat ‘user is typing’. 
+D. When a user goes offline, display a status message: 'User is offline. 
+E. When a user starts typing, show an indicator in the chat: 'User is typing...'   
+3. SUBMISSION INSTRUCTIONS: 
+- Upload your code to GitHub and share the repository link.  
+- Optionally, deploy the application and provide the live demo link.   
+                                                                    Best of luck!  
+      ******************************************************************************************************************************* 
+
+
+[Page 2]
+ 
+Thanks & Regards, 
+Ishita Srivastava |HR Manager| 
+Ahead WebSoft Technologies Pvt Ltd (India) 
+Email: hr@aheadsofttech.com 
++91-9116697558 
+www.aheadsofttech.com 
+ 
