@@ -241,6 +241,53 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
+
+    /* Fix for overflowing filenames in memory items */
+.memory-details h4 {
+    font-size: 1rem;
+    margin-bottom: 3px;
+    color: var(--text-color);
+    font-weight: 600;
+    /* Add these lines to fix overflow */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px; /* Adjust based on your card width */
+}
+
+.memory-details small {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    /* Add these lines to fix overflow */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 220px; /* Adjust based on your card width */
+    display: block; /* Ensure it takes full width */
+}
+
+/* Optional: Add hover effect to show it's truncated */
+.memory-details h4:hover,
+.memory-details small:hover {
+    color: var(--primary-color);
+    cursor: help;
+}
+
+/* Make sure the memory-details container doesn't expand beyond card */
+.memory-details {
+    flex: 1;
+    min-width: 0; /* Important: allows flex item to shrink below content size */
+    overflow: hidden;
+}
+
+/* Ensure memory-header doesn't expand beyond card boundaries */
+.memory-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 100%;
+    overflow: hidden;
+}
     
     .header-actions {
         display: flex;

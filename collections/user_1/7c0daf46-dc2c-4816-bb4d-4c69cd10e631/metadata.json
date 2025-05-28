@@ -1,0 +1,46 @@
+{
+  "id": "7c0daf46-dc2c-4816-bb4d-4c69cd10e631",
+  "user_id": 1,
+  "name": "NEw Collection",
+  "description": "",
+  "created_at": "2025-05-27T17:13:52.892242",
+  "updated_at": "2025-05-27T21:46:55.862785",
+  "memories": [
+    {
+      "id": "ce036da6-a1bb-4081-acdf-83d8b6486dc7",
+      "title": "Resume",
+      "description": "",
+      "type": "pdf",
+      "filename": "ce036da6-a1bb-4081-acdf-83d8b6486dc7.pdf",
+      "original_filename": "AkashResume_.pdf",
+      "created_at": "2025-05-27T17:20:32.874930",
+      "processing_metadata": {
+        "pdf_extraction": true
+      },
+      "text_length": 3830,
+      "chunk_count": 6
+    },
+    {
+      "id": "0f917ec5-0a2b-444e-8a12-db414ae6e029",
+      "title": "HR",
+      "description": "",
+      "type": "pdf",
+      "filename": "0f917ec5-0a2b-444e-8a12-db414ae6e029.pdf",
+      "original_filename": "A_Study_of_HR_practice_at_Shine_Projects.pdf",
+      "created_at": "2025-05-27T21:46:41.585324",
+      "processing_metadata": {
+        "pdf_extraction": true
+      },
+      "text_length": 35861,
+      "chunk_count": 50
+    }
+  ],
+  "total_documents": 2,
+  "total_chunks": 56,
+  "supported_search": [
+    "semantic",
+    "keyword",
+    "hybrid"
+  ],
+  "index_version": "2.0"
+}

@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+import json
 from flask_login import login_required, current_user
 from services import get_collection, process_memory, allowed_file, detect_file_type, delete_memory, get_collection_metadata_path
 
@@ -134,3 +135,4 @@ def update_memory(collection_id, memory_id):
         })
     except Exception as e:
         return jsonify({"success": False, "error": str(e)}), 500
+    

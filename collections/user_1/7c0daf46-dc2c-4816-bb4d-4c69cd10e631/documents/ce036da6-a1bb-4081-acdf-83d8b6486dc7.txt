@@ -1,0 +1,65 @@
+[Page 1]
+Akash Gupta
+(+91)7398699438
+- gakashw@gmail.com
+- linkedin.com/in/akash-gupta
+- github.com/gakash90
+EDUCATION
+Babu Banarsi Das University
+Lucknow, Uttar Pradesh, India
+Bachelor of Computer Allpication
+Sept 2020 - Aug 2023
+Florence Nightingale Inter College
+Lucknow, Uttar Pradesh, India
+Senior Secondary
+April 2019 - May 2020
+TECHNICAL SKILLS
+Programming Languages: Java, JavaScript, Typscript, HTML& CSS
+FrameWorks and DataBases: Node.Js, Nest.js, React.js, Express.Js, GraphQL ,Postgresql, MongoDB, Redis
+CI/CD Tools: AWS, Kubernetes, Jenkins, Swagger, GitHub, Docker, Postman, Jest
+Arcchitecture: Monolithic and Microservices
+WORK EXPERIENCE
+Software Developer
+ZFIN TECH, Lucknow, India
+May 2024 - Present
+• Designed and implemented a secure authentication system with advanced role-based access and token-based
+security, leveraging industry-standard protocols to safeguard thousands of user accounts, reducing unauthorized
+access attempts by 40 %, and ensuring compliance with security best practices in backend development.
+• Developed scalable RESTful APIs and optimized their performance using PostgreSQL, driving a responsive admin
+panel with seamless frontend integration and maintaining high system uptime during peak usage.
+• Proposed and implemented improvements in CI/CD workflows and database indexing strategies, resulting in faster
+deployments and reduced query latency by 30%.
+• Integrated payment gateways and third-party APIs with seamless automation, ensuring secure, uninterrupted
+transactions by implementing robust error handling, eliminating downtime incidents, and enhancing system
+reliability
+• Streamlined backend infrastructure by designing efficient data models in PostgreSQL and reducing API response
+times, leading to a highly responsive user experience. Developed a robust system architecture capable of handling
+high traffic while ensuring minimal downtime
+Associate Software Developer
+Eighteen Pixels Pvt Ltd, Lucknow, India
+January - May 2024
+• Designed and developed RESTful APIs using Express.js and integrated GraphQL to support core platform
+functionality, enabling flexible and efficient data fetching while ensuring seamless communication between
+client-side interfaces and server-side logic.
+• Enhanced backend performance by optimizing database queries and improving both REST and GraphQL API
+response times, achieving a 20 % reduction in data retrieval latency and delivering a smoother user experience.
+Software Developer
+THE Rubixcon, Lucknow, India
+March 2022 - September 2023
+• Developed a deep understanding of the Software Development Life Cycle (SDLC) by actively contributing to all
+stages, including requirement analysis, development, testing, deployment, and post-release maintenance, enabling
+smooth project delivery..
+• Conducted and participated in code reviews to enforce best practices in code quality, modular structure, and
+maintainability, resulting in scalable and robust applications.
+• Implemented and optimized backend operations for various application modules, ensuring seamless integration
+with databases and enhancing data flow efficiency
+PROJECTS
+• DynamicScan : Designed and developed a scalable DynamicScan QR code and analytics platform. I implemented
+real-time content management and slot-based redirection for dynamic QR codes using PostgreSQL, allowing
+businesses to instantly update the content linked to their codes and optimize their marketing flexibility.
+Additionally, I designed and optimized real-time analytics with PostgreSQL to track QR code engagement,
+performance, and conversions, enabling businesses to make data-driven decisions for their marketing campaigns.
+CERTIFICATIONS & COURSEWORK
+• HCLTECH Level 1 SD PBT Program by SkillSoft
+• Data Modeling and Database Design Development
+• The Complete Introduction to SQL programming

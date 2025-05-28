@@ -1,0 +1,1349 @@
+[Page 1]
+SUMMER INTERNSHIP REPORT 
+A STUDY OF HR PRACTICES AT SHINE PROJECTS 
+(AN EDTECH COMPANY) 
+Submitted by:  
+Students Name: Muskan Agarwal 
+Class: BBA (Sem V) 
+Enrolment no: A7006419049 
+Specialization: HUMAN RESOURCE (HR) 
+ 
+Under guidance of: 
+Industry Guides name: Sri Harsha 
+                             Faculty Guide: Mr. Samarth Pande 
+Designation: Joint MD                                                    Designation: Assistant Professor  
+Organization: Shine Projects  
+                             ABS, Lucknow 
+ 
+(SUMMER INTERNSHIP REPORT SUBMITTED IN PARTIAL FULFILLMENT FOR THE AWARD OF FULL 
+TIME DEGREE OF BACHELORS IN BUSINESS ADMINISTRATION (2019-22) 
+ 
+ 
+AMITY BUSINESS SCHOOL 
+AMITY UNIVERSITY UTTAR PRADESH LUCKNOW  
+ 
+ 
+
+
+[Page 2]
+INTERNSHIP PROGRAM AND CONFIDENTIALITY AGREEMENT 
+ 
+This AGREEMENT is between the office of the register Amity University Uttar Pradesh Lucknow 
+Campus and MUSKAN AGARWAL a student presently studying at the AMITY UNIVERSITY UP. 
+The student named above desires to undertake summer internship /training program as intern at 
+Shine Projects as a part of her studies. The competent authority of the institute where the student is 
+presently studying has officially recommended the student, confirming his antecedents, track record 
+and good moral character. I have read and understand the above definition of “confidential 
+information “I agree that I will not at any time, both during and after my enrolment in University 
+Internship, communicate or disclose confidential information to any person corporation or entity. It 
+is understood that any breach of confidentiality will result immediate termination of the internship 
+and that a report of the breach will be made by the concerned Head of Institution. 
+ 
+HAVE READ THE ABOVE CONFIDENTIALITY AGREEMENTAND AGREE TO ITS TERMS. 
+ 
+AGREED 
+Muskan Agarwal 
+A7006419049 
+AMITY UNIVERSITY, LUCKNOW. 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 3]
+DECLARATION 
+ 
+Title of project report –A Study Of HR Practices At Shine Projects  
+  
+  
+I understand what plagiarism is and am aware of the Amity University’s policy in this regard  
+  
+  
+I declare that   
+  
+  
+(a) 
+The work submitted by me in partial fulfilment of the requirement for the award of degree BBA 
+assessment in this Summer Internship is my own it has not previously been presented for 
+another assessment.  
+  
+(b) 
+I declare that Selecting Human Resource this is my original work. Wherever work form other 
+source has been used, all debts (for words data, arguments, and ideas) have been appropriately 
+acknowledged and referenced in accordance with the requirements of NTCC Regulations and 
+Guidelines.  
+  
+(c) 
+I have not used work previously produced by another student or any other person to submit it 
+as my own.  
+  
+(d) 
+I have not permitted, and will not permit, anybody to copy my work with the purpose of passing 
+it off as his or her own work.  
+  
+(e) 
+The work conforms to the guidelines for layout, content and style as set out in the Regulations 
+and Guidelines.  
+  
+Date:                        
+                                                                                                                      Muskan Agarwal  
+                                                                                                                       A7006919049                                       
+                                                                                                    BBA (2019-22 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 4]
+STATEMENT BY THE CANDIDATE 
+ 
+Certified that this report is prepared based on the summer internship project undertaken by me in on 
+the topic A Study of HR Practices Shine Projects from 6th May 2021 to 20th June 2021. Under the 
+able guidance of (Dr./Mr./Ms.) Sri Harsha (Industry Guide) & Mr. Samarth Pande (Faculty Guide). 
+In partial fulfillment of the requirement for award of degree of Bachelor in Business Administration 
+[BBA] from Amity University, Uttar Pradesh. 
+ 
+Date: 
+ 
+Muskan Agarwal                              Mr. Samarth Pande                       Prof. (Dr). Rohit Kushwaha 
+(Student Name)                                   (Faculty Guide)                                   Director (ABS) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 5]
+FACULTY CERTIFICATE 
+ 
+Forwarded here with a summer internship report on “A Study of Human Resource Practice at Shine 
+Projects’’ submitted by Muskan Agarwal Enrollment No.- A7006419049, student of BBA Vth 
+Semester (2019-22). 
+This project work is impartial fulfillment of the requirement for the award of degree of Bachelors in 
+Business Administration from Amity University Lucknow Campus, Uttar Pradesh. 
+ 
+ 
+Mr. Samarth Pande 
+Assistant Professor  
+Amity Business School   
+Amity University, Lucknow Campus 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 6]
+ACKNOWLEDGEMENT 
+ 
+It was a great pleasure for me to undertake this project entitled- A Study Of Human Resource 
+Practices at Shine Practices on a broader aspect and Recruitment on a narrow down aspect.  I 
+sincerely express my sense of gratitude to Sri Harsha (Founder, MD & CEO of Shine Projects) Mr. 
+Samarth Pande (Assistant Professor), Amity Business School, Amity University, Lucknow for 
+invaluable guidance and supervision. This Summer Project Report is the result of their generous 
+attitude. 
+ 
+I owe and respectfully offer my thanks to my noble parents for their constant moral support and 
+affection which helped me to achieve success in every sphere of life and without their devotion this 
+summer internship report would have been a sheer dream and not a hardwork. 
+ 
+I am also thankful to my siblings and classmates for their help in finding materials, discussions, and 
+encouragement during this research work. 
+ 
+I sincerely acknowledge the efforts of all those who have directly or indirectly helped me in 
+completing my summer internship report successfully. 
+ 
+I submit this summer internship report of mine with great and utmost regard. 
+ 
+ 
+ 
+ 
+
+
+[Page 7]
+TABLE OF CONTENTS 
+S.No. Content                                                              
+1.  Synopsis                                                                  
+2.  Objective of the study                                             
+3.  Executive Summary                                                                                 
+4.  Chapter I: Introduction   
+ 
+▪ Introduction 
+ 
+▪ Literature Review 
+ 
+▪ Background of the study 
+ 
+▪ Significance of the report                                                                                                                 
+5.  Chapter II: Organizational profile of the company 
+ 
+▪ 
+The Background  
+ 
+▪ 
+Market segmentation   
+ 
+▪ 
+Collaborations  
+ 
+▪ 
+Product Profile 
+ 
+▪ 
+Product Line 
+ 
+▪ 
+Features of the Product 
+ 
+▪ 
+Competitors/Alternatives 
+ 
+▪ 
+Achievement/Awards         
+ 
+▪ 
+Swot Analysis 
+ 
+▪ 
+Experience                                                                  
+6.  Chapter III: Data analysis and interpretations 
+ 
+▪ 
+Objective of the study   
+ 
+• Research type 
+ 
+• Data collection sources 
+ 
+• Method of data collection 
+ 
+• Primary research analysis 
+ 
+• Secondary research analysis 
+ 
+• Limitations                                                                                     
+7.  Chapter IV: Findings and conclusion 
+
+
+[Page 8]
+ 
+▪ Findings 
+ 
+▪ Questionnare 
+ 
+▪ Conclusion 
+8.  Annexure                                                             
+9.  References                                                               
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 9]
+Synopsis for Summer Internship Programme  
+  
+  
+Student is required to provide the following information at the time of registration within a week of 
+joining their course in the industry.  
+                                                                                                                                                                  
+          
+  
+Student’s Name            -------------------------------Muskan Agarwal---------------------  
+  
+  
+Enrolment No                              ----------------------A7006419049--------------------- 
+  
+  
+Program                                     ----------------------------BBA------------------------------ 
+  
+  
+Industry / Organization’s name  -------------------------Shine Projects-----------------------  
+  
+  
+Address (If applicable)                        Road 10, Muppas Panchavati Colony, Hyderabad  
+  
+  
+External Guide’s Name                                                 Sri Harsha  
+  
+Designation                       -----------------------    Stock Market Analyst----------------------  
+  
+  
+Contact Details Ph (O):                       -------------89726 71436------------------  
+   
+  
+Mobile: -------------78937 80465----------------  
+  
+  
+Fax:                         89726 71436  
+  
+  
+Email:                   info@shineprojects.in   
+  
+  
+  
+  
+  
+  
+  
+ 
+
+
+[Page 10]
+OBJECTIVE OF THE STUDY 
+The paper is written as a REPORT, reflecting on my One and a half-month internship at Shine 
+Projects as a Human Resource intern and a learner. Below mentioned are the objectives to study 
+research and learn from this summer internship programme. 
+• To learn about how to distinguish and select apt profiles to suit the business necessities of 
+Shine Projects in hiring specialists from the market. 
+• To research the trustworthiness of internet while looking for work seekers. 
+• To study and identify the expectations and needs of agent hired at Shine Projects and measure 
+how satisfied they are. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 11]
+EXECUTIVE SUMMARY 
+ 
+My internship topic is Study of HR function. I have completed my internship from Shine Project. 
+During my internship period my objective was to recruit some agents under my guidance to sell the 
+courses provide by organization and answer their quires if any. At the same time I was asked to 
+contact some institutes and colleges via mail to conduct a workshop by Shine Projects so that 
+interested students can buy or register themselves for certified courses. 
+ 
+This study examines how HR Function such as recruitment is practiced under an online education 
+and training company. So with this reference the research paper has been conducted, based on the 
+primary and secondary research in Shine Projects.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 12]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CHAPTER I 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 13]
+INTRODUCTION 
+ 
+Online education is an electronically supported learning system, which relies on the Internet for 
+interaction and distribution of course material between students and teachers. Online education 
+sector is going through the period of high end expectations. Due to the pandemic it has received 
+moderate level of acceptance. Still there is division between the groups that approve and disapprove 
+of online education. 
+Charter schools, ONLINE ACADAMIES, vocational centres, and corporate educational support 
+services are among the other components of a modern education system. Undergraduate, graduate, 
+and postgraduate students are taught by lecturers and professors in colleges, universities, coachings 
+and online educational institues. 
+ The development of this resource is heavily influenced by educational institutions. They're in charge 
+of creating a talent pool for other businesses, which is crucial in today's global economy. 
+ In this study we will mostly focus on the online education platform. Nowadays, People can learn 
+new skills and increase their knowledge in a variety of methods these days, including traditional 
+brick-and-mortar schools, online courses and certificates, and even social media video lessons. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 14]
+HRM or Human resource management is the practice to manage employees and fulfil organizational 
+requirements. Human resource management is an approach to meet one’s requirements and motivate 
+them to perform at their best. To classify, to plan, execute, and to monitor falls under various HR 
+functions that broadly and minutely can classify as functions of human resources. Some of the HR 
+functions are- 
+• 
+Talent hiring 
+• 
+Onboarding 
+• 
+Training management 
+• 
+Performance  
+• 
+Workforce engagement 
+• 
+Payroll management 
+• 
+Compliance management 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 15]
+LITERATURE RIVIEW 
+ 
+A literature review is the most important step in the research process. It is an overview of the previously 
+published works on a specific topic. The term can refer to a full scholarly paper or a section of a 
+scholarly work such as a book, or an article. The purpose of a literature review is to gain an 
+understanding of the existing research and debates relevant to a particular topic or area of study, and 
+to present that knowledge in the form of a written report. Conducting a literature review helps you 
+build your knowledge in your field. 
+Online Education is a type of distance learning taking courses with nonexistent physical classroom, 
+flexible schedules and reduced personal interactions. Instead teachers and students, interact over 
+internet.  
+ According to (Judith B. Strother, 2002). Online Education Sector or referred as E-learning 
+has been used extensively not just for academic purposes for students but also for businesses   
+and   corporate employees to   impart   training on various upcoming industrial revisions. 
+Human: refers to the skilled workforce in an organization. Resource: refers to limited availability 
+or scarce. Management: refers how to optimize and make best use of such limited or scarce 
+resource so as to meet the organization goals and objectives.  
+ When organisations involve in innovation, they need creative and innovative people, who are 
+flexible, risk taking, and tolerance of uncertainty and ambiguity (Chen and Huang, 2007). 
+ Recruitment is a part of HR Function Hemant Rao (2007) in his study he explained the role 
+Human Resource Function in an organizational how important it is for HRM. He also said 
+that an organization should work in such a way that they should treat the employees 
+irrespective to cast, religion, gender etc. The productivity of the company is based on the 
+quality of work done by the employees in the organization which is ensured through Human 
+
+
+[Page 16]
+Resource Functions.  
+ Andries du Plessis, Andrew Hobbs, Rebecca Marshall and Sherrol Paalvast (June 
+2008) “In 21st century it is necessary for organization that they should develop their 
+competitive advantage and for this fulfilment of the goal this need that HR Functions and 
+activities should assist the organization. For surviving in a global market and for meeting 
+changing demand of costumer HRM should give stress on proper recruitment. 
+ Are we there yet? What’s next for HR? is a paper written by Ulrich, Dave, Dulebohn, 
+James H in June 2015. This paper tells you about how HR have evolved during the past 
+decades, how it has moved from being a lower-level management entity to being a core 
+function of an organization.it talks about HR brief journey during the past decades and what’s 
+next in its future. It also talks about HR is helping the top executives of an organization 
+maintaining a subtle relationship between the upper and lower-level management.  
+The research paper takes a critical evaluation on e-recruitment relating the aspect to Shine Projects, a 
+company which makes use of e-recruitment.  
+ According to Hadji, (2015), defines e-recruitment as a process of using technology and 
+electronic resources in order to attract, select as well as manage the recruitment of employees 
+in a particular co-operation. The purpose of e-recruitment in this case is to identify as well as 
+attract potential employees to the institution by use of electronic technology, the internet. 
+ Stone, Dianna L., Deadrick, Diana L., Lukaszewski, Kimberly M., Johnson, Richard 
+(2015) has written a paper on “The influence of technology on the future of human resource 
+management”. It talks about how the current technology has effects on human resource 
+management. It tells us that how effectively technology is HR to achieve its organizational 
+goals. It also talks about how the technology in the future will improve human resource 
+management. In my opinion it is a great paper as it helps us in understanding the importance 
+technology in HR. 
+
+
+[Page 17]
+ However, El Ouirdi, Pais, Segers and El Ouirdi, (2016), e-recruitment refers to the use of 
+the internet by companies and organizations as a form of finding new employees. According 
+to the definition, e-recruitment involves the aspect of job advertisement in the internet and 
+allowing for people to submit applications through the online platforms and employ them 
+from that, there is possibly no direct contact before the employment.  
+ 
+The summer training programme is designed to give participants real-world experience in the 
+business world. Summer training programmes are designed for vacations in which advanced 
+theoretical knowledge needs to be supplemented with on-the-job experience. As a result, the future 
+manager will need to be willing to take on new responsibilities. The focus of this research is on the 
+recruitment procedure at "SHINE PROJECTS, LUCKNOW." The organization needs to be more 
+attentive to shifting situations and current trends when it comes to recruitment and this case is to 
+identify as well as attract potential employees to the institution by use of electronic technology, the 
+internet. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 18]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Background of the study 
+Online learning in present time is playing a key role in putting India on global map. Online learning is 
+one of the most important and required development patrons for the purpose of learning platforms. 
+The online learning is playing an important role in changing India’s image from a steady moving 
+learner to a land of innovative learning processes and global player in providing world class technology 
+solutions. 
+ India has become second largest market for the purpose of E-learning after the US. The sector is to 
+expect to reach US$ 1.96 million by 2021 with around 9.5 million users. The Indian Education market 
+is forecast to be worth US$ 8.6 billion by2026. Easy availability of the internet is the primary reason 
+for the purpose of the growth of online education in India.  Between 2019 and 2020 the number of 
+internet users in India increased by 128million. 
+ 
+SIGNIFICANCE OF THE REPORT 
+The aim of this project is to highlight the importance of e-recruitment in online education sector. E-
+recruitment is mostly efficient regarding cost saving, followed by easy accessibility of large 
+
+
+[Page 19]
+candidates and time-saving. This paper helps in understanding the usefulness of the same as well as 
+its downfalls or disadvantages. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CHAPTER II 
+ 
+ 
+
+
+[Page 20]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ORGANIZATIONAL PROFILE OF THE COMPANY 
+ 
+➢ The Background 
+ 
+ 
+Shine Projects 
+ 
+At Shine Projects they started their undeniable online activities from T-Center, Hyderabad, 
+Telangana in May 2020, resolving the issues identified with the availability of instruction during the 
+Coronavirus pandemic, with the conviction to prevail in our victory of aiding understudies who were 
+influenced by the lockdown. Fulfilling the requirements of our students by giving a great training in 
+a reasonable way is the plan.  
+With a fitting business sector evaluation and a top class the management, they turned into the 
+quickest developing instruction organization in India in a limited ability to focus time! The very 
+much custom-made online courses have become significant and moderate impetuses in everybody's 
+close to home and expert expertise advancement.  
+
+
+[Page 21]
+At Shine Projects they accept that the conventional method of tutelage is the best since it helps in 
+powerful learning and helps in on the spot questions explanation. Thus, there significant courses 
+consistently educated in a live strategy by means of Zoom stage.  
+They have effectively led a great many live study hall meetings and online classes and prepared over 
+50,000+ students. The organisation have likewise accomplished a remarkable rating of 4.7/5 with 
+criticisms from over 3000+ up-and-comers on our Google page. Our linkedin, Instagram, twitter and 
+youtube page are similarly essential.  
+Thus are right now working in India, center east and U.S.; while additionally planning other likely 
+areas.  
+Shine Projects is a pioneer in conducting workshops for students and companies in India and abroad, 
+to address the gaps and to take seekers to the next level. 
+The beginning of the Company is the knitted results of the Coronavirus lockdown and the Founder’s 
+passion for imparting affordable and high-quality practical education. 
+ 
+MARKET SEGMENTATION OF SHINE PROJECTS 
+• 
+By Product – Content (Financial Market) and Services (Online Certification, Placement for 
+part-time job)  
+• 
+By Learning Type – Chat, Voice, Video, and Live Streaming, E-Material, e-mail, Discussion 
+Boards, and Social Networking 
+ 
+ 
+ 
+ 
+
+
+[Page 22]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+COLLABORATIONS 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 23]
+ 
+ 
+ 
+PRODUCT PORTFOLIO 
+ 
+Shine Projects is a pioneer in conducting workshops for students and companies in India and abroad 
+also hire or provide Human Resource, Marketing and Business Development interns or internship 
+across the globe. 
+ 
+The extensive range of unique courses offered by Shine includes Share Markets Basic and Advanced 
+Module, Career Orientation Program, Personality Development Course, Banking Advanced Module, 
+Life Insurance Advanced Module, and Mutual Funds Advanced Module. Apart from this, “Financial 
+Markets Crash Course” is the flagship programme of Shine Projects, taught by the founder himself. 
+The crash course on the financial markets is a 7-day extraordinary course- teaching Share markets, 
+Mutual funds, Insurance & Banking concepts– with over-the-top benefits. The Course is a package 
+filled with numerous benefits that include course completion certificate, convenient time slots, lifetime 
+subscription, premium study material with live teaching and live doubt clearing sessions– being their 
+USP. 
+
+
+[Page 24]
+ 
+The inimitable feature is that, upon completion of the course, the student gets a personal LinkedIn 
+recommendation from Mr. Harsha, this feature is currently available only with Shine 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+PRODUCT LINE 
+Shine Projects basically offers online courses with certifications which adds credits to our CV, helps 
+in boosting it and improves our skills and knowledge in the required field. Thus, the product line listed 
+under the organization comprises of the online courses offered by it which are as follows: 
+1. Financial Markets Triple Combo (Mutual Funds Advanced Module and Personality Development 
+Included) 
+2.  Stock Market Trading and F&O Trading Module 
+3. Personality Development Live Module 
+4. Organizational Skills 
+5. Qualitative Aptitude 
+6. Business Analyst Training Module  
+7. C and C++ Programming Module 
+8. Python Programming Module 
+9. Banking Advanced Module (Coming Soon) 
+
+
+[Page 25]
+10. 
+ Career Orientation Program (Coming Soon) 
+11. 
+ Share Markets Basic- Intermediate Level (Coming Soon) 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+FEATURES OF THE PRODUCT 
+ 
+ 
+ 
+ 
+
+
+[Page 26]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Shine Projects Competitors & Alternatives 
+ 
+ 
+ 
+ 
+ 
+    
+
+
+[Page 27]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ACHIEVEMENTS / AWARDS 
+ 
+ Awarded as best startup of the year 2020 by Business Connect 
+ 
+ Rated as the best company in focus by Prime Insights 2021 
+ 
+
+
+[Page 28]
+ Member at T-HUB supported by government of Telangana 
+ 
+ Recognised by GOI as Training and Education company under ID TPO70557 
+o Approved by National Skill Development Corporation (NSDC) 
+o Approved by Skill India 
+ 
+ ISO 9001:2015 certified education company under ID QZ-VMZ2021081 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 29]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+EXPERIENCE AT SHINE PROJECTS 
+ 
+
+
+[Page 30]
+I joined Shine Projects to do an internship for my summer program. My internship with the 
+organization was six weeks long. I decided I wanted to pursue Human Resource Management as my 
+internship area.  
+Since we were in the midst of COVID-19 pandemic it was an online internship. My working hours 
+were flexible and there was not a lot of pressure. I gained working experience but as being an online 
+internship it was not as helpful as on offline could have been. 
+ 
+ 
+
+
+[Page 31]
+ 
+ 
+ 
+ 
+ 
+ 
+CHAPTER III 
+ 
+ 
+
+
+[Page 32]
+RESEARCH METHODOLOGY 
+OBJECTIVE OF THE STUDY 
+The paper is written as a REPORT, reflecting on my One and a half-month internship at Shine 
+Projects as a Human Resource intern and a learner. Below mentioned are the objectives to study 
+research and learn from this summer internship programme. 
+• To learn about how to distinguish and select apt profiles to suit the business necessities of 
+Shine Projects in hiring specialists from the market. 
+• To research the trustworthiness of internet while looking for work seekers. 
+• To study and identify the expectations and needs of agent hired at Shine Projects and measure 
+how satisfied they are. 
+ 
+RESEARCH TYPE 
+For this study I have used descriptive research. 
+Descriptive Research- Descriptive research aims to accurately and systematically describe a 
+situation. It can answer what, where, when and how questions. A descriptive research design can 
+use a wide variety of research methods to investigate one or more variables. 
+ 
+DATA COLLECTION SOURCES 
+There are mainly two sources which I have for collecting data. They are: 
+Primary Data: It is the raw data or primary data which is collected by the user himself. This data is 
+received directly from the stakeholders with the help of surveys and observations are made with the 
+help of responses. It is not subjected to any kind of alteration or manipulations.  
+Internal and external investigation was done. 
+
+
+[Page 33]
+Secondary Data: This kind of data is obtained by people other than the user. It is already available 
+on some platform and it is analyzed by someone else. It can be obtained from books, magazines, 
+newspapers and the web. This data is collected int his way as one might not have the necessary time 
+or tools to collect primary data. Evaluation of best practices in the industry, peer comparison, 
+comparison of websites. 
+ 
+Method of data collection 
+For this report a google form survey was created as well as some questions were asked via 
+whatsaap to some agents. 
+ 
+Primary research analysis 
+Primary research began with the drafting of a survey/questionnare form. The form was created to 
+research how newly recruited agents or marketing interns think about e-recruiting process of Shine 
+Projects. The survey helped me to capture the view of newly recruited members of Shine Projects. 
+The collected data led to several recommendations and conclusion. 
+ 
+INTERPRETATION OF PRIMARY RESEARCH DATA 
+Views about the organization: Majority of customers have neutral impression about the firm i.e 
+neither to good nor bad. This is because even though the job was accurately paid with some benifits 
+the distribution of certificate was sometimes delayed after the completion of tenure. 
+ 
+ 
+According to the survey most people joined age between 18-25 through which we can interpret 
+
+
+[Page 34]
+either they are looking for a job for some experience in marketing, certificate provided or to make 
+part-time money. 
+ 
+SECONDARY RESEARCH ANALYSIS 
+Secondary research began with collection of data through google, official websites, and material 
+book provided by the organization itself. 
+ 
+LIMITATIONS 
+➢ Some agents and marketing interns might have given biased information when asked 
+questions. 
+➢ There might be a mistake in interpreting and analyzing the information provided with the 
+help of a questionnaire.  
+➢ As it was a one month internship the study was limited in extent. 
+➢ Due to Lock down in Lucknow, the resources were limited 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 35]
+ 
+ 
+ 
+ 
+ 
+CHAPTER IV 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 36]
+ 
+ 
+ 
+ 
+ 
+ 
+FINDINGS 
+ 
+❖ According to my finding based on this research paper the company is still in the phase of 
+growth. 
+❖ The graph below which mentions about the employee matrix tells us that most people are 
+recruited as an agent or marketing interns. 
+❖ For the past 2 years almost everyday atleast 2 people or more are being recruited in the 
+organization. 
+❖ Not many have heard or are aware about Shine Projects. 
+❖ Since shine Projects started in 2020, thus it is not yet stabilized in terms of employee 
+retention and new recruitments. 
+❖ Many agents that have been recruited either they are looking for a job for some experience 
+in marketing, certificate provided or to make part-time money. 
+❖ People who have done online courses to obtain certifications are less than the number of 
+people who had been or are existing interns at the company Shine Projects. 
+❖ Satisfaction of customers: Majority (80%) of the agents are satisfied with the services.20% 
+are not satisfied. 
+ 
+ 
+ 
+
+
+[Page 37]
+ 
+ 
+ 
+ 
+TOTAL EMPLOYEE COUNT 
+ 
+ 
+ 
+ 
+(Source Google) 
+ 
+ 
+
+
+[Page 38]
+ 
+ 
+ 
+ 
+EMPLOYEE RETENTION 
+ 
+ 
+(Source Google) 
+
+
+[Page 39]
+ 
+(Source Google Form)  
+❖ According to the research atleast 40 no. of people already working as an intern or agent 
+responded to the survey. 
+ 
+ 
+(Source Google Form) 
+❖ More than 90% of sample size lies in the age limit of 18-25 years. 
+ 
+
+
+[Page 40]
+ 
+(Source Google Form) 
+❖ For the response regarding experience 44% agents or in tern had good experience while 
+12% had a bad experience. 
+ 
+ 
+(Source Google Form) 
+❖ 55% of respondent are not sure that if they want to continue their work for the organization 
+or not. 
+ 
+
+
+[Page 41]
+The goal of organization - 
+• To be a valuable and an affordable catalyst in everyone’s personal and professional skill 
+development. 
+• To work towards imparting practical knowledge to all our seekers in an affordable manner. 
+• To enhance world’s current ed-tech scenario and assist students in attaining/improving the 
+employability. 
+• To incubate experts in providing effective and efficient knowledge transfer through our 
+courses & Internships. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 42]
+Conclusions 
+ 
+HRM is a very vast and an elaborate section of overall management process in any organization. 
+Behind every success or failure HR practices are considered the ultimate deciding factor, same goes 
+for Shine Projects. The basic and main strength of the organization is recruitment as the more 
+agents or interns hired the more its product is being sell. 
+This internship has been an excellent and rewarding experience. I gained new knowledge and skills. 
+I achieved many of my learning goals, however for some the conditions did not permit to achieve 
+them as I wanted. I got insight into the work of an organization. Though I think it would have been 
+more beneficial if we were able to attend and learn more practically instead of an online mode or e-
+internship but due to pandemic it was not possible. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 43]
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ANNEXURE 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 44]
+AGENTS REGISTERED DURING INTERNSHIP AS AN HR 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 45]
+Frequently Asked Questions (FAQs) after reqruitment by agents 
+ 
+Q) How do we login and use our dashboard? 
+Ans) Interns have to login into their dashboard via https://www.shineprojects.in/admin/login. 
+Your User ID & Passwords were already sent via SMS. 
+You may follow the below steps: - 
+1. Login 
+2. Send the unique link to your prospective agents 
+3. Ask them to follow the steps mentioned in the link 
+4. And woah!! The agents will reflect under you! 
+5. Motivate your agents to start making enrolments for 
+the https://www.shineprojects.in/financial-markets-course 
+ 
+Q) How will an agent get his/her offer letter? 
+Ans) Agents have to login into their dashboard via https://www.shineprojects.in/agent/login 
+and look for their offer letters in the menu on top left corner. 
+ 
+Q) How will  agents keep a track on the number of enrollments done by them and 
+how much payment is due for them? 
+Ans) Agents have to login into their dashboard and there they can find all these details. 
+ 
+Q) If agent didn’t get email/SMS after filling the form what should be done? 
+Ans) Manually send them their dashboard link (https://www.shineprojects.in/agent/login) and 
+make them get added to the WhatsApp group according to their gender. 
+Male: https://chat.whatsapp.com/JyXCYiBtNdM8SIZJcj4cmO 
+
+
+[Page 46]
+Female: https://chat.whatsapp.com/K9AfNTUv6oe0dCMWBqd3n4 
+ 
+Q) What are the schemes of revenue for agents? 
+Ans) Agents can earn through 
+1. ₹250/- per enrolment/sale, which is paid the very next day of enrolment. 
+2. ₹10000 as an additional incentive on completing 100 enrollments/sales * 
+*Note: Additional incentives will be valid for the respective month only and the 
+enrollments can’t be carry forwarded to the next month. 
+ 
+Q) How will the company pay agent/consultant the stipend? 
+Ans) Payments are done via Razorpay. The payment links will be sent via SMS to you and 
+your agents respectively. Open the link, enter bank or UPI details in it and payment will be credited 
+in your account in no time. 
+ 
+Q) Will the agents receive any certificates? 
+Ans) Yes, agents will be provided with Experience Letter for the total tenure of their 
+association with us, subject to a minimum association of 1 month at least and during that 1st month 
+the agents must do at least 3 enrolments. 
+ 
+Q) Does my agent have any links/channel where he/she can get any training? 
+Ans Yes, the training resources are available below: 
+1.Checkout the YouTube channel we created just for your training! 
+https://www.youtube.com/channel/UCeLwyi2BlGwIEuijdKxObXg/ 
+We have short video clips on: - 
+a) Introduction to the company & your job profile 
+
+
+[Page 47]
+b) How to explain the brochure to the client 
+c) How can you maximize the marketing & sales beyond contacts 
+2.https://mtabrezz.cincopa.com/watch/AgLAGw-YN-C9 
+3. https://mtabrezz.cincopa.com/watch/A8AAqzO5Po9d\ 
+4. https://mtabrezz.cincopa.com/watch/AsGA-y-z7l_z 
+5. https://mtabrezz.cincopa.com/watch/AkIAcyu6jygY 
+ 
+Q) What enablers are offered by the company to the agents which might aid them in 
+closing a greater number of sales? 
+Ans) The link of which is given in the dashboard  
+1. Free Trial Classes 
+2. Webinars. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 48]
+OFFER LETTER 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+[Page 49]
+CV 
+ 
+ 
+                                                         
+ 
+ 
+ 
+
+
+[Page 50]
+REFERENCES 
+ 
+RESEARCH PAPER/BOOKS 
+❖ The HR Scorecard- Brian Becker, Mark Huselid, Dave Ulrich 
+❖ Recruitment is a part of HR Function Hemant Rao (2007) 
+❖ HRM Report outline by Murtaza Ali Published on Jan 26, 2010   
+❖ African Journal of Business Management – Role of HRM (Marwan M. Shammot) 2014 
+❖ HRM Practices at MATRIX Business Development Ltd. (MBDL) Research paper 
+(Md.Ahsanul Hoque) 2014 
+❖ Ulrich, Dave, Dulebohn, James H on “Are we their yet? What’s next for HR?” in June 2015. 
+❖ Stone, Dianna L., Deadrick, Diana L., Lukaszewski, Kimberly M., Johnson, Richard (2015) 
+on “Influence of technology on the future of human resource management”. 
+❖ Human Resource Management Practices in the Organizations. (L.M. Suhasini, Research 
+Scholar, School of Management studies, VISTAS)  
+ 
+ 
+WEBSITES 
+https://growjo.com/company/Shine_Projects 
+https://apollo.io/companies/Shine-Projects/5b138797a6da98dccddff2cb?chart=count 
+My unique agent application link used to recruit agents 
+https://www.shineprojects.in/agent/apply?r=50510768 
+https://core.ac.uk/download/pdf/61806062.pdf 
+ 
+ 
+ 
