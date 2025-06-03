@@ -1,0 +1,188 @@
+{
+  "id": "9f78c352-f48e-426c-ab07-5f54d4655ab3",
+  "user_id": 1,
+  "name": "Professional Collection",
+  "description": "",
+  "created_at": "2025-05-29T10:40:51.899922",
+  "updated_at": "2025-05-30T12:02:59.887348",
+  "memories": [
+    {
+      "id": "aec239be-4dc6-49b9-8616-607443ff614d",
+      "title": "Tartendu Resume",
+      "description": "",
+      "type": "pdf",
+      "filename": "aec239be-4dc6-49b9-8616-607443ff614d.pdf",
+      "original_filename": "Tartendu_resume.pdf",
+      "created_at": "2025-05-29T11:46:27.358591",
+      "processing_metadata": {
+        "extraction_method": "pdf",
+        "pdf_extraction": true
+      },
+      "text_length": 3452,
+      "file_size_mb": 0.5453395843505859,
+      "processing_time_seconds": 0.08007597923278809,
+      "chunk_count": 5,
+      "successful_chunks": 5,
+      "failed_chunks": 0,
+      "embedding_success_rate": 100.0,
+      "status": "completed"
+    },
+    {
+      "id": "4c775534-8f6b-43d9-a85a-71b1dfb87d9f",
+      "title": "Resume",
+      "description": "",
+      "type": "pdf",
+      "filename": "4c775534-8f6b-43d9-a85a-71b1dfb87d9f.pdf",
+      "original_filename": "UdayRajSingh_1.pdf",
+      "created_at": "2025-05-29T11:47:32.549444",
+      "processing_metadata": {
+        "extraction_method": "pdf",
+        "pdf_extraction": true
+      },
+      "text_length": 1993,
+      "file_size_mb": 0.1133584976196289,
+      "processing_time_seconds": 0.03188896179199219,
+      "chunk_count": 3,
+      "successful_chunks": 3,
+      "failed_chunks": 0,
+      "embedding_success_rate": 100.0,
+      "status": "completed"
+    },
+    {
+      "id": "6028dd2c-e185-4597-b33f-59a14af3d952",
+      "title": "fds",
+      "description": "",
+      "type": "pdf",
+      "filename": "6028dd2c-e185-4597-b33f-59a14af3d952.pdf",
+      "original_filename": "UdayRajSingh_1_1.pdf",
+      "created_at": "2025-05-29T13:10:50.627778",
+      "processing_metadata": {
+        "extraction_method": "pdf",
+        "pdf_extraction": true
+      },
+      "text_length": 1993,
+      "file_size_mb": 0.1133584976196289,
+      "processing_time_seconds": 0.04840350151062012,
+      "chunk_count": 3,
+      "successful_chunks": 3,
+      "failed_chunks": 0,
+      "embedding_success_rate": 100.0,
+      "status": "completed"
+    },
+    {
+      "id": "732cbe2a-e003-4a53-9c8c-bc2fb7bc3f1b",
+      "title": "ree",
+      "description": "",
+      "type": "pdf",
+      "filename": "732cbe2a-e003-4a53-9c8c-bc2fb7bc3f1b.pdf",
+      "original_filename": "UdayRajSingh_1_1.pdf",
+      "created_at": "2025-05-29T13:14:10.808100",
+      "processing_metadata": {
+        "extraction_method": "pdf",
+        "pdf_extraction": true
+      },
+      "text_length": 1993,
+      "file_size_mb": 0.1133584976196289,
+      "processing_time_seconds": 0.02615809440612793,
+      "chunk_count": 3,
+      "successful_chunks": 3,
+      "failed_chunks": 0,
+      "embedding_success_rate": 100.0,
+      "status": "completed"
+    },
+    {
+      "id": "360450c4-298a-4383-9244-fbf7898f1b93",
+      "title": "meeting audio",
+      "description": "",
+      "type": "audio",
+      "filename": "360450c4-298a-4383-9244-fbf7898f1b93.mp3",
+      "original_filename": "Weekly_Meeting_Example.mp3",
+      "created_at": "2025-05-29T14:23:29.226399",
+      "processing_metadata": {
+        "extraction_method": "audio",
+        "transcription": true
+      },
+      "text_length": 2211,
+      "file_size_mb": 2.254794120788574,
+      "processing_time_seconds": 7.352161407470703,
+      "chunk_count": 3,
+      "successful_chunks": 3,
+      "failed_chunks": 0,
+      "embedding_success_rate": 100.0,
+      "status": "completed"
+    },
+    {
+      "id": "606f8275-526b-456e-92fe-4607a2778aef",
+      "title": "hr meeting",
+      "description": "",
+      "type": "audio",
+      "filename": "606f8275-526b-456e-92fe-4607a2778aef.mp3",
+      "original_filename": "HR_Meeting_1.mp3",
+      "created_at": "2025-05-29T14:26:19.286564",
+      "processing_metadata": {
+        "extraction_method": "audio",
+        "transcription": true
+      },
+      "text_length": 4319,
+      "file_size_mb": 6.531968116760254,
+      "processing_time_seconds": 13.989487409591675,
+      "chunk_count": 6,
+      "successful_chunks": 6,
+      "failed_chunks": 0,
+      "embedding_success_rate": 100.0,
+      "status": "completed"
+    },
+    {
+      "id": "39bea797-8f5e-4f57-a4f9-bb25c210f144",
+      "title": "hr meeting summary",
+      "description": "",
+      "type": "pdf",
+      "filename": "39bea797-8f5e-4f57-a4f9-bb25c210f144.pdf",
+      "original_filename": "Meeting_Summary_HR.pdf",
+      "created_at": "2025-05-29T16:58:19.176427",
+      "processing_metadata": {
+        "extraction_method": "pdf",
+        "pdf_extraction": true
+      },
+      "text_length": 2091,
+      "file_size_mb": 0.0034389495849609375,
+      "processing_time_seconds": 0.058515071868896484,
+      "chunk_count": 3,
+      "successful_chunks": 3,
+      "failed_chunks": 0,
+      "embedding_success_rate": 100.0,
+      "status": "completed"
+    },
+    {
+      "id": "ec502b1e-a425-48a7-a4f7-9a4e0fa58d69",
+      "title": "snitch",
+      "description": "",
+      "type": "audio",
+      "filename": "ec502b1e-a425-48a7-a4f7-9a4e0fa58d69.mp3",
+      "original_filename": "Snitch_Founder_Sharks_Respect_Shark_Tank_India_2_300_Crore_Valuation.mp3",
+      "created_at": "2025-05-30T12:02:59.887348",
+      "processing_metadata": {
+        "extraction_method": "audio",
+        "transcription": true
+      },
+      "text_length": 11002,
+      "file_size_mb": 14.55324935913086,
+      "processing_time_seconds": 102.80509734153748,
+      "chunk_count": 15,
+      "successful_chunks": 15,
+      "failed_chunks": 0,
+      "embedding_success_rate": 100.0,
+      "status": "completed"
+    }
+  ],
+  "total_documents": 8,
+  "total_chunks": 41,
+  "supported_search": [
+    "semantic",
+    "keyword",
+    "hybrid"
+  ],
+  "index_version": "2.0",
+  "status": "active",
+  "last_accessed": "2025-05-30T12:01:16.740952"
+}

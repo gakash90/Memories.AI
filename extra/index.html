@@ -1,0 +1,1320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Chat</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            background-color: #4b6cb7;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #f4f4f4;
+            padding: 10px;
+        }
+
+        nav button {
+            margin: 0 10px;
+            padding: 8px 16px;
+            background-color: #4b6cb7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        nav button:hover {
+            background-color: #3a5a9b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .section {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #4b6cb7;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            background-color: #4b6cb7;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #3a5a9b;
+        }
+
+        .collection-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .collection-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .memory-list {
+            margin-top: 20px;
+        }
+
+        .memory-item {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        .user-message {
+            background-color: #e3f2fd;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .ai-message {
+            background-color: #f1f1f1;
+            align-self: flex-start;
+        }
+
+        .chat-input {
+            display: flex;
+        }
+
+        .chat-input input {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Memory Chat</h1>
+        <p>Upload your memories and chat with them</p>
+    </header>
+
+    <nav>
+        <button id="btn-home">Home</button>
+        <button id="btn-create-collection">Create Collection</button>
+    </nav>
+
+    <div class="container">
+        <!-- Home Section - List of Collections -->
+        <div id="home-section" class="section">
+            <h2>Your Memory Collections</h2>
+            <div id="collections-container" class="collection-list">
+                <div class="loading">Loading your collections...</div>
+            </div>
+        </div>
+
+        <!-- Create Collection Section -->
+        <div id="create-collection-section" class="section hidden">
+            <h2>Create New Collection</h2>
+            <form id="create-collection-form">
+                <div>
+                    <label for="collection-name">Collection Name</label>
+                    <input type="text" id="collection-name" required>
+                </div>
+                <div>
+                    <label for="collection-description">Description (Optional)</label>
+                    <textarea id="collection-description" rows="3"></textarea>
+                </div>
+                <button type="submit">Create Collection</button>
+            </form>
+        </div>
+
+        <!-- Collection Details Section -->
+        <div id="collection-details-section" class="section hidden">
+            <div id="collection-header">
+                <h2 id="collection-title">Collection Name</h2>
+                <p id="collection-description-display">Collection description will appear here</p>
+            </div>
+
+            <div class="actions">
+                <button id="btn-add-memory">Add Memory</button>
+                <button id="btn-chat-with-collection">Chat with Collection</button>
+                <button id="btn-delete-collection" class="danger">Delete Collection</button>
+            </div>
+
+            <div id="memories-container" class="memory-list">
+                <h3>Memories</h3>
+                <div class="loading">Loading memories...</div>
+            </div>
+        </div>
+
+        <!-- Add Memory Section -->
+        <div id="add-memory-section" class="section hidden">
+            <h2>Add New Memory</h2>
+            <form id="add-memory-form" enctype="multipart/form-data">
+                <div>
+                    <label for="memory-title">Memory Title</label>
+                    <input type="text" id="memory-title" required>
+                </div>
+                <div>
+                    <label for="memory-description">Description (Optional)</label>
+                    <textarea id="memory-description" rows="2"></textarea>
+                </div>
+                <div>
+                    <label for="memory-type">Memory Type</label>
+                    <select id="memory-type" required>
+                        <option value="">-- Select Type --</option>
+                        <option value="text">Text Document</option>
+                        <option value="pdf">PDF Document</option>
+                        <option value="audio">Audio Recording</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="memory-file">Upload File</label>
+                    <input type="file" id="memory-file" required>
+                </div>
+                <button type="submit">Upload Memory</button>
+                <button type="button" id="btn-cancel-add-memory">Cancel</button>
+            </form>
+        </div>
+
+        <!-- Chat Section -->
+        <div id="chat-section" class="section hidden">
+            <h2 id="chat-collection-title">Chat with Collection</h2>
+
+            <div class="chat-container">
+                <div id="chat-messages" class="chat-messages">
+                    <div class="message ai-message">
+                        Hello! I'm your memory assistant. Ask me anything about your memories in this collection.
+                    </div>
+                </div>
+                <div class="chat-input">
+                    <input type="text" id="chat-input-text" placeholder="Type your question here...">
+                    <button id="btn-send-message">Send</button>
+                </div>
+            </div>
+
+            <button id="btn-back-to-collection" class="secondary">Back to Collection</button>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+       // Global variables
+let collections = [];
+let currentCollectionId = null;
+let currentSection = 'dashboard';
+
+// DOM Elements
+const sections = {
+    dashboard: document.getElementById('dashboard-section'),
+    collections: document.getElementById('collections-section'),
+    collectionDetails: document.getElementById('collection-details-section'),
+    uploadMemory: document.getElementById('upload-memory-section'),
+    createCollection: document.getElementById('create-collection-section'),
+    chat: document.getElementById('chat-section')
+};
+
+const navItems = {
+    dashboard: document.getElementById('nav-dashboard'),
+    collections: document.getElementById('nav-collections'),
+    createCollection: document.getElementById('nav-create-collection'),
+    uploadMemory: document.getElementById('nav-upload-memory'),
+    chat: document.getElementById('nav-chat')
+};
+
+// Initialize the dashboard
+document.addEventListener('DOMContentLoaded', () => {
+    // Load initial data
+    loadDashboardData();
+
+    // Set up navigation events
+    setupNavigation();
+
+    // Set up modal events
+    setupModals();
+
+    // Set up form submission events
+    setupForms();
+
+    // Set up chat functionality
+    setupChat();
+
+    // Setup keyboard shortcuts
+    setupKeyboardShortcuts();
+});
+
+// Helper Functions
+function showSection(sectionName) {
+    // Hide all sections
+    Object.values(sections).forEach(section => {
+        section.classList.add('hidden');
+    });
+
+    // Show the requested section
+    sections[sectionName].classList.remove('hidden');
+    currentSection = sectionName;
+
+    // Update active navigation
+    Object.keys(navItems).forEach(nav => {
+        navItems[nav].classList.remove('active');
+    });
+
+    if (navItems[sectionName]) {
+        navItems[sectionName].classList.add('active');
+    }
+
+    // Hide sidebar on mobile after navigation
+    if (window.innerWidth <= 992) {
+        document.getElementById('sidebar').classList.remove('active');
+    }
+}
+
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+    // Reset form if exists
+    const form = document.getElementById(modalId).querySelector('form');
+    if (form) form.reset();
+}
+
+function showNotification(message, type = 'success') {
+    const container = document.getElementById('notifications-container');
+    const id = 'notification-' + Date.now();
+    
+    const notification = document.createElement('div');
+    notification.id = id;
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        ${message}
+        <button class="notification-close">×</button>
+    `;
+    
+    container.appendChild(notification);
+    
+    // Add event listener to close button
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        closeNotification(id);
+    });
+    
+    // Auto close after 5 seconds
+    setTimeout(() => {
+        closeNotification(id);
+    }, 5000);
+}
+
+function closeNotification(id) {
+    const notification = document.getElementById(id);
+    if (notification) {
+        notification.style.animation = 'slideOut 0.3s ease forwards';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }
+}
+
+// Setup Functions
+function setupNavigation() {
+    // Mobile menu toggle
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('active');
+    });
+
+    // Main navigation
+    Object.keys(navItems).forEach(nav => {
+        navItems[nav].addEventListener('click', () => {
+            if (nav === 'chat') {
+                // For chat, first show the collection selection modal
+                populateCollectionSelect('chat-collection-select');
+                openModal('select-collection-chat-modal');
+            } else {
+                showSection(nav);
+                if (nav === 'collections') {
+                    loadCollections();
+                } else if (nav === 'uploadMemory') {
+                    populateCollectionSelect('collection-select');
+                }
+            }
+        });
+    });
+
+    // Quick action buttons
+    document.getElementById('btn-quick-create-collection').addEventListener('click', () => {
+        showSection('createCollection');
+    });
+
+    document.getElementById('btn-quick-upload').addEventListener('click', () => {
+        populateCollectionSelect('collection-select');
+        showSection('uploadMemory');
+    });
+
+    document.getElementById('btn-quick-chat').addEventListener('click', () => {
+        populateCollectionSelect('chat-collection-select');
+        openModal('select-collection-chat-modal');
+    });
+
+    // View all collections
+    document.getElementById('btn-view-all-collections').addEventListener('click', () => {
+        loadCollections();
+        showSection('collections');
+    });
+
+    // Collection details actions
+    document.getElementById('btn-add-memory').addEventListener('click', () => {
+        populateCollectionSelect('collection-select', currentCollectionId);
+        showSection('uploadMemory');
+    });
+
+    document.getElementById('btn-chat-with-collection').addEventListener('click', () => {
+        startChat(currentCollectionId);
+    });
+
+    document.getElementById('btn-delete-collection').addEventListener('click', () => {
+        openModal('delete-confirm-modal');
+    });
+
+    // Back from chat
+    document.getElementById('btn-back-from-chat').addEventListener('click', () => {
+        loadCollectionDetails(currentCollectionId);
+        showSection('collectionDetails');
+    });
+}
+
+function setupModals() {
+    // Create collection modal
+    document.getElementById('btn-new-collection').addEventListener('click', () => {
+        openModal('create-collection-modal');
+    });
+
+    document.getElementById('close-create-modal').addEventListener('click', () => {
+        closeModal('create-collection-modal');
+    });
+
+    document.getElementById('cancel-create-collection').addEventListener('click', () => {
+        closeModal('create-collection-modal');
+    });
+
+    document.getElementById('submit-create-collection').addEventListener('click', () => {
+        createCollection();
+    });
+
+    // Delete confirmation modal
+    document.getElementById('close-delete-modal').addEventListener('click', () => {
+        closeModal('delete-confirm-modal');
+    });
+
+    document.getElementById('cancel-delete-collection').addEventListener('click', () => {
+        closeModal('delete-confirm-modal');
+    });
+
+    document.getElementById('confirm-delete-collection').addEventListener('click', () => {
+        deleteCollection();
+    });
+
+    // Chat collection select modal
+    document.getElementById('close-select-chat-modal').addEventListener('click', () => {
+        closeModal('select-collection-chat-modal');
+    });
+
+    document.getElementById('cancel-select-chat').addEventListener('click', () => {
+        closeModal('select-collection-chat-modal');
+    });
+
+    document.getElementById('confirm-select-chat').addEventListener('click', () => {
+        const select = document.getElementById('chat-collection-select');
+        const collectionId = select.value;
+        if (collectionId) {
+            startChat(collectionId);
+            closeModal('select-collection-chat-modal');
+        } else {
+            showNotification('Please select a collection', 'error');
+        }
+    });
+}
+
+function setupForms() {
+    // Create collection form
+    document.getElementById('create-collection-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        createCollection();
+    });
+
+    document.getElementById('btn-cancel-create').addEventListener('click', () => {
+        showSection('dashboard');
+    });
+
+    // Upload memory form
+    document.getElementById('upload-memory-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await uploadMemory();
+    });
+
+    document.getElementById('btn-cancel-upload').addEventListener('click', () => {
+        showSection('dashboard');
+    });
+}
+
+function setupChat() {
+    // Send message button
+    document.getElementById('btn-send-message').addEventListener('click', sendChatMessage);
+
+    // Enter key press for chat input
+    document.getElementById('chat-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendChatMessage();
+        }
+    });
+}
+
+// API Functions
+async function loadDashboardData() {
+    try {
+        const response = await fetch('/api/collections');
+        const data = await response.json();
+        if (data.success) {
+            collections = data.collections;
+            updateDashboardStats(collections);
+            displayRecentCollections(collections);
+            document.getElementById('collections-count').textContent = collections.length;
+        } else {
+            showNotification('Error loading dashboard data: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+        showNotification('Failed to load dashboard data', 'error');
+    }
+}
+
+async function loadCollections() {
+    try {
+        const response = await fetch('/api/collections');
+        const data = await response.json();
+        if (data.success) {
+            collections = data.collections;
+            displayAllCollections(collections);
+            document.getElementById('collections-count').textContent = collections.length;
+        } else {
+            showNotification('Error loading collections: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error loading collections:', error);
+        showNotification('Failed to load collections', 'error');
+    }
+}
+
+async function createCollection() {
+    const modalForm = document.getElementById('modal-create-collection-form');
+    const nameInput = document.getElementById('modal-collection-name');
+    const descriptionInput = document.getElementById('modal-collection-description');
+
+    const name = nameInput.value.trim();
+    const description = descriptionInput.value.trim();
+
+    if (!name) {
+        showNotification('Collection name is required', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch('/api/collections', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name, description })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            showNotification('Collection created successfully!', 'success');
+            modalForm.reset();
+            closeModal('create-collection-modal');
+            await loadCollections();
+            showSection('collections');
+        } else {
+            showNotification('Error creating collection: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error creating collection:', error);
+        showNotification('Failed to create collection', 'error');
+    }
+}
+
+async function loadCollectionDetails(collectionId) {
+    currentCollectionId = collectionId;
+
+    try {
+        const response = await fetch(`/api/collections/${collectionId}`);
+        const data = await response.json();
+        if (data.success) {
+            const collection = data.collection;
+            document.getElementById('collection-title').textContent = collection.name;
+            document.getElementById('collection-description').textContent = collection.description || 'No description provided';
+            displayMemories(collection.memories);
+            showSection('collectionDetails');
+        } else {
+            showNotification('Error loading collection: ' + data.error, 'error');
+            showSection('collections');
+        }
+    } catch (error) {
+        console.error('Error loading collection details:', error);
+        showNotification('Failed to load collection details', 'error');
+        showSection('collections');
+    }
+}
+
+async function deleteCollection() {
+    if (!currentCollectionId) {
+        showNotification('No collection selected', 'error');
+        return;
+    }
+
+    try {
+        const response = await fetch(`/api/collections/${currentCollectionId}`, {
+            method: 'DELETE'
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            showNotification('Collection deleted successfully!', 'success');
+            closeModal('delete-confirm-modal');
+            currentCollectionId = null;
+            await loadCollections();
+            showSection('collections');
+        } else {
+            showNotification('Error deleting collection: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error deleting collection:', error);
+        showNotification('Failed to delete collection', 'error');
+    }
+}
+
+async function uploadMemory() {
+    const form = document.getElementById('upload-memory-form');
+    const collectionId = document.getElementById('collection-select').value;
+    const title = document.getElementById('memory-title').value.trim();
+    const description = document.getElementById('memory-description').value.trim();
+    const type = document.getElementById('memory-type').value;
+    const fileInput = document.getElementById('memory-file');
+
+    if (!collectionId) {
+        showNotification('Please select a collection', 'error');
+        return;
+    }
+
+    if (!fileInput.files || fileInput.files.length === 0) {
+        showNotification('Please select a file to upload', 'error');
+        return;
+    }
+
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('type', type);
+
+    try {
+        const response = await fetch(`/api/collections/${collectionId}/memories`, {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            showNotification('Memory uploaded successfully!', 'success');
+            form.reset();
+            currentCollectionId = collectionId;
+            await loadCollectionDetails(collectionId);
+            showSection('collectionDetails');
+        } else {
+            showNotification('Error uploading memory: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error uploading memory:', error);
+        showNotification('Failed to upload memory', 'error');
+    }
+}
+
+async function sendChatMessage() {
+    const inputElement = document.getElementById('chat-input');
+    const query = inputElement.value.trim();
+
+    if (!query || !currentCollectionId) {
+        if (!query) {
+            showNotification('Please enter a message', 'error');
+        } else {
+            showNotification('No collection selected for chat', 'error');
+        }
+        return;
+    }
+
+    // Add user message to chat
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.innerHTML += `
+        <div class="message user-message">
+            ${query}
+        </div>
+        <div class="message ai-message loading">
+            Thinking...
+        </div>
+    `;
+    
+    // Clear input
+    inputElement.value = '';
+
+    // Scroll to bottom
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+
+    try {
+        const response = await fetch(`/api/collections/${currentCollectionId}/chat`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ query })
+        });
+
+        const data = await response.json();
+
+        // Remove loading message
+        const loadingMessages = chatMessages.querySelectorAll('.loading');
+        if (loadingMessages.length > 0) {
+            loadingMessages[loadingMessages.length - 1].remove();
+        }
+
+        if (data.success) {
+            // Add AI response
+            chatMessages.innerHTML += `
+                <div class="message ai-message">
+                    ${data.response}
+                </div>
+            `;
+        } else {
+            chatMessages.innerHTML += `
+                <div class="message ai-message error">
+                    Error: ${data.error || 'Something went wrong while processing your question.'}
+                </div>
+            `;
+        }
+
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    } catch (error) {
+        console.error('Error sending chat message:', error);
+
+        // Remove loading message
+        const loadingMessages = chatMessages.querySelectorAll('.loading');
+        if (loadingMessages.length > 0) {
+            loadingMessages[loadingMessages.length - 1].remove();
+        }
+
+        // Show error message
+        chatMessages.innerHTML += `
+            <div class="message ai-message error">
+                Error: Could not process your question. Please try again.
+            </div>
+        `;
+
+        // Scroll to bottom
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+}
+
+// Display Functions
+function updateDashboardStats(collections) {
+    // Count total collections
+    document.getElementById('total-collections').textContent = collections.length;
+    
+    // Count total memories and by type
+    let totalMemories = 0;
+    let textCount = 0;
+    let pdfCount = 0;
+    let audioCount = 0;
+    
+    collections.forEach(collection => {
+        if (collection.memories) {
+            totalMemories += collection.memories.length;
+            
+            collection.memories.forEach(memory => {
+                if (memory.type === 'text') textCount++;
+                else if (memory.type === 'pdf') pdfCount++;
+                else if (memory.type === 'audio') audioCount++;
+            });
+        }
+    });
+    
+    // Update counts
+    document.getElementById('total-memories').textContent = totalMemories;
+    document.getElementById('text-count').textContent = textCount;
+    document.getElementById('pdf-count').textContent = pdfCount;
+    document.getElementById('audio-count').textContent = audioCount;
+    
+    // Update dashboard stats
+    document.getElementById('text-documents').textContent = textCount;
+    document.getElementById('other-documents').textContent = pdfCount + audioCount;
+    
+    // Calculate percentages if there are memories
+    if (totalMemories > 0) {
+        const textPercentage = Math.round((textCount / totalMemories) * 100);
+        const otherPercentage = Math.round(((pdfCount + audioCount) / totalMemories) * 100);
+        document.getElementById('text-percentage').textContent = `${textPercentage}%`;
+        document.getElementById('other-percentage').textContent = `${otherPercentage}%`;
+    } else {
+        document.getElementById('text-percentage').textContent = '0%';
+        document.getElementById('other-percentage').textContent = '0%';
+    }
+}
+
+function displayRecentCollections(collections) {
+    const container = document.getElementById('recent-collections');
+    
+    if (collections.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <p>You don't have any memory collections yet.</p>
+                <button class="btn btn-primary" id="btn-empty-create">
+                    <i class="fas fa-plus"></i> Create Your First Collection
+                </button>
+            </div>
+        `;
+        
+        // Add event listener to the button
+        setTimeout(() => {
+            const button = document.getElementById('btn-empty-create');
+            if (button) {
+                button.addEventListener('click', () => {
+                    showSection('createCollection');
+                });
+            }
+        }, 0);
+        
+        return;
+    }
+
+    // Sort collections by date (newest first) and take up to 3
+    const recentCollections = [...collections]
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+        .slice(0, 3);
+
+    let html = '';
+    recentCollections.forEach(collection => {
+        const memoryCount = collection.memories ? collection.memories.length : 0;
+        const createdDate = new Date(collection.created_at).toLocaleDateString();
+
+        html += `
+            <div class="collection-card" data-id="${collection.id}">
+                <h3>${collection.name}</h3>
+                <p>${collection.description || 'No description'}</p>
+                <div class="collection-meta">
+                    <div class="memories">
+                        <i class="fas fa-brain"></i> 
+                        ${memoryCount} ${memoryCount === 1 ? 'memory' : 'memories'}
+                    </div>
+                    <div class="date">
+                        <i class="far fa-calendar-alt"></i> ${createdDate}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+    
+    // Add click events to collection cards
+    document.querySelectorAll('#recent-collections .collection-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const collectionId = card.getAttribute('data-id');
+            loadCollectionDetails(collectionId);
+        });
+    });
+}
+
+function displayAllCollections(collections) {
+    const container = document.getElementById('collections-list');
+    
+    if (collections.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-folder-open"></i>
+                <p>You don't have any memory collections yet.</p>
+                <button class="btn btn-primary" id="btn-empty-create-list">
+                    <i class="fas fa-plus"></i> Create Your First Collection
+                </button>
+            </div>
+        `;
+        
+        // Add event listener to the button
+        setTimeout(() => {
+            const button = document.getElementById('btn-empty-create-list');
+            if (button) {
+                button.addEventListener('click', () => {
+                    showSection('createCollection');
+                });
+            }
+        }, 0);
+        
+        return;
+    }
+
+    // Sort collections by date (newest first)
+    const sortedCollections = [...collections]
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+    let html = '';
+    sortedCollections.forEach(collection => {
+        const memoryCount = collection.memories ? collection.memories.length : 0;
+        const createdDate = new Date(collection.created_at).toLocaleDateString();
+
+        html += `
+            <div class="collection-card" data-id="${collection.id}">
+                <h3>${collection.name}</h3>
+                <p>${collection.description || 'No description'}</p>
+                <div class="collection-meta">
+                    <div class="memories">
+                        <i class="fas fa-brain"></i> 
+                        ${memoryCount} ${memoryCount === 1 ? 'memory' : 'memories'}
+                    </div>
+                    <div class="date">
+                        <i class="far fa-calendar-alt"></i> ${createdDate}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+    
+    // Add click events to collection cards
+    document.querySelectorAll('#collections-list .collection-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const collectionId = card.getAttribute('data-id');
+            loadCollectionDetails(collectionId);
+        });
+    });
+}
+
+function displayMemories(memories) {
+    const container = document.getElementById('memories-container');
+    
+    // Update memory count
+    document.getElementById('memories-count').textContent = 
+        memories ? `${memories.length} ${memories.length === 1 ? 'memory' : 'memories'}` : '0 0 memories';
+    
+    if (!memories || memories.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-file-alt"></i>
+                <p>This collection doesn't have any memories yet.</p>
+                <button class="btn btn-primary" id="btn-empty-add-memory">
+                    <i class="fas fa-plus"></i> Add Your First Memory
+                </button>
+            </div>
+        `;
+        
+        // Add event listener to the button
+        setTimeout(() => {
+            const button = document.getElementById('btn-empty-add-memory');
+            if (button) {
+                button.addEventListener('click', () => {
+                    populateCollectionSelect('collection-select', currentCollectionId);
+                    showSection('uploadMemory');
+                });
+            }
+        }, 0);
+        
+        return;
+    }
+
+    let html = '';
+    
+    // Sort memories by date (newest first)
+    const sortedMemories = [...memories]
+        .sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        
+    sortedMemories.forEach(memory => {
+        const typeIcons = {
+            'text': 'fa-file-alt',
+            'pdf': 'fa-file-pdf',
+            'audio': 'fa-headphones'
+        };
+
+        const icon = typeIcons[memory.type] || 'fa-file';
+        const memoryClass = `memory-${memory.type}`;
+        const createdDate = new Date(memory.created_at).toLocaleDateString();
+
+        html += `
+            <div class="memory-item ${memoryClass}" data-id="${memory.id}">
+                <div class="memory-item-header">
+                    <div class="memory-icon">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <h4>${memory.title}</h4>
+                </div>
+                <p>${memory.description || 'No description'}</p>
+                <div class="memory-meta">
+                    <span>${memory.type.charAt(0).toUpperCase() + memory.type.slice(1)}</span>
+                    <span>Added: ${createdDate}</span>
+                </div>
+            </div>
+        `;
+    });
+
+    container.innerHTML = html;
+
+    // Add click events to memory items
+    document.querySelectorAll('#memories-container .memory-item').forEach(item => {
+        item.addEventListener('click', () => {
+            const memoryId = item.getAttribute('data-id');
+            const memory = collections
+                .find(c => c.id === currentCollectionId)
+                ?.memories.find(m => m.id === memoryId);
+            if (memory) {
+                showMemoryDetails(memory);
+            }
+        });
+    });
+}
+
+function populateCollectionSelect(selectId, selectedId = null) {
+    const select = document.getElementById(selectId);
+    
+    // Clear existing options except the placeholder
+    while (select.options.length > 1) {
+        select.options.remove(1);
+    }
+    
+    // Add all collections as options
+    collections.forEach(collection => {
+        const option = document.createElement('option');
+        option.value = collection.id;
+        option.textContent = collection.name;
+        
+        // If a specific ID should be selected
+        if (selectedId && collection.id === selectedId) {
+            option.selected = true;
+        }
+        
+        select.appendChild(option);
+    });
+}
+
+function startChat(collectionId) {
+    currentCollectionId = collectionId;
+    
+    // Find the collection
+    const collection = collections.find(c => c.id === collectionId);
+    
+    if (collection) {
+        // Update chat title and description
+        document.getElementById('chat-title').textContent = `Chat with ${collection.name}`;
+        document.getElementById('chat-description').textContent = 
+            'Ask questions about your memories in this collection';
+        
+        // Reset chat messages
+        document.getElementById('chat-messages').innerHTML = `
+            <div class="message ai-message">
+                Hello! I'm your memory assistant. Ask me anything about your memories in "${collection.name}".
+            </div>
+        `;
+        
+        // Show chat section
+        showSection('chat');
+    } else {
+        showNotification('Collection not found', 'error');
+    }
+}
+
+// Additional Setup
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize collections array
+    collections = [];
+    
+    // Show the collections section when clicking on collections count
+    document.getElementById('collections-count').addEventListener('click', () => {
+        loadCollections();
+        showSection('collections');
+    });
+    
+    // Handle window resize for responsive sidebar
+    window.addEventListener('resize', () => {
+        if (window.innerWidth > 992) {
+            document.getElementById('sidebar').classList.remove('active');
+        }
+    });
+    
+    // Check mobile view on load
+    if (window.innerWidth <= 992) {
+        document.getElementById('menu-toggle').style.display = 'block';
+    } else {
+        document.getElementById('menu-toggle').style.display = 'none';
+    }
+
+    // Initialize notifications container
+    if (!document.getElementById('notifications-container')) {
+        const notificationsContainer = document.createElement('div');
+        notificationsContainer.id = 'notifications-container';
+        notificationsContainer.className = 'notifications';
+        document.body.appendChild(notificationsContainer);
+    }
+
+    // Set up search functionality
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            if (currentSection === 'collections') {
+                filterCollections(searchTerm);
+            } else if (currentSection === 'collectionDetails') {
+                filterMemories(searchTerm);
+            }
+        });
+    }
+});
+
+// Utility Functions
+function filterCollections(searchTerm) {
+    const collectionCards = document.querySelectorAll('#collections-list .collection-card');
+    
+    collectionCards.forEach(card => {
+        const title = card.querySelector('h3').textContent.toLowerCase();
+        const description = card.querySelector('p').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || description.includes(searchTerm)) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+}
+
+function filterMemories(searchTerm) {
+    const memoryItems = document.querySelectorAll('#memories-container .memory-item');
+    
+    memoryItems.forEach(item => {
+        const title = item.querySelector('h4').textContent.toLowerCase();
+        const description = item.querySelector('p').textContent.toLowerCase();
+        
+        if (title.includes(searchTerm) || description.includes(searchTerm)) {
+            item.style.display = '';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+}
+
+async function apiCall(url, options = {}) {
+    try {
+        const response = await fetch(url, options);
+        
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        
+        if (!data.success) {
+            throw new Error(data.error || 'Operation failed');
+        }
+        
+        return data;
+    } catch (error) {
+        console.error(`API error (${url}):`, error);
+        showNotification(error.message || 'An error occurred while communicating with the server', 'error');
+        throw error;
+    }
+}
+
+function showMemoryDetails(memory) {
+    const modalId = 'memory-details-modal';
+    
+    // Check if modal already exists, remove if it does
+    const existingModal = document.getElementById(modalId);
+    if (existingModal) {
+        document.body.removeChild(existingModal);
+    }
+    
+    // Create modal elements
+    const modalBackdrop = document.createElement('div');
+    modalBackdrop.id = modalId;
+    modalBackdrop.className = 'modal-backdrop';
+    
+    const typeIcons = {
+        'text': 'fa-file-alt',
+        'pdf': 'fa-file-pdf',
+        'audio': 'fa-headphones'
+    };
+    
+    const icon = typeIcons[memory.type] || 'fa-file';
+    const createdDate = new Date(memory.created_at).toLocaleDateString();
+    
+    modalBackdrop.innerHTML = `
+        <div class="modal">
+            <div class="modal-header">
+                <h3>
+                    <i class="fas ${icon}"></i>
+                    ${memory.title}
+                </h3>
+                <button class="close-button">×</button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Description:</strong> ${memory.description || 'No description'}</p>
+                <p><strong>Type:</strong> ${memory.type.charAt(0).toUpperCase() + memory.type.slice(1)}</p>
+                <p><strong>Added:</strong> ${createdDate}</p>
+                <p><strong>Original Filename:</strong> ${memory.original_filename || memory.filename}</p>
+                <hr>
+                <div class="memory-content">
+                    <p>Memory content is processed and indexed for search and chat interactions.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="btn-chat-with-memory">Chat With This Memory</button>
+                <button class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modalBackdrop);
+    
+    // Show the modal
+    setTimeout(() => {
+        modalBackdrop.classList.add('active');
+    }, 10);
+    
+    // Add event listeners
+    modalBackdrop.querySelector('.close-button').addEventListener('click', () => {
+        closeModal(modalId);
+    });
+    
+    modalBackdrop.querySelector('.btn-secondary').addEventListener('click', () => {
+        closeModal(modalId);
+    });
+    
+    modalBackdrop.querySelector('#btn-chat-with-memory').addEventListener('click', () => {
+        closeModal(modalId);
+        showNotification('Feature coming soon: Chat with specific memory', 'success');
+    });
+}
+
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // ESC key closes any open modal
+        if (e.key === 'Escape') {
+            const activeModals = document.querySelectorAll('.modal-backdrop.active');
+            if (activeModals.length > 0) {
+                closeModal(activeModals[0].id);
+            }
+        }
+        
+        // Only enable keyboard shortcuts when not typing in inputs
+        if (document.activeElement.tagName === 'INPUT' || 
+            document.activeElement.tagName === 'TEXTAREA') {
+            return;
+        }
+        
+        // Keyboard shortcuts
+        switch(e.key) {
+            case 'd':
+                showSection('dashboard');
+                break;
+            case 'c':
+                loadCollections();
+                showSection('collections');
+                break;
+            case 'n':
+                showSection('createCollection');
+                break;
+            case 'u':
+                populateCollectionSelect('collection-select');
+                showSection('uploadMemory');
+                break;
+            case 'f':
+                const searchInput = document.getElementById('search-input');
+                if (searchInput) {
+                    searchInput.focus();
+                }
+                break;
+        }
+    });
+}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,3308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Vault</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #4FD1C5;
+            --primary-light: #81E6D9;
+            --primary-dark: #319795;
+            --secondary: #7F9CF5;
+            --accent: #ED64A6;
+            --success: #68D391;
+            --warning: #F6AD55;
+            --danger: #F56565;
+            --dark: #1A202C;
+            --gray-dark: #2D3748;
+            --gray: #A0AEC0;
+            --gray-light: #E2E8F0;
+            --light: #F7FAFC;
+            --border-radius: 10px;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #1A202C 0%, #2D3748 100%);
+            color: #E2E8F0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            color: #F7FAFC;
+            padding: 0;
+            position: fixed;
+            width: 280px;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: var(--transition);
+            border-right: 1px solid rgba(160, 174, 192, 0.2);
+        }
+
+        .main-content {
+            grid-column: 2;
+            padding: 0;
+        }
+
+        /* Sidebar */
+        .sidebar-header {
+            padding: 20px;
+            background: linear-gradient(to right, var(--primary-dark), var(--secondary));
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-header h1 {
+            font-size: 1.5rem;
+            margin-left: 10px;
+            font-weight: 600;
+        }
+
+        .sidebar-menu {
+            padding: 20px 0;
+        }
+
+        .menu-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--gray);
+            margin: 20px 20px 10px;
+            letter-spacing: 1px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: var(--gray-light);
+            text-decoration: none;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: rgba(79, 209, 197, 0.2);
+            color: #F7FAFC;
+        }
+
+        .menu-item.active {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+        }
+
+        .menu-item i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+
+        .menu-item span {
+            font-size: 0.95rem;
+        }
+
+        .menu-item .badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: #FFFFFF;
+            border-radius: 20px;
+            padding: 2px 8px;
+            font-size: 0.75rem;
+        }
+
+        /* Sidebar Recent Chats */
+        .recent-chats {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .chat-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #A0AEC0;
+            transition: background 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chat-item:hover {
+            background: rgba(79, 209, 197, 0.2);
+            color: #F7FAFC;
+        }
+
+        .chat-item.active {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+        }
+
+        .chat-icon {
+            font-size: 16px;
+        }
+
+        /* Top Nav */
+        .top-nav {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: rgba(74, 85, 104, 0.9);
+            border-radius: 50px;
+            padding: 8px 15px;
+            width: 300px;
+        }
+
+        .search-bar input {
+            background: transparent;
+            border: none;
+            padding: 5px 10px;
+            outline: none;
+            width: 100%;
+            font-size: 0.9rem;
+            color: #F7FAFC;
+        }
+
+        .search-bar i {
+            color: var(--gray);
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-menu .icon-button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.2rem;
+            margin-left: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .user-menu .icon-button:hover {
+            color: var(--primary);
+        }
+
+        .user-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            margin-left: 15px;
+            background: var(--primary-light);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Dashboard Content */
+        .dashboard-content {
+            padding: 30px;
+        }
+
+        .page-title {
+            margin-bottom: 30px;
+        }
+
+        .page-title h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #F7FAFC;
+        }
+
+        .page-title p {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            padding: 12px 24px;
+            border-radius: 12px;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            transition: box-shadow 0.3s, transform 0.3s;
+        }
+
+        .action-btn:hover {
+            box-shadow: 0 0 15px rgba(79, 209, 197, 0.7);
+            transform: scale(1.05);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+            color: #FFFFFF;
+        }
+
+        .collections-icon {
+            background: var(--primary);
+        }
+
+        .memories-icon {
+            background: var(--success);
+        }
+
+        .queries-icon {
+            background: var(--warning);
+        }
+
+        .usage-icon {
+            background: var(--accent);
+        }
+
+        .stat-info h3 {
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .stat-info p {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #F7FAFC;
+        }
+
+        .stat-info small {
+            display: block;
+            color: var(--success);
+            font-size: 0.8rem;
+        }
+
+        /* Dashboard Widgets */
+        .dashboard-widgets {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .widget {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+        }
+
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .widget-header h3 {
+            font-size: 1.1rem;
+            color: #F7FAFC;
+        }
+
+        .widget-header .actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .widget-header .actions button {
+            background: none;
+            border: none;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .widget-header .actions button:hover {
+            color: var(--primary);
+        }
+
+        /* Memory Types Breakdown */
+        .memory-types {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .memory-type {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(74, 85, 104, 0.9);
+            border-radius: var(--border-radius);
+            transition: var(--transition);
+        }
+
+        .memory-type:hover {
+            transform: translateX(5px);
+        }
+
+        .memory-type-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: #FFFFFF;
+        }
+
+        .type-text {
+            background: var(--primary);
+        }
+
+        .type-pdf {
+            background: var(--danger);
+        }
+
+        .type-audio {
+            background: var(--success);
+        }
+
+        .memory-type-info {
+            flex: 1;
+        }
+
+        .memory-type-info h4 {
+            font-size: 1rem;
+            color: #F7FAFC;
+        }
+
+        .memory-type-info p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+
+        .memory-type-count {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #F7FAFC;
+        }
+
+        /* Collections */
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .collection-card {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collection-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .collection-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--success));
+        }
+
+        .collection-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #F7FAFC;
+        }
+
+        .collection-card p {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .collection-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+
+        .collection-meta div {
+            display: flex;
+            align-items: center;
+        }
+
+        .collection-meta i {
+            margin-right: 5px;
+        }
+
+        .collection-meta .memories {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Quick Actions Panel */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .action-button {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border: none;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .action-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .action-button i {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .action-button span {
+            font-size: 0.9rem;
+            color: #F7FAFC;
+            font-weight: 500;
+        }
+
+        /* Collections List Page */
+        .collections-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Collection Details */
+        .collection-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .collection-info h2 {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+            color: var(--primary-dark);
+        }
+
+        .collection-info p {
+            color: var(--gray);
+        }
+
+        .collection-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Memory Items */
+        .memories-container {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .memories-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .memories-header h3 {
+            font-size: 1.3rem;
+            color: var(--primary-dark);
+        }
+
+        .memory-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .memory-item {
+            border: 1px solid rgba(160, 174, 192, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            transition: var(--transition);
+            background: rgba(74, 85, 104, 0.9);
+        }
+
+        .memory-item:hover {
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .memory-item-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .memory-icon {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--primary);
+            color: #FFFFFF;
+            border-radius: 8px;
+            margin-right: 1rem;
+        }
+
+        .memory-text .memory-icon {
+            background: var(--primary);
+        }
+
+        .memory-pdf .memory-icon {
+            background: var(--danger);
+        }
+
+        .memory-audio .memory-icon {
+            background: var(--success);
+        }
+
+        .memory-item h4 {
+            margin: 0;
+            color: #F7FAFC;
+        }
+
+        .memory-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 0.5rem;
+        }
+
+        /* Chat Styles */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 70vh;
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 1rem;
+            border-radius: 12px;
+        }
+
+        .user-message {
+            align-self: flex-end;
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            border-bottom-right-radius: 0;
+        }
+
+        .ai-message {
+            align-self: flex-start;
+            background: rgba(74, 85, 104, 0.9);
+            color: #F7FAFC;
+            border-bottom-left-radius: 0;
+        }
+
+        .chat-input-container {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(160, 174, 192, 0.3);
+            display: flex;
+            gap: 1rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid rgba(160, 174, 192, 0.3);
+            border-radius: 24px;
+            font-family: inherit;
+            transition: var(--transition);
+            background: rgba(74, 85, 104, 0.9);
+            color: #F7FAFC;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.2);
+        }
+
+        .send-button {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .send-button:hover {
+            box-shadow: 0 0 15px rgba(79, 209, 197, 0.7);
+            transform: scale(1.05);
+        }
+
+        /* Upload Form */
+        .upload-form-container {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #F7FAFC;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(160, 174, 192, 0.3);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: rgba(74, 85, 104, 0.9);
+            color: #F7FAFC;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.2);
+        }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+
+        .modal-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transform: translateY(-50px);
+            transition: var(--transition);
+        }
+
+        .modal-backdrop.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(160, 174, 192, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.3rem;
+            color: #F7FAFC;
+        }
+
+        .modal-header .close-button {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+            transition: var(--transition);
+        }
+
+        .modal-header .close-button:hover {
+            color: var(--danger);
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(160, 174, 192, 0.3);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 0 15px rgba(79, 209, 197, 0.7);
+        }
+
+        .btn-secondary {
+            background: rgba(74, 85, 104, 0.9);
+            color: #F7FAFC;
+        }
+
+        .btn-secondary:hover {
+            background: var(--gray);
+            color: #FFFFFF;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #FFFFFF;
+        }
+
+        .btn-danger:hover {
+            background: #E53E3E;
+        }
+
+        /* Chat History */
+        .chat-history-section .collections-list {
+            display: grid;
+            gap: 20px;
+        }
+
+        .chat-card {
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(160, 174, 192, 0.3);
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .chat-card:hover {
+            background: rgba(79, 209, 197, 0.2);
+        }
+
+        .chat-card h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #F7FAFC;
+        }
+
+        .chat-card p {
+            margin: 5px 0;
+            color: var(--gray);
+        }
+
+        .chat-card .chat-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            color: var(--gray);
+        }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: rgba(74, 85, 104, 0.9);
+            border-bottom: 1px solid rgba(160, 174, 192, 0.3);
+        }
+
+        .chat-header label {
+            margin-right: 10px;
+            color: #F7FAFC;
+        }
+
+        .chat-messages {
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .message.user-message {
+            text-align: right;
+            background: linear-gradient(90deg, #4FD1C5 0%, #7F9CF5 100%);
+            color: #FFFFFF;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+        }
+
+        .message.ai-message {
+            text-align: left;
+            background: rgba(74, 85, 104, 0.9);
+            color: #F7FAFC;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+        }
+
+        .message.loading {
+            color: var(--gray);
+            font-style: italic;
+        }
+
+        .message.error {
+            color: var(--danger);
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .dashboard-widgets {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                transform: translateX(-100%);
+                z-index: 1010;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                grid-column: 1;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .stats-row {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+
+            .collections-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar {
+                width: 200px;
+            }
+
+            .collection-actions {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-content {
+                padding: 20px;
+            }
+
+            .top-nav {
+                padding: 15px;
+            }
+
+            .search-bar {
+                display: none;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* Loading spinner */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(160, 174, 192, 0.3);
+            border-radius: 50%;
+            border-left-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 50px 20px;
+            color: var(--gray);
+        }
+
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            color: var(--gray-light);
+        }
+
+        .empty-state p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        /* Typing indicator animation */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .typing-indicator span {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: rgba(160, 174, 192, 0.5);
+            border-radius: 50%;
+            animation: bounce 1.5s infinite ease-in-out;
+        }
+
+        .typing-indicator span:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-indicator span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-indicator span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes bounce {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-6px); }
+        }
+
+        .notifications {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            width: 300px;
+        }
+
+        .notification {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.3s ease forwards;
+            position: relative;
+            background: rgba(45, 55, 72, 0.8);
+            backdrop-filter: blur(12px);
+        }
+
+        .notification.success {
+            border-left: 5px solid var(--success);
+            color: #F7FAFC;
+        }
+
+        .notification.error {
+            border-left: 5px solid var(--danger);
+            color: #F7FAFC;
+        }
+
+        .notification-close {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 1rem;
+            color: var(--gray);
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideOut {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-brain"></i>
+                <h1>Memory Vault</h1>
+            </div>
+            <nav class="sidebar-menu">
+                <div class="menu-category">Main</div>
+                <div class="menu-item active" id="nav-dashboard">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </div>
+                <div class="menu-item" id="nav-collections">
+                    <i class="fas fa-folder"></i>
+                    <span>Collections</span>
+                    <span class="badge" id="collections-count">0</span>
+                </div>
+                <div class="menu-category">Recent Chats</div>
+                <ul class="recent-chats">
+                    <li class="chat-item"><span class="chat-icon">💬</span>Italy Trip Summary</li>
+                    <li class="chat-item"><span class="chat-icon">💬</span>Dad’s Voice Notes</li>
+                    <li class="chat-item"><span class="chat-icon">💬</span>Q1 Work Docs</li>
+                </ul>
+                <div class="menu-category">Manage</div>
+                <div class="menu-item" id="nav-create-collection">
+                    <i class="fas fa-plus-circle"></i>
+                    <span>Create Collection</span>
+                </div>
+                <div class="menu-item" id="nav-upload-memory">
+                    <i class="fas fa-upload"></i>
+                    <span>Upload Memory</span>
+                </div>
+                <div class="menu-item" id="nav-chat">
+                    <i class="fas fa-comments"></i>
+                    <span>Chat Interface</span>
+                </div>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <nav class="top-nav">
+                <button class="menu-toggle" id="menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search..." id="search-input">
+                </div>
+                <div class="user-menu">
+                    <button class="icon-button" id="btn-notifications">
+                        <i class="far fa-bell"></i>
+                    </button>
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="notifications" id="notifications-container"></div>
+
+            <section id="dashboard-section" class="dashboard-content">
+                <div class="page-title">
+                    <h2>Dashboard</h2>
+                    <p>Welcome to your Memory Vault Dashboard</p>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="openModal('create-collection-modal')">Create New Collection</button>
+                    <button class="action-btn" onclick="showSection('uploadMemory'); populateCollectionSelect('collection-select')">Add Memory to Collection</button>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon collections-icon">
+                            <i class="fas fa-folder"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Collections</h3>
+                            <p id="total-collections">0</
+
+p>
+                            <small><i class="fas fa-calendar-alt"></i> All time</small>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon memories-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Memories</h3>
+                            <p id="total-memories">0</p>
+                            <small><i class="fas fa-calendar-alt"></i> All time</small>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon queries-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Text Documents</h3>
+                            <p id="text-documents">0</p>
+                            <small><i class="fas fa-percentage"></i> <span id="text-percentage">0%</span> of total</small>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon usage-icon">
+                            <i class="fas fa-headphones"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Audio & PDF</h3>
+                            <p id="other-documents">0</p>
+                            <small><i class="fas fa-percentage"></i> <span id="other-percentage">0%</span> of total</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Widgets -->
+                <div class="dashboard-widgets">
+                    <!-- Memory Types Breakdown -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3>Memory Types</h3>
+                            <div class="actions">
+                                <button id="refresh-memory-types"><i class="fas fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+                        <div class="memory-types">
+                            <div class="memory-type">
+                                <div class="memory-type-icon type-text">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <div class="memory-type-info">
+                                    <h4>Text Documents</h4>
+                                    <p>Text files, notes, documents</p>
+                                </div>
+                                <div class="memory-type-count" id="text-count">0</div>
+                            </div>
+                            <div class="memory-type">
+                                <div class="memory-type-icon type-pdf">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <div class="memory-type-info">
+                                    <h4>PDF Documents</h4>
+                                    <p>PDF files and reports</p>
+                                </div>
+                                <div class="memory-type-count" id="pdf-count">0</div>
+                            </div>
+                            <div class="memory-type">
+                                <div class="memory-type-icon type-audio">
+                                    <i class="fas fa-headphones"></i>
+                                </div>
+                                <div class="memory-type-info">
+                                    <h4>Audio Recordings</h4>
+                                    <p>Voice memos and audio files</p>
+                                </div>
+                                <div class="memory-type-count" id="audio-count">0</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="widget">
+                        <div class="widget-header">
+                            <h3>Quick Actions</h3>
+                        </div>
+                        <div class="quick-actions" style="margin-top: 0;">
+                            <button class="action-button" id="btn-quick-create-collection">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>New Collection</span>
+                            </button>
+                            <button class="action-button" id="btn-quick-upload">
+                                <i class="fas fa-upload"></i>
+                                <span>Upload Memory</span>
+                            </button>
+                            <button class="action-button" id="btn-quick-chat">
+                                <i class="fas fa-comments"></i>
+                                <span>Start Chat</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Collections -->
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3>Recent Collections</h3>
+                        <div class="actions">
+                            <button id="btn-view-all-collections">View All</button>
+                        </div>
+                    </div>
+                    <div id="recent-collections" class="collections-grid">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="collections-section" class="dashboard-content hidden">
+                <div class="page-title">
+                    <h2>Memory Collections</h2>
+                    <p>Manage your collections of memories</p>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3>All Collections</h3>
+                        <div class="actions">
+                            <button id="btn-new-collection" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> New Collection
+                            </button>
+                        </div>
+                    </div>
+                    <div id="collections-list" class="collections-list">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="collection-details-section" class="dashboard-content hidden">
+                <div class="page-title">
+                    <h2 id="collection-title">Collection Name</h2>
+                    <p id="collection-description">Collection description will appear here</p>
+                </div>
+
+                <div class="collection-header">
+                    <div class="collection-info">
+                        <h3>Memories</h3>
+                        <p id="memories-count">0 memories</p>
+                    </div>
+                    <div class="collection-actions">
+                        <button class="btn btn-primary" id="btn-add-memory">
+                            <i class="fas fa-plus"></i> Add Memory
+                        </button>
+                        <button class="btn btn-primary" id="btn-chat-with-collection">
+                            <i class="fas fa-comments"></i> Chat
+                        </button>
+                        <button class="btn btn-danger" id="btn-delete-collection">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                    </div>
+                </div>
+
+                <div id="memories-container" class="memory-list">
+                    <div class="loading-spinner"></div>
+                </div>
+            </section>
+
+            <section id="upload-memory-section" class="dashboard-content hidden">
+                <div class="page-title">
+                    <h2>Upload Memory</h2>
+                    <p>Add a new memory to your collection</p>
+                </div>
+
+                <div class="upload-form-container">
+                    <form id="upload-memory-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="collection-select">Select Collection</label>
+                            <select id="collection-select" class="form-control" required>
+                                <option value="">-- Select Collection --</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="memory-title">Memory Title</label>
+                            <input type="text" id="memory-title" class="form-control" required placeholder="Enter a title for this memory">
+                        </div>
+                        <div class="form-group">
+                            <label for="memory-description">Description (Optional)</label>
+                            <textarea id="memory-description" class="form-control" rows="3" placeholder="Provide additional context about this memory"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="memory-type">Memory Type</label>
+                            <select id="memory-type" class="form-control" required>
+                                <option value="">-- Select Type --</option>
+                                <option value="text">Text Document</option>
+                                <option value="pdf">PDF Document</option>
+                                <option value="audio">Audio Recording</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="memory-file">Upload File</label>
+                            <input type="file" id="memory-file" class="form-control" required>
+                        </div>
+                        <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 10px;">
+                            <button type="button" id="btn-cancel-upload" class="btn btn-secondary">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Upload Memory</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="create-collection-section" class="dashboard-content hidden">
+                <div class="page-title">
+                    <h2>Create New Collection</h2>
+                    <p>Create a new collection to organize your memories</p>
+                </div>
+
+                <div class="upload-form-container">
+                    <form id="create-collection-form">
+                        <div class="form-group">
+                            <label for="new-collection-name">Collection Name</label>
+                            <input type="text" id="new-collection-name" class="form-control" required placeholder="Enter collection name">
+                        </div>
+                        <div class="form-group">
+                            <label for="new-collection-description">Description (Optional)</label>
+                            <textarea id="new-collection-description" class="form-control" rows="3" placeholder="Describe what this collection is about"></textarea>
+                        </div>
+                        <div class="form-actions" style="display: flex; justify-content: flex-end; gap: 10px;">
+                            <button type="button" id="btn-cancel-create" class="btn btn-secondary">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Create Collection</button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section id="chat-history-section" class="dashboard-content hidden">
+                <div class="page-title">
+                    <h2>Chat History</h2>
+                    <p>View all your chat sessions across collections</p>
+                </div>
+
+                <div class="widget">
+                    <div class="widget-header">
+                        <h3>All Chats</h3>
+                        <div class="actions">
+                            <button id="btn-new-chat-session" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> New Chat
+                            </button>
+                        </div>
+                    </div>
+                    <div id="chat-history-list" class="collections-list">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="chat-section" class="dashboard-content hidden">
+                <div class="page-title">
+                    <h2 id="chat-title">Chat with Collection</h2>
+                    <p id="chat-description">Ask questions about your memories in this collection</p>
+                </div>
+
+                <div class="widget" style="padding: 0; overflow: hidden;">
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <button id="btn-new-chat" class="btn btn-primary">
+                                <i class="fas fa-plus"></i> New Chat
+                            </button>
+                        </div>
+                        <div id="chat-messages" class="chat-messages">
+                            <div class="message ai-message">
+                                Hello! I'm your memory assistant. Ask me anything about your memories in this collection.
+                            </div>
+                        </div>
+                        <div class="chat-input-container">
+                            <input type="text" id="chat-input" class="chat-input" placeholder="Type your question here...">
+                            <button id="btn-send-message" class="send-button">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 20px; text-align: right;">
+                    <button id="btn-back-from-chat" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Back to Chat History
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <div class="modal-backdrop" id="create-collection-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Create New Collection</h3>
+                    <button class="close-button" id="close-create-modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <form id="modal-create-collection-form">
+                        <div class="form-group">
+                            <label for="modal-collection-name">Collection Name</label>
+                            <input type="text" id="modal-collection-name" class="form-control" required placeholder="Enter collection name">
+                        </div>
+                        <div class="form-group">
+                            <label for="modal-collection-description">Description (Optional)</label>
+                            <textarea id="modal-collection-description" class="form-control" rows="3" placeholder="Describe what this collection is about"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancel-create-collection">Cancel</button>
+                    <button class="btn btn-primary" id="submit-create-collection">Create Collection</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-backdrop" id="delete-confirm-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Confirm Delete</h3>
+                    <button class="close-button" id="close-delete-modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>Are you sure you want to delete this collection? This action cannot be undone and all memories in this collection will be permanently deleted.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancel-delete-collection">Cancel</button>
+                    <button class="btn btn-danger" id="confirm-delete-collection">Delete Collection</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-backdrop" id="select-collection-chat-modal">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Select Collection</h3>
+                    <button class="close-button" id="close-select-chat-modal">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="chat-collection-select">Choose a collection to chat with</label>
+                        <select id="chat-collection-select" class="form-control" required>
+                            <option value="">-- Select Collection --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="cancel-select-chat">Cancel</button>
+                    <button class="btn btn-primary" id="confirm-select-chat">Start Chat</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+
+    let collections = [];
+let currentCollectionId = null;
+let currentChatId = null;
+let currentSection = 'dashboard';
+
+// DOM Elements
+const sections = {
+    dashboard: document.getElementById('dashboard-section'),
+    collections: document.getElementById('collections-section'),
+    collectionDetails: document.getElementById('collection-details-section'),
+    uploadMemory: document.getElementById('upload-memory-section'),
+    createCollection: document.getElementById('create-collection-section'),
+    chatHistory: document.getElementById('chat-history-section'),
+    chat: document.getElementById('chat-section')
+};
+
+const navItems = {
+    dashboard: document.getElementById('nav-dashboard'),
+    collections: document.getElementById('nav-collections'),
+    createCollection: document.getElementById('nav-create-collection'),
+    uploadMemory: document.getElementById('nav-upload-memory'),
+    chat: document.getElementById('nav-chat')
+};
+
+// Initialize the dashboard
+document.addEventListener('DOMContentLoaded', () => {
+    // Load initial data
+    loadDashboardData();
+
+    // Set up navigation events
+    setupNavigation();
+
+    // Set up modal events
+    setupModals();
+
+    // Set up form submission events
+    setupForms();
+
+    // Set up chat functionality
+    setupChat();
+
+    // Setup keyboard shortcuts
+    setupKeyboardShortcuts();
+
+    // Setup recent chats
+    setupRecentChats();
+});
+
+// Helper Functions
+function showSection(sectionName) {
+    Object.values(sections).forEach(section => {
+        section.classList.add('hidden');
+    });
+    sections[sectionName].classList.remove('hidden');
+    currentSection = sectionName;
+    Object.keys(navItems).forEach(nav => {
+        navItems[nav].classList.remove('active');
+    });
+    if (navItems[sectionName]) {
+        navItems[sectionName].classList.add('active');
+    }
+    if (window.innerWidth <= 992) {
+        document.getElementById('sidebar').classList.remove('active');
+    }
+}
+
+function openModal(modalId) {
+    document.getElementById(modalId).classList.add('active');
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+    const form = document.getElementById(modalId).querySelector('form');
+    if (form) form.reset();
+}
+
+function showNotification(message, type = 'success') {
+    const container = document.getElementById('notifications-container');
+    const id = 'notification-' + Date.now();
+    const notification = document.createElement('div');
+    notification.id = id;
+    notification.className = `notification ${type}`;
+    notification.innerHTML = `
+        ${message}
+        <button class="notification-close">×</button>
+    `;
+    container.appendChild(notification);
+    notification.querySelector('.notification-close').addEventListener('click', () => {
+        closeNotification(id);
+    });
+    setTimeout(() => {
+        closeNotification(id);
+    }, 5000);
+}
+
+function closeNotification(id) {
+    const notification = document.getElementById(id);
+    if (notification) {
+        notification.style.animation = 'slideOut 0.3s ease forwards';
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
+    }
+}
+
+// Setup Functions
+function setupNavigation() {
+    document.getElementById('menu-toggle').addEventListener('click', () => {
+        document.getElementById('sidebar').classList.toggle('active');
+    });
+    Object.keys(navItems).forEach(nav => {
+        navItems[nav].addEventListener('click', () => {
+            if (nav === 'chat') {
+                loadAllChats();
+                showSection('chatHistory');
+            } else {
+                showSection(nav);
+                if (nav === 'collections') {
+                    loadCollections();
+                } else if (nav === 'uploadMemory') {
+                    populateCollectionSelect('collection-select');
+                }
+            }
+        });
+    });
+    document.getElementById('btn-quick-create-collection').addEventListener('click', () => {
+        showSection('createCollection');
+    });
+    document.getElementById('btn-quick-upload').addEventListener('click', () => {
+        populateCollectionSelect('collection-select');
+        showSection('uploadMemory');
+    });
+    document.getElementById('btn-quick-chat').addEventListener('click', () => {
+        populateCollectionSelect('chat-collection-select');
+        openModal('select-collection-chat-modal');
+    });
+    document.getElementById('btn-view-all-collections').addEventListener('click', () => {
+        loadCollections();
+        showSection('collections');
+    });
+    document.getElementById('btn-add-memory').addEventListener('click', () => {
+        populateCollectionSelect('collection-select', currentCollectionId);
+        showSection('uploadMemory');
+    });
+    document.getElementById('btn-chat-with-collection').addEventListener('click', () => {
+        startChat(currentCollectionId);
+    });
+    document.getElementById('btn-delete-collection').addEventListener('click', () => {
+        openModal('delete-confirm-modal');
+    });
+    document.getElementById('btn-back-from-chat').addEventListener('click', () => {
+        loadAllChats();
+        showSection('chatHistory');
+    });
+    document.getElementById('btn-new-chat-session').addEventListener('click', () => {
+        populateCollectionSelect('chat-collection-select');
+        openModal('select-collection-chat-modal');
+    });
+}
+
+function setupModals() {
+    document.getElementById('btn-new-collection').addEventListener('click', () => {
+        openModal('create-collection-modal');
+    });
+    document.getElementById('close-create-modal').addEventListener('click', () => {
+        closeModal('create-collection-modal');
+    });
+    document.getElementById('cancel-create-collection').addEventListener('click', () => {
+        closeModal('create-collection-modal');
+    });
+    document.getElementById('submit-create-collection').addEventListener('click', () => {
+        createCollection();
+    });
+    document.getElementById('close-delete-modal').addEventListener('click', () => {
+        closeModal('delete-confirm-modal');
+    });
+    document.getElementById('cancel-delete-collection').addEventListener('click', () => {
+        closeModal('delete-confirm-modal');
+    });
+    document.getElementById('confirm-delete-collection').addEventListener('click', () => {
+        deleteCollection();
+    });
+    document.getElementById('close-select-chat-modal').addEventListener('click', () => {
+        closeModal('select-collection-chat-modal');
+    });
+    document.getElementById('cancel-select-chat').addEventListener('click', () => {
+        closeModal('select-collection-chat-modal');
+    });
+    document.getElementById('confirm-select-chat').addEventListener('click', () => {
+        const select = document.getElementById('chat-collection-select');
+        const collectionId = select.value;
+        if (collectionId) {
+            startChat(collectionId);
+            closeModal('select-collection-chat-modal');
+        } else {
+            showNotification('Please select a collection', 'error');
+        }
+    });
+}
+
+function setupForms() {
+    document.getElementById('create-collection-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        createCollection();
+    });
+    document.getElementById('btn-cancel-create').addEventListener('click', () => {
+        showSection('dashboard');
+    });
+    document.getElementById('upload-memory-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await uploadMemory();
+    });
+    document.getElementById('btn-cancel-upload').addEventListener('click', () => {
+        showSection('dashboard');
+    });
+}
+
+function setupChat() {
+    document.getElementById('btn-send-message').addEventListener('click', sendChatMessage);
+    document.getElementById('chat-input').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault();
+            sendChatMessage();
+        }
+    });
+    document.getElementById('btn-new-chat').addEventListener('click', async () => {
+        await createNewChat();
+    });
+}
+
+function setupRecentChats() {
+    const chatItems = document.querySelectorAll('.chat-item');
+    chatItems.forEach(item => {
+        item.addEventListener('click', () => {
+            chatItems.forEach(i => i.classList.remove('active'));
+            item.classList.add('active');
+            // Placeholder for chat loading functionality
+            showNotification(`Loading chat: ${item.textContent.trim()}`, 'success');
+        });
+    });
+}
+
+function setupKeyboardShortcuts() {
+    document.addEventListener('keydown', (event) => {
+        if (event.ctrlKey || event.metaKey) {
+            switch (event.key.toLowerCase()) {
+                case 't':
+                    event.preventDefault();
+                    populateCollectionSelect('collection-select');
+                    showSection('uploadMemory');
+                    break;
+                case 'n':
+                    event.preventDefault();
+                    showSection('createCollection');
+                    break;
+                case 'c':
+                    event.preventDefault();
+                    loadAllChats();
+                    showSection('chatHistory');
+                    break;
+                case 'd':
+                    event.preventDefault();
+                    showSection('dashboard');
+                    break;
+            }
+        }
+    });
+}
+
+// API Functions
+async function loadDashboardData() {
+    try {
+        const response = await fetch('/api/collections');
+        const data = await response.json();
+        if (data.success) {
+            collections = data.collections;
+            updateDashboardStats(collections);
+            displayRecentCollections(collections);
+            document.getElementById('collections-count').textContent = collections.length;
+        } else {
+            showNotification('Error loading dashboard data: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error loading dashboard:', error);
+        showNotification('Failed to load dashboard data', 'error');
+    }
+}
+
+async function loadCollections() {
+    try {
+        const response = await fetch('/api/collections');
+        const data = await response.json();
+        if (data.success) {
+            collections = data.collections;
+            displayAllCollections(collections);
+            document.getElementById('collections-count').textContent = collections.length;
+        } else {
+            showNotification('Error loading collections: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error loading collections:', error);
+        showNotification('Failed to load collections', 'error');
+    }
+}
+
+async function createCollection() {
+    let form, nameInput, descriptionInput;
+    if (!document.getElementById('create-collection-modal').classList.contains('active')) {
+        form = document.getElementById('create-collection-form');
+        nameInput = document.getElementById('new-collection-name');
+        descriptionInput = document.getElementById('new-collection-description');
+    } else {
+        form = document.getElementById('modal-create-collection-form');
+        nameInput = document.getElementById('modal-collection-name');
+        descriptionInput = document.getElementById('modal-collection-description');
+    }
+    if (!form || !nameInput || !descriptionInput) {
+        console.error('Form or inputs not found');
+        showNotification('Error: Form elements not found', 'error');
+        return;
+    }
+    const name = nameInput.value.trim();
+    const description = descriptionInput.value.trim();
+    if (!name) {
+        showNotification('Collection name is required', 'error');
+        return;
+    }
+    try {
+        const response = await fetch('/api/collections', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, description })
+        });
+        const data = await response.json();
+        if (data.success) {
+            showNotification('Collection created successfully!', 'success');
+            form.reset();
+            if (document.getElementById('create-collection-modal').classList.contains('active')) {
+                closeModal('create-collection-modal');
+            }
+            if (data.collection) {
+                collections.push(data.collection);
+                document.getElementById('collections-count').textContent = collections.length;
+            }
+            await loadCollections();
+            showSection('collections');
+        } else {
+            showNotification('Error creating collection: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error creating collection:', error);
+        showNotification('Failed to create collection', 'error');
+    }
+}
+
+async function loadCollectionDetails(collectionId) {
+    currentCollectionId = collectionId;
+    try {
+        const response = await fetch(`/api/collections/${collectionId}`);
+        const data = await response.json();
+        if (data.success) {
+            const collection = data.collection;
+            document.getElementById('collection-title').textContent = collection.name;
+            document.getElementById('collection-description').textContent = collection.description || 'No description provided';
+            displayMemories(collection.memories);
+            showSection('collectionDetails');
+        } else {
+            showNotification('Error loading collection: ' + data.error, 'error');
+            showSection('collections');
+        }
+    } catch (error) {
+        console.error('Error loading collection details:', error);
+        showNotification('Failed to load collection details', 'error');
+        showSection('collections');
+    }
+}
+
+async function deleteCollection() {
+    if (!currentCollectionId) {
+        showNotification('No collection selected', 'error');
+        return;
+    }
+    try {
+        const response = await fetch(`/api/collections/${currentCollectionId}`, {
+            method: 'DELETE'
+        });
+        const data = await response.json();
+        if (data.success) {
+            showNotification('Collection deleted successfully!', 'success');
+            closeModal('delete-confirm-modal');
+            currentCollectionId = null;
+            await loadCollections();
+            showSection('collections');
+        } else {
+            showNotification('Error deleting collection: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error deleting collection:', error);
+        showNotification('Failed to delete collection', 'error');
+    }
+}
+
+async function uploadMemory() {
+    const form = document.getElementById('upload-memory-form');
+    const collectionId = document.getElementById('collection-select').value;
+    const title = document.getElementById('memory-title').value.trim();
+    const description = document.getElementById('memory-description').value.trim();
+    const type = document.getElementById('memory-type').value;
+    const fileInput = document.getElementById('memory-file');
+    if (!collectionId) {
+        showNotification('Please select a collection', 'error');
+        return;
+    }
+    if (!fileInput.files || fileInput.files.length === 0) {
+        showNotification('Please select a file to upload', 'error');
+        return;
+    }
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('type', type);
+    try {
+        const response = await fetch(`/api/collections/${collectionId}/memories`, {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+        if (data.success) {
+            showNotification('Memory uploaded successfully!', 'success');
+            form.reset();
+            currentCollectionId = collectionId;
+            await loadCollectionDetails(collectionId);
+            showSection('collectionDetails');
+        } else {
+            showNotification('Error uploading memory: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error uploading memory:', error);
+        showNotification('Failed to upload memory', 'error');
+    }
+}
+
+async function loadAllChats() {
+    const container = document.getElementById('chat-history-list');
+    container.innerHTML = '<div class="loading-spinner"></div>';
+    try {
+        const collectionsResponse = await fetch('/api/collections', {
+            method: 'GET',
+            credentials: 'include'
+        });
+        const collectionsData = await collectionsResponse.json();
+        if (!collectionsData.success) {
+            throw new Error(collectionsData.error || 'Failed to load collections');
+        }
+        collections = collectionsData.collections;
+        let allChats = [];
+        for (const collection of collections) {
+            const response = await fetch(`/api/collections/${collection.id}/chats`, {
+                method: 'GET',
+                credentials: 'include'
+            });
+            const data = await response.json();
+            if (data.success) {
+                allChats.push(...data.chats.map(chat => ({
+                    ...chat,
+                    collectionId: collection.id,
+                    collectionName: collection.name
+                })));
+            }
+        }
+        if (allChats.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-comments"></i>
+                    <p>You don't have any chat sessions yet.</p>
+                    <button class="btn btn-primary" id="btn-empty-new-chat">
+                        <i class="fas fa-plus"></i> Start a New Chat
+                    </button>
+                </div>
+            `;
+            setTimeout(() => {
+                const button = document.getElementById('btn-empty-new-chat');
+                if (button) {
+                    button.addEventListener('click', () => {
+                        populateCollectionSelect('chat-collection-select');
+                        openModal('select-collection-chat-modal');
+                    });
+                }
+            }, 0);
+            return;
+        }
+        allChats.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+        let html = '';
+        allChats.forEach(chat => {
+            const createdDate = new Date(chat.created_at).toLocaleDateString();
+            html += `
+                <div class="chat-card" data-chat-id="${chat.id}" data-collection-id="${chat.collectionId}">
+                    <h3>${chat.title}</h3>
+                    <p>Collection: ${chat.collectionName}</p>
+                    <div class="chat-meta">
+                        <span><i class="far fa-calendar-alt"></i> ${createdDate}</span>
+                    </div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+        document.querySelectorAll('#chat-history-list .chat-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const chatId = card.getAttribute('data-chat-id');
+                const collectionId = card.getAttribute('data-collection-id');
+                viewChat(collectionId, chatId);
+            });
+        });
+    } catch (error) {
+        console.error('Error loading chats:', error);
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>Failed to load chat history.</p>
+            </div>
+        `;
+        showNotification('Failed to load chat history', 'error');
+    }
+}
+
+async function createNewChat() {
+    if (!currentCollectionId) {
+        showNotification('No collection selected for chat', 'error');
+        return;
+    }
+    try {
+        const response = await fetch(`/api/collections/${currentCollectionId}/chat`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include'
+        });
+        const data = await response.json();
+        if (data.success) {
+            currentChatId = data.chat.id;
+            document.getElementById('chat-messages').innerHTML = `
+                <div class="message ai-message">
+                    Hello! I'm your memory assistant. Ask me anything about your memories in this collection.
+                </div>
+            `;
+            showNotification('New chat session started!', 'success');
+        } else {
+            showNotification('Error creating chat: ' + data.error, 'error');
+        }
+    } catch (error) {
+        console.error('Error creating chat:', error);
+        showNotification('Failed to create chat', 'error');
+    }
+}
+
+async function sendChatMessage() {
+    const inputElement = document.getElementById('chat-input');
+    const query = inputElement.value.trim();
+    if (!query || !currentCollectionId || !currentChatId) {
+        if (!query) {
+            showNotification('Please enter a message', 'error');
+        } else if (!currentCollectionId) {
+            showNotification('No collection selected for chat', 'error');
+        } else {
+            showNotification('No chat session selected. Start a new chat.', 'error');
+        }
+        return;
+    }
+    const chatMessages = document.getElementById('chat-messages');
+    chatMessages.innerHTML += `
+        <div class="message user-message">
+            ${query}
+        </div>
+        <div class="message ai-message loading">
+            Thinking...
+        </div>
+    `;
+    inputElement.value = '';
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+    try {
+        const response = await fetch(`/api/collections/${currentCollectionId}/chat/${currentChatId}/query`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query }),
+            credentials: 'include'
+        });
+        const data = await response.json();
+        const loadingMessages = chatMessages.querySelectorAll('.loading');
+        if (loadingMessages.length > 0) {
+            loadingMessages[loadingMessages.length - 1].remove();
+        }
+        if (data.success) {
+            chatMessages.innerHTML += `
+                <div class="message ai-message">
+                    ${data.response}
+                </div>
+            `;
+        } else {
+            chatMessages.innerHTML += `
+                <div class="message ai-message error">
+                    Error: ${data.error || 'Something went wrong while processing your question.'}
+                </div>
+            `;
+        }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    } catch (error) {
+        console.error('Error sending chat message:', error);
+        const loadingMessages = chatMessages.querySelectorAll('.loading');
+        if (loadingMessages.length > 0) {
+            loadingMessages[loadingMessages.length - 1].remove();
+        }
+        chatMessages.innerHTML += `
+            <div class="message ai-message error">
+                Error: Could not process your question. Please try again.
+            </div>
+        `;
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+}
+
+async function loadChatMessages() {
+    if (!currentCollectionId || !currentChatId) {
+        document.getElementById('chat-messages').innerHTML = `
+            <div class="message ai-message">
+                No chat session selected. Start a new chat or select one from the history.
+            </div>
+        `;
+        return;
+    }
+    try {
+        const response = await fetch(`/api/collections/${currentCollectionId}/chat/${currentChatId}/messages`, {
+            method: 'GET',
+            credentials: 'include'
+        });
+        const data = await response.json();
+        const chatMessages = document.getElementById('chat-messages');
+        if (data.success) {
+            chatMessages.innerHTML = data.messages.map(msg => `
+                <div class="message ${msg.is_user ? 'user-message' : 'ai-message'}">
+                    ${msg.content}
+                </div>
+            `).join('');
+        } else {
+            chatMessages.innerHTML = `
+                <div class="message ai-message error">
+                    Error loading messages: ${data.error}
+                </div>
+            `;
+        }
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    } catch (error) {
+        console.error('Error loading chat messages:', error);
+        document.getElementById('chat-messages').innerHTML = `
+            <div class="message ai-message error">
+                Failed to load chat messages.
+            </div>
+        `;
+    }
+}
+
+async function viewChat(collectionId, chatId) {
+    currentCollectionId = collectionId;
+    currentChatId = chatId;
+    const collection = collections.find(c => c.id === collectionId);
+    if (collection) {
+        document.getElementById('chat-title').textContent = `Chat with ${collection.name}`;
+        document.getElementById('chat-description').textContent = 
+            'Ask questions about your memories in this collection';
+        await loadChatMessages();
+        showSection('chat');
+    } else {
+        showNotification('Collection not found', 'error');
+    }
+}
+
+async function startChat(collectionId) {
+    currentCollectionId = collectionId;
+    const collection = collections.find(c => c.id === collectionId);
+    if (collection) {
+        document.getElementById('chat-title').textContent = `Chat with ${collection.name}`;
+        document.getElementById('chat-description').textContent = 
+            'Ask questions about your memories in this collection';
+        await createNewChat();
+        showSection('chat');
+    } else {
+        showNotification('Collection not found', 'error');
+    }
+}
+
+function updateDashboardStats(collections) {
+    const totalCollections = collections.length;
+    const totalMemories = collections.reduce((sum, c) => sum + (c.memories?.length || 0), 0);
+    const textDocs = collections.reduce((sum, c) => sum + (c.memories?.filter(m => m.type === 'text').length || 0), 0);
+    const pdfDocs = collections.reduce((sum, c) => sum + (c.memories?.filter(m => m.type === 'pdf').length || 0), 0);
+    const audioDocs = collections.reduce((sum, c) => sum + (c.memories?.filter(m => m.type === 'audio').length || 0), 0);
+    const otherDocs = pdfDocs + audioDocs;
+
+    document.getElementById('total-collections').textContent = totalCollections;
+    document.getElementById('total-memories').textContent = totalMemories;
+    document.getElementById('text-documents').textContent = textDocs;
+    document.getElementById('other-documents').textContent = otherDocs;
+    document.getElementById('text-count').textContent = textDocs;
+    document.getElementById('pdf-count').textContent = pdfDocs;
+    document.getElementById('audio-count').textContent = audioDocs;
+
+    const textPercentage = totalMemories ? ((textDocs / totalMemories) * 100).toFixed(1) : 0;
+    const otherPercentage = totalMemories ? ((otherDocs / totalMemories) * 100).toFixed(1) : 0;
+    document.getElementById('text-percentage').textContent = `${textPercentage}%`;
+    document.getElementById('other-percentage').textContent = `${otherPercentage}%`;
+}
+
+function displayRecentCollections(collections) {
+    const container = document.getElementById('recent-collections');
+    if (collections.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-folder"></i>
+                <p>You don't have any collections yet.</p>
+                <button class="btn btn-primary" onclick="openModal('create-collection-modal')">
+                    <i class="fas fa-plus"></i> Create Collection
+                </button>
+            </div>
+        `;
+        return;
+    }
+    const recent = collections.slice(0, 3);
+    let html = '';
+    recent.forEach(collection => {
+        const memoryCount = collection.memories?.length || 0;
+        const createdDate = new Date(collection.created_at).toLocaleDateString();
+        html += `
+            <div class="collection-card" data-id="${collection.id}">
+                <h3>${collection.name}</h3>
+                <p>${collection.description || 'No description'}</p>
+                <div class="collection-meta">
+                    <div><i class="fas fa-brain"></i> <span class="memories">${memoryCount}</span> Memories</div>
+                    <div><i class="far fa-calendar-alt"></i> ${createdDate}</div>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+    container.querySelectorAll('.collection-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const id = card.getAttribute('data-id');
+            loadCollectionDetails(id);
+        });
+    });
+}
+
+function displayAllCollections(collections) {
+    const container = document.getElementById('collections-list');
+    if (collections.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-folder"></i>
+                <p>You don't have any collections yet.</p>
+                <button class="btn btn-primary" onclick="openModal('create-collection-modal')">
+                    <i class="fas fa-plus"></i> Create Collection
+                </button>
+            </div>
+        `;
+        return;
+    }
+    let html = '';
+    collections.forEach(collection => {
+        const memoryCount = collection.memories?.length || 0;
+        const createdDate = new Date(collection.created_at).toLocaleDateString();
+        html += `
+            <div class="collection-card" data-id="${collection.id}">
+                <h3>${collection.name}</h3>
+                <p>${collection.description || 'No description'}</p>
+                <div class="collection-meta">
+                    <div><i class="fas fa-brain"></i> <span class="memories">${memoryCount}</span> Memories</div>
+                    <div><i class="far fa-calendar-alt"></i> ${createdDate}</div>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+    container.querySelectorAll('.collection-card').forEach(card => {
+        card.addEventListener('click', () => {
+            const id = card.getAttribute('data-id');
+            loadCollectionDetails(id);
+        });
+    });
+}
+
+function displayMemories(memories) {
+    const container = document.getElementById('memories-container');
+    const countElement = document.getElementById('memories-count');
+    if (!memories || memories.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-brain"></i>
+                <p>This collection has no memories yet.</p>
+                <button class="btn btn-primary" onclick="showSection('uploadMemory'); populateCollectionSelect('collection-select', '${currentCollectionId}')">
+                    <i class="fas fa-plus"></i> Add Memory
+                </button>
+            </div>
+        `;
+        countElement.textContent = '0 memories';
+        return;
+    }
+    countElement.textContent = `${memories.length} ${memories.length === 1 ? 'memory' : 'memories'}`;
+    let html = '';
+    memories.forEach(memory => {
+        const createdDate = new Date(memory.created_at).toLocaleDateString();
+        const typeClass = `memory-${memory.type}`;
+        html += `
+            <div class="memory-item ${typeClass}">
+                <div class="memory-item-header">
+                    <div class="memory-icon">
+                        <i class="fas fa-${memory.type === 'text' ? 'file-alt' : memory.type === 'pdf' ? 'file-pdf' : 'headphones'}"></i>
+                    </div>
+                    <h4>${memory.title}</h4>
+                </div>
+                <p>${memory.description || 'No description'}</p>
+                <div class="memory-meta">
+                    <span><i class="far fa-calendar-alt"></i> ${createdDate}</span>
+                    <span><i class="fas fa-tag"></i> ${memory.type}</span>
+                </div>
+            </div>
+        `;
+    });
+    container.innerHTML = html;
+}
+
+function populateCollectionSelect(selectId, selectedId = '') {
+    const select = document.getElementById(selectId);
+    select.innerHTML = '<option value="">-- Select Collection --</option>';
+    collections.forEach(collection => {
+        const option = document.createElement('option');
+        option.value = collection.id;
+        option.textContent = collection.name;
+        if (collection.id === selectedId) {
+            option.selected = true;
+        }
+        select.appendChild(option);
+    });
+}
+</script>
+</body>
+</html>
+
+
+
+
+
+<script>document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const entityNameEl = document.getElementById('entity-name');
+    const chatTitleEl = document.getElementById('chat-title');
+    const chatSubtitleEl = document.getElementById('chat-subtitle');
+    const newChatBtn = document.getElementById('new-chat-btn');
+    const backLinkEl = document.getElementById('back-link');
+    const viewMemoriesBtn = document.getElementById('view-memories-btn');
+    const memoriesPanel = document.getElementById('memories-panel');
+    const closePanelBtn = document.querySelector('.close-panel-btn');
+    const chatSessionsContainer = document.getElementById('chat-sessions-container');
+    const emptyChatsSessions = document.getElementById('empty-chats');
+    const chatMessagesContainer = document.getElementById('chat-messages');
+    const welcomeMessage = document.getElementById('welcome-message');
+    const chatForm = document.getElementById('chat-form');
+    const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('send-btn');
+    const thinkingIndicator = document.getElementById('thinking-indicator');
+    const referencedMemoriesContainer = document.getElementById('referenced-memories');
+    const emptyReferences = document.getElementById('empty-references');
+    const currentUsernameEl = document.getElementById('current-username');
+    const notificationContainer = document.getElementById('notification-container');
+
+    // State
+    let entityType = 'collection'; // 'collection' or 'memory'
+    let entityId = null;
+    let entityData = null;
+    let chatId = null;
+    let chatSessions = [];
+    let messages = [];
+    let referencedMemories = [];
+    let currentUser = null;
+    let isProcessing = false;
+
+    // Get parameters from URL
+    const urlParams = getUrlParams();
+    
+    // Initialize
+    init();
+    
+    // Auto-resize the textarea as content changes
+    chatInput.addEventListener('input', function() {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+    
+    // Get URL parameters
+    function getUrlParams() {
+const path = window.location.pathname;
+console.log('Current path:', path);
+
+let params = {};
+
+// Check if it's a collection chat
+const collectionMatch = path.match(/\/collections\/([^\/]+)\/chat(?:\/([^\/]+))?$/);
+if (collectionMatch) {
+    params.entityType = 'collection';
+    params.entityId = collectionMatch[1];
+    params.chatId = collectionMatch[2] || null;
+    return params;
+}
+
+// Check if it's a memory chat
+const memoryMatch = path.match(/\/collections\/([^\/]+)\/memory\/([^\/]+)\/chat(?:\/([^\/]+))?$/);
+if (memoryMatch) {
+    params.entityType = 'memory';
+    params.collectionId = memoryMatch[1];
+    params.entityId = memoryMatch[2];
+    params.chatId = memoryMatch[3] || null;
+    return params;
+}
+
+// Check if it's a diary chat
+const diaryMatch = path.match(/\/diary\/(\d+)\/chat(?:\/(\d+))?$/);
+if (diaryMatch) {
+    params.entityType = 'diary';
+    params.entityId = diaryMatch[1];
+    params.chatId = diaryMatch[2] || null;
+    console.log('Matched diary chat URL:', params);
+    return params;
+}
+
+console.error('Invalid URL pattern');
+return null;
+}
+    
+    // Initialize
+    async function init() {
+        if (!urlParams) {
+            showNotification('Invalid URL', 'error');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 2000);
+            return;
+        }
+        
+        console.log('URL Parameters:', urlParams);
+        
+        entityType = urlParams.entityType;
+        entityId = urlParams.entityId;
+        chatId = urlParams.chatId;
+        
+        // Setup back link
+        if (entityType === 'collection') {
+            backLinkEl.href = `/collections/${entityId}`;
+        } else if (entityType === 'memory') {
+            backLinkEl.href = `/collections/${urlParams.collectionId}`;
+        } else if (entityType === 'diary') {
+            backLinkEl.href = `/diary/${entityId}`;
+        }
+        
+        await getCurrentUser();
+        
+        if (entityType === 'collection') {
+            await fetchCollection();
+        } else if (entityType === 'memory') {
+            await fetchMemory();
+        } else if (entityType === 'diary') {
+    await fetchDiary();
+}
+        
+        await fetchChatSessions();
+        
+        if (chatId) {
+            await fetchChatMessages();
+        }
+        
+        setupEventListeners();
+    }
+    
+    // Get current user info
+    async function getCurrentUser() {
+        try {
+            const response = await fetch('/api/user/current');
+            
+            if (!response.ok) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const data = await response.json();
+            
+            if (data.success) {
+                currentUser = data.user;
+                currentUsernameEl.textContent = currentUser.username;
+            } else {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+            window.location.href = '/login';
+        }
+    }
+    
+    // Fetch collection details
+    async function fetchCollection() {
+        try {
+            const response = await fetch(`/api/collections/${entityId}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                entityData = data.collection;
+                
+                // Update UI
+                entityNameEl.textContent = entityData.name;
+                chatSubtitleEl.textContent = entityData.name;
+                document.title = `Memory Vault - Chat with ${entityData.name}`;
+            } else {
+                showNotification(data.error || 'Failed to load collection', 'error');
+                setTimeout(() => {
+                    window.location.href = '/collections';
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Error fetching collection:', error);
+            showNotification('An error occurred while loading the collection', 'error');
+            setTimeout(() => {
+                window.location.href = '/collections';
+            }, 3000);
+        }
+    }
+    
+    // Fetch memory details
+    async function fetchMemory() {
+        try {
+            const response = await fetch(`/api/collections/${urlParams.collectionId}/memories/${entityId}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                entityData = data.memory;
+                
+                // Update UI
+                entityNameEl.textContent = entityData.title;
+                chatSubtitleEl.textContent = entityData.title;
+                document.title = `Memory Vault - Chat with ${entityData.title}`;
+            } else {
+                showNotification(data.error || 'Failed to load memory', 'error');
+                setTimeout(() => {
+                    window.location.href = `/collections/${urlParams.collectionId}`;
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Error fetching memory:', error);
+            showNotification('An error occurred while loading the memory', 'error');
+            setTimeout(() => {
+                window.location.href = `/collections/${urlParams.collectionId}`;
+            }, 3000);
+        }
+    }
+    
+    // Fetch chat sessions
+    async function fetchChatSessions() {
+        try {
+            let url;
+            
+            if (entityType === 'collection') {
+                url = `/api/collections/${entityId}/chats`;
+            } else if (entityType === 'memory') {
+                url = `/api/collections/${urlParams.collectionId}/memory/${entityId}/chats`;
+            } else if (entityType === 'diary') {
+              url = `/api/diaries/${entityId}/chats`;
+            }
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                if (response.status === 404) {
+                    console.warn('Chat sessions endpoint not found');
+                    return;
+                }
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                chatSessions = data.chats;
+                renderChatSessions();
+                
+                // If no chat ID was provided but we have sessions, select the most recent one
+                if (!chatId && chatSessions.length > 0) {
+                    chatId = chatSessions[0].id;
+                    await fetchChatMessages();
+                    
+                    // Update URL without reloading the page
+                    let newUrl;
+                    if (entityType === 'collection') {
+                        newUrl = `/collections/${entityId}/chat/${chatId}`;
+                    } else if (entityType === 'memory'){
+                        newUrl = `/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}`;
+                    }  else if (entityType === 'diary') {
+                newUrl = `/diary/${entityId}/chat/${chatId}`;
+            }
+                    
+                    window.history.pushState({ path: newUrl }, '', newUrl);
+                }
+                
+                // If no chat sessions and no chat ID, we need to create a new chat
+                if (chatSessions.length === 0 && !chatId) {
+                    await createChatSession();
+                }
+            } else {
+                console.warn('Failed to load chat sessions:', data.error);
+            }
+        } catch (error) {
+            console.error('Error fetching chat sessions:', error);
+        }
+    }
+
+    async function fetchDiary() {
+            try {
+                const response = await fetch(`/api/diaries/${diaryId}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    diaryData = data.diary;
+                    
+                    // Update UI
+                    diaryNameEl.textContent = diaryData.name;
+                    chatSubtitleEl.textContent = diaryData.name;
+                    document.title = `Memories.AI - Chat with ${diaryData.name}`;
+                } else {
+                    showNotification(data.error || 'Failed to load diary', 'error');
+                    setTimeout(() => {
+                        window.location.href = '/diary';
+                    }, 3000);
+                }
+            } catch (error) {
+                console.error('Error fetching diary:', error);
+                showNotification('An error occurred while loading the diary', 'error');
+                setTimeout(() => {
+                    window.location.href = '/diary';
+                }, 3000);
+            }
+        }
+    
+    // Fetch chat messages
+    async function fetchChatMessages() {
+        if (!chatId) return;
+        
+        try {
+            let url;
+            
+            if (entityType === 'collection') {
+                url = `/api/collections/${entityId}/chat/${chatId}/messages`;
+            } else if (entityType === 'memory') {
+                url = `/api/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}/messages`;
+            }
+            
+            const response = await fetch(url);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Update chat title
+                chatTitleEl.textContent = data.chat.title;
+                
+                // Update messages
+                messages = data.messages;
+                renderMessages();
+                
+                // Highlight active chat session
+                highlightActiveChat();
+                
+                // Show chat area, hide welcome message
+                if (messages.length > 0) {
+                    welcomeMessage.style.display = 'none';
+                }
+            } else {
+                showNotification(data.error || 'Failed to load chat messages', 'error');
+            }
+        } catch (error) {
+            console.error('Error fetching chat messages:', error);
+            showNotification('An error occurred while loading the chat messages', 'error');
+        }
+    }
+    
+    // Create a new chat session
+    async function createChatSession() {
+        try {
+            let url;
+            
+            if (entityType === 'collection') {
+                url = `/api/collections/${entityId}/chat`;
+            } else if (entityType === 'memory') {
+                url = `/api/collections/${urlParams.collectionId}/memory/${entityId}/chat`;
+            } else if (entityType === 'diary') {
+        url = `/api/diaries/${entityId}/chat`;
+    }
+            
+            const response = await fetch(url, {
+                method: 'POST'
+            });
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                chatId = data.chat.id;
+                
+                // Update chat title
+                chatTitleEl.textContent = data.chat.title;
+                
+                // Clear messages
+                messages = [];
+                renderMessages();
+                
+                // Show welcome message
+                welcomeMessage.style.display = 'flex';
+                
+                // Refresh chat sessions
+                await fetchChatSessions();
+                
+                // Update URL without reloading the page
+                let newUrl;
+                if (entityType === 'collection') {
+                    newUrl = `/collections/${entityId}/chat/${chatId}`;
+                } else if (entityType === 'memory') {
+                    newUrl = `/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}`;
+                } else if (entityType === 'diary') {
+            newUrl = `/diary/${entityId}/chat/${chatId}`;
+        }
+                
+                window.history.pushState({ path: newUrl }, '', newUrl);
+            } else {
+                showNotification(data.error || 'Failed to create chat session', 'error');
+            }
+        } catch (error) {
+            console.error('Error creating chat session:', error);
+            showNotification('An error occurred while creating the chat session', 'error');
+        }
+    }
+    
+    // Send a message
+    async function sendMessage(message) {
+if (!chatId || isProcessing) return;
+
+isProcessing = true;
+thinkingIndicator.classList.add('active');
+
+try {
+    let url;
+    
+    if (entityType === 'collection') {
+        url = `/api/collections/${entityId}/chat/${chatId}/query`;
+    } else if (entityType === 'memory') {
+        url = `/api/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}/query`;
+    }
+    
+    console.log('DEBUG: Sending message to URL:', url);
+    console.log('DEBUG: Message data:', { query: message });
+    
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query: message })
+    });
+    
+    console.log('DEBUG: Send message response status:', response.status);
+    
+    if (!response.ok) {
+        console.log('DEBUG: Send message response error:', response.statusText);
+        const errorText = await response.text();
+        console.log('DEBUG: Full error response:', errorText);
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log('DEBUG: Send message response data:', data);
+    
+    // ADD THIS CODE HERE ↓
+    if (data.success) {
+        // Create and display AI message immediately
+        const aiMessageEl = document.createElement('div');
+        aiMessageEl.className = 'message ai-message';
+        
+        let referencesHtml = '';
+        if (data.relevant_memories && data.relevant_memories.length > 0) {
+            referencesHtml = `
+                <div class="message-references">
+                    <h4>Referenced Memories:</h4>
+                    <div class="reference-list">
+                        ${data.relevant_memories.map(memory => `
+                            <span class="reference-item" data-id="${memory.id}">
+                                ${memory.title}
+                            </span>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+        
+        aiMessageEl.innerHTML = `
+            <div class="message-content">
+                <div class="message-text">${formatMessageText(data.response)}</div>
+                ${referencesHtml}
+            </div>
+            <div class="message-meta">
+                <span>${new Date().toLocaleString()}</span>
+            </div>
+        `;
+        
+        chatMessagesContainer.appendChild(aiMessageEl);
+        scrollToBottom();
+        
+        // Update referenced memories panel
+        if (data.relevant_memories) {
+            referencedMemories = data.relevant_memories;
+            renderReferencedMemories();
+        }
+    } else {
+        showNotification(data.error || 'Failed to send message', 'error');
+    }
+    // ↑ END OF ADDED CODE
+    
+} catch (error) {
+    console.log('DEBUG: Exception in sendMessage:', error.message, error.stack);
+    showNotification('An error occurred while sending the message', 'error');
+} finally {
+    isProcessing = false;
+    thinkingIndicator.classList.remove('active');
+}
+}
+    
+    // Render chat sessions
+    function renderChatSessions() {
+        if (chatSessions.length === 0) {
+            emptyChatsSessions.style.display = 'block';
+            return;
+        }
+        
+        emptyChatsSessions.style.display = 'none';
+        chatSessionsContainer.innerHTML = '';
+        
+        chatSessions.forEach(session => {
+            const sessionDate = new Date(session.updated_at).toLocaleString();
+            
+            const sessionEl = document.createElement('div');
+            sessionEl.className = 'chat-session-item';
+            sessionEl.dataset.id = session.id;
+            
+            if (session.id === chatId) {
+                sessionEl.classList.add('active');
+            }
+            sessionEl.innerHTML = `
+                <div class="chat-session-name">${session.title}</div>
+                <div class="chat-session-date">${sessionDate}</div>
+            `;
+            
+            chatSessionsContainer.appendChild(sessionEl);
+            
+            sessionEl.addEventListener('click', () => {
+                if (session.id === chatId) return;
+                
+                chatId = session.id;
+                fetchChatMessages();
+                
+                // Update URL without reloading the page
+                let newUrl;
+                if (entityType === 'collection') {
+                    newUrl = `/collections/${entityId}/chat/${chatId}`;
+                } else {
+                    newUrl = `/collections/${urlParams.collectionId}/memory/${entityId}/chat/${chatId}`;
+                }
+                
+                window.history.pushState({ path: newUrl }, '', newUrl);
+            });
+        });
+    }
+    
+    // Render messages
+    function renderMessages() {
+if (messages.length === 0) {
+    chatMessagesContainer.innerHTML = '';
+    return;
+}
+
+chatMessagesContainer.innerHTML = '';
+
+// ADD THIS: Collect all referenced memories from messages
+const allReferencedMemoryIds = new Set();
+
+messages.forEach(message => {
+    const timestamp = new Date(message.timestamp).toLocaleString();
+    const isUser = message.is_user;
+    
+    const messageEl = document.createElement('div');
+    messageEl.className = `message ${isUser ? 'user-message' : 'ai-message'}`;
+    
+    let referencesHtml = '';
+    if (!isUser && message.relevant_memory_ids && message.relevant_memory_ids.length > 0) {
+        const referencedMemoryIds = message.relevant_memory_ids;
+        
+        // ADD THIS: Add memory IDs to the set
+        referencedMemoryIds.forEach(id => allReferencedMemoryIds.add(id));
+        
+        referencesHtml = `
+            <div class="message-references">
+                <h4>Referenced Memories:</h4>
+                <div class="reference-list">
+                    ${referencedMemoryIds.map(id => `
+                        <span class="reference-item" data-id="${id}">
+                            Memory ${id.substring(0, 6)}...
+                        </span>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+    
+    messageEl.innerHTML = `
+        <div class="message-content">
+            <div class="message-text">${formatMessageText(message.content)}</div>
+            ${referencesHtml}
+        </div>
+        <div class="message-meta">
+            <span>${timestamp}</span>
+        </div>
+    `;
+    
+    chatMessagesContainer.appendChild(messageEl);
+    
+    // Add click events to reference items
+    const referenceItems = messageEl.querySelectorAll('.reference-item');
+    referenceItems.forEach(item => {
+        item.addEventListener('click', () => {
+            viewMemoriesBtn.click();
+            
+            // Highlight the referenced memory
+            const memoryId = item.dataset.id;
+            const memoryEl = document.querySelector(`.memory-item[data-id="${memoryId}"]`);
+            if (memoryEl) {
+                memoryEl.scrollIntoView({ behavior: 'smooth' });
+                memoryEl.classList.add('highlight');
+                
+                setTimeout(() => {
+                    memoryEl.classList.remove('highlight');
+                }, 2000);
+            }
+        });
+    });
+});
+
+// ADD THIS: Load all referenced memories
+if (allReferencedMemoryIds.size > 0) {
+    loadAllReferencedMemories(Array.from(allReferencedMemoryIds));
+}
+
+// Scroll to bottom
+scrollToBottom();
+}
+
+
+// ADD THIS NEW FUNCTION: Function to load all referenced memories
+async function loadAllReferencedMemories(memoryIds) {
+try {
+    // Fetch all memory details
+    const promises = memoryIds.map(id => 
+        fetch(`/api/collections/${urlParams.collectionId || entityId}/memories/${id}`)
+            .then(res => res.json())
+            .then(data => data.success ? data.memory : null)
+    );
+    
+    const memories = await Promise.all(promises);
+    referencedMemories = memories.filter(m => m !== null);
+    renderReferencedMemories();
+} catch (error) {
+    console.error('Error loading referenced memories:', error);
+}
+}
+    // Format message text with markdown-like syntax
+    function formatMessageText(text) {
+        // Replace URLs with hyperlinks
+        text = text.replace(
+            /(https?:\/\/[^\s]+)/g, 
+            '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>'
+        );
+        
+        // Replace newlines with <br>
+        text = text.replace(/\n/g, '<br>');
+        
+        return text;
+    }
+    
+    // Render referenced memories
+    function renderReferencedMemories() {
+        if (referencedMemories.length === 0) {
+            emptyReferences.style.display = 'block';
+            return;
+        }
+        
+        emptyReferences.style.display = 'none';
+        referencedMemoriesContainer.innerHTML = '';
+        
+        referencedMemories.forEach(memory => {
+            const memoryEl = document.createElement('div');
+            memoryEl.className = 'memory-item';
+            memoryEl.dataset.id = memory.id;
+            
+            // Set appropriate icon based on memory type
+            let icon;
+            switch(memory.type) {
+                case 'text':
+                    icon = 'fa-file-alt';
+                    break;
+                case 'pdf':
+                    icon = 'fa-file-pdf';
+                    break;
+                case 'audio':
+                    icon = 'fa-headphones';
+                    break;
+                default:
+                    icon = 'fa-file';
+            }
+            
+            memoryEl.innerHTML = `
+                <div class="memory-header">
+                    <div class="memory-type-icon">
+                        <i class="fas ${icon}"></i>
+                    </div>
+                    <div class="memory-details">
+                        <h4>${memory.title}</h4>
+                        <small>${memory.type} • ${memory.original_filename || 'Unknown file'}</small>
+                    </div>
+                </div>
+                <p>${memory.description || 'No description provided.'}</p>
+                
+                <div class="memory-preview">
+                    <!-- Memory preview will be loaded here -->
+                </div>
+            `;
+            
+            referencedMemoriesContainer.appendChild(memoryEl);
+            
+            // Load memory preview
+            loadMemoryPreview(memory, memoryEl.querySelector('.memory-preview'));
+        });
+    }
+    
+    // Load memory preview
+    function loadMemoryPreview(memory, previewContainer) {
+// Don't load content anymore, just show basic info
+previewContainer.innerHTML = `
+    <div class="memory-basic-info">
+        <p>Type: <strong>${memory.type}</strong></p>
+        ${memory.description ? `<p>Description: ${memory.description}</p>` : ''}
+        <p>Created: ${new Date(memory.created_at).toLocaleString()}</p>
+    </div>
+`;
+}
+    // Highlight active chat
+    function highlightActiveChat() {
+        document.querySelectorAll('.chat-session-item').forEach(item => {
+            if (item.dataset.id === chatId) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+    }
+    
+    // Scroll chat to bottom
+    function scrollToBottom() {
+        chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+    }
+    
+    // Show notification
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        
+        // Add appropriate icon
+        const icon = document.createElement('i');
+        icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+        notification.appendChild(icon);
+        
+        // Add message
+        const messageText = document.createElement('span');
+        messageText.textContent = message;
+        notification.appendChild(messageText);
+        
+        // Add notification to container
+        notificationContainer.appendChild(notification);
+        
+        // Auto-remove notification after 5 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notificationContainer.removeChild(notification);
+            }, 300);
+        }, 5000);
+    }
+    
+    // Setup event listeners
+    function setupEventListeners() {
+        // New chat button
+        newChatBtn.addEventListener('click', async () => {
+            await createChatSession();
+        });
+        
+        // Chat form submission
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const message = chatInput.value.trim();
+            if (!message) return;
+            
+            // Clear input and reset height
+            chatInput.value = '';
+            chatInput.style.height = 'auto';
+            
+            // Add message to UI immediately for better UX
+            const messageEl = document.createElement('div');
+            messageEl.className = 'message user-message';
+            messageEl.innerHTML = `
+                <div class="message-content">
+                    <div class="message-text">${formatMessageText(message)}</div>
+                </div>
+                <div class="message-meta">
+                    <span>${new Date().toLocaleString()}</span>
+                </div>
+            `;
+            
+            // Hide welcome message if visible
+            welcomeMessage.style.display = 'none';
+            
+            chatMessagesContainer.appendChild(messageEl);
+            scrollToBottom();
+            
+            // Send message to server
+            await sendMessage(message);
+        });
+        
+        // Toggle memories panel
+        viewMemoriesBtn.addEventListener('click', () => {
+            memoriesPanel.classList.toggle('active');
+        });
+        
+        // Close memories panel
+        closePanelBtn.addEventListener('click', () => {
+            memoriesPanel.classList.remove('active');
+        });
+    }
+});</script>

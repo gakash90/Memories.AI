@@ -1,0 +1,121 @@
+[Page 1]
+TARTENDU KUMAR
++91-7589454833
+Lucknow Uttar Pradesh
+tartendukumar@gmail.com
+CONTACT
+Python
+EXPERTISE SKILLS
+HTML, CSS 
+Generative AI
+Local LLMs
+English
+LANGUAGE
+Hindi
+PROFESSIONAL PROFILE
+01
+Tech Executive & AI Developer with expertise in AI-driven solutions,
+automation, and web development. Experienced in Python, Generative
+AI, and LLMs, with a strong background in business automation and
+smart home solutions.
+EDUCATION
+02
+Babu Banarsi Das University (2023)
+Bachelor of Computer Applications (BCA)
+ Kendriya Vidyalaya Lakhanpur, Jammu (CBSE) (2018 - 2020)
+High School & Intermediate
+A I - M L  D E V E L O P E R
+ Percentage: 83%
+EXPERIENCE
+03
+AI-ML Developer
+ZFin Tech 
+Oct 2024 - Present
+ Developed Zencia.ai, an AI-driven business automation
+chatbot.
+ Built secure, offline LLM solutions for enterprises with
+database integration.
+Created Zencia Voice, an AI-powered voice agent using Twilio
+& Gemini API.
+Integrated machine learning models into business applications.
+Developed a Resume Builder tool for creating ATS-friendly
+resumes.
+Built a Social Media Calendar Generator to automate content
+planning.
+Tartendu
+Wix
+Firebase
+REST APIs
+Blender CGI
+Canva
+Twilio
+ Google Cloud (GCP)
+
+[Page 2]
+TARTENDU KUMAR
+P Y T H O N  D E V E L O P E R
+EXPERIENCE
+03
+Tech Executive
+Zotomation Pvt Ltd
+Dec 2023 - Jun 2024
+Developed and maintained multiple websites.
+Contributed to automation projects for business clients.
+ Assisted in AI-powered customer service solutions
+Graphic Designer (Intern)
+Youth India Foundation
+Dec 2022 - May 2023
+Designed branding & marketing materials for campaigns.
+ Created high-quality CGI animations & digital content.
+ Developed social media graphics for engagement campaigns.
+AI & AUTOMATION PROJECTS
+ Offline LLM for Enterprises
+Built a secure, locally hosted AI assistant for enterprise data
+processing.
+Implemented NLP models for efficient query resolution.
+ Ensured data privacy & offline functionality
+04
+Web Chatbot
+ Developed an AI chatbot that integrates with business websites.
+ Supports multi-format file processing (PDFs, CSVs, DOCX, etc.).
+ Includes voice command & analytics dashboard.
+Voice (AI Voice Assistant)
+Built an AI-powered voice interaction agent using Twilio & Gemini
+API.
+Created models for personal assistant tasks & call center
+automation.
+Integrated with business databases for real-time query handling
+
+[Page 3]
+TARTENDU KUMAR
+P Y T H O N  D E V E L O P E R
+AI & AUTOMATION PROJECTS
+Resume Builder
+ Developed a user-friendly resume generator for creating ATS-
+friendly resumes.
+Built using HTML, CSS, and JavaScript with downloadable PDF
+functionality
+04
+ Social Media Calendar Generator
+Created an AI-powered content planner for automating social
+media scheduling.
+Generates post ideas, captions, and hashtags based on industry
+trends
+Graphics & CGI Projects
+Blender CGI Projects – Created high-quality CGI animations for
+marketing & branding.
+Reels & Social Media Designs – Designed engaging graphics &
+motion content for campaigns.
+Logo & Branding – Created logos, banners, and marketing
+materials for various clients.
+Wix Websites
+Zverz.com – Created a 3D touch dynamic website for a Meta VR
+company.
+Zencia – Designed a business automation AI website.
+Zototech.ai – Developed a dynamic tech website with AI
+integrations.
+WEB DEVELOPMENT & CGI PROJECTS
+05
+Custom-Coded Web Solutions
+Portfolio Website – Created a personal portfolio showcasing
+projects, skills, and work experience.

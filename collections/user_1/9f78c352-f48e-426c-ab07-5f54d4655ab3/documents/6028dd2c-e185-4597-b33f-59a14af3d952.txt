@@ -1,0 +1,43 @@
+[Page 1]
+Uday Raj Singh
+Data Analyst
+H +91 7007511465
+udayrajsingh6465@gmail.com
+Ñ Lucknow, India
+ï Linkedin
+§ Github
+Profile
+Innovative Enthusiastic Computer Science professional. Proficient in Python, Java, and JavaScript, with a keen interest in
+advancing within the realms of Machine Learning and Data Analysis. Regularly exceed performance targets and possess
+advanced analytical and problem solving skills.
+Education
+MCA, Bennett University
+Greater Noida, India 2023-Present
+SGPA: 8.35
+BCA, BBD University
+Lucknow, India 2020-2023
+CGPA: 9.03
+Professional Experience
+Front-End Developer Intern, (Balaji Infotech)
+Lucknow, IN 01/2023 - 05/2023
+• Completed a training that covered developing Front End Web Applications using ReactJS.
+• Made an E-Commerce Web Applications with a team using ReactJS and NodeJS.
+Areas of Expertise
+Python - Java - Machine Learning - Big Data - JavaScript - Data Analysis - PowerBI - Deep Learning - SQL - AWS
+Projects
+Agricultural Crop Recommender
+Propose a predictive analytics model for crop suitability and productivity, Enable smart agriculture through historical data
+mining and analysis.,Improve food security and farmers’ productivity with machine learning
+Flight Delay Prediction
+Utilized advanced algorithms and extensive datasets to forecast potential flight delays, contributed to enhancing efficiency
+and reliability in air travel through insightful predictive modeling
+Online Courses & Certifications
+• Python Project for Data Science By IBM (Nov. 2023) - COURSERA
+• Data Visualization with Python by IBM (Nov. 2023) - COURSERA
+• Harnessing the Power of Data with Power BI by Microsoft (Nov. 2023) - COURSERA
+Skills
+• Data Visualization: Microsoft Power BI, Excel
+• Digital Analytics: : Data Mining, EDA , Data Modelling , Statistical Analysis
+• Software: Visual Studio, Pycharm, Visual Studio Code, Power BI
+• Soft Skills: Presentation, Planning, Organized, Creative Problem-Solving, Teamwork, Active Listening, Adaptability,
+Analytical Thinking

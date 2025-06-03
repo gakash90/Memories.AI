@@ -1,0 +1,1843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memories.AI - Collection Details</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+:root {
+    --primary-color: #4a6fa5;
+    --primary-light: #6285bb;
+    --primary-dark: #355685;
+    --secondary-color: #99bbd9;
+    --danger-color: #e74c3c;
+    --danger-dark: #c0392b;
+    --text-color: #333;
+    --text-light: #666;
+    --text-muted: #888;
+    --background-color: #f5f7fa;
+    --card-bg: #ffffff;
+    --sidebar-bg: #f8fafc;
+    --sidebar-active: rgba(74, 111, 165, 0.1);
+    --border-color: #dde1e7;
+    --error-color: #e74c3c;
+    --success-color: #2ecc71;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* App Container */
+.app-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+        width: 280px;
+        background-color: var(--sidebar-bg);
+        border-right: 1px solid var(--border-color);
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        z-index: 10;
+        transition: var(--transition);
+        background: linear-gradient(135deg, var(--card-bg) 0%, rgba(31, 41, 55, 0.95) 100%);
+        backdrop-filter: blur(10px);
+    }
+    
+    .sidebar-header {
+        padding: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-bottom: 1px solid var(--border-color);
+        margin-bottom: 1rem;
+    }
+    
+    .sidebar-header .logo-icon {
+        margin-right: 12px;
+        fill: var(--primary-color);
+        transition: var(--transition);
+    }
+    
+    .sidebar-header .logo-icon:hover {
+        fill: var(--primary-light);
+    }
+    
+    .sidebar-header .app-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.025em;
+    }
+    
+    .sidebar-nav {
+        flex: 1;
+        padding: 0 12px;
+        overflow-y: auto;
+    }
+    
+    .sidebar-nav ul {
+        list-style: none;
+        margin: 0;
+    }
+    
+    .sidebar-nav li {
+        margin-bottom: 0.5rem;
+    }
+    
+    .sidebar-nav a {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        color: var(--text-color);
+        text-decoration: none;
+        transition: var(--transition);
+        border-radius: var(--radius-lg);
+        margin: 0.125rem 0;
+        font-weight: 500;
+    }
+    
+    .sidebar-nav a:hover {
+        background-color: var(--sidebar-active);
+        color: var(--primary-color);
+        transform: translateX(4px);
+    }
+    
+    .sidebar-nav li.active a {
+        background: linear-gradient(90deg, var(--sidebar-active), transparent);
+        color: var(--primary-color);
+        font-weight: 600;
+        border-left: 3px solid var(--primary-color);
+        padding-left: 13px;
+    }
+    
+    .sidebar-nav svg {
+        width: 20px;
+        height: 20px;
+        margin-right: 12px;
+        fill: currentColor;
+        transition: var(--transition);
+    }
+    
+    .sidebar-footer {
+        padding: 24px;
+        border-top: 1px solid var(--border-color);
+        margin-top: auto;
+    }
+
+.user-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-light);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.logout-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-light);
+    text-decoration: none;
+    padding: 8px 0;
+    transition: var(--transition);
+    border-radius: 4px;
+}
+
+.logout-button:hover {
+    color: var(--primary-color);
+}
+
+.logout-button i {
+    margin-right: 8px;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    padding: 30px;
+    max-width: 100%;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.breadcrumb a {
+    color: var(--text-light);
+    text-decoration: none;
+}
+
+.breadcrumb a:hover {
+    color: var(--primary-color);
+}
+
+.breadcrumb i {
+    margin: 0 10px;
+    color: var(--text-light);
+    font-size: 0.8rem;
+}
+
+.breadcrumb span {
+    color: var(--text-color);
+    font-weight: 600;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+/* Collection Details */
+.collection-details {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 30px;
+}
+
+.collection-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.collection-info h1 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.collection-description {
+    color: var(--text-light);
+    margin-bottom: 15px;
+    max-width: 800px;
+}
+
+.collection-meta {
+    display: flex;
+    gap: 20px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.collection-meta div {
+    display: flex;
+    align-items: center;
+}
+
+.collection-meta i {
+    margin-right: 5px;
+}
+
+/* Memories Section */
+.memories-section {
+    position: relative;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
+
+.section-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.filter-container select {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    outline: none;
+    color: var(--text-color);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.filter-container select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+}
+
+.search-container {
+    position: relative;
+    width: 250px;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 8px 15px 8px 40px;
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    outline: none;
+    transition: var(--transition);
+    font-size: 0.9rem;
+}
+
+.search-container input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+}
+
+.search-container i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-light);
+}
+
+/* Memories Grid */
+.memories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.memory-card {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+    padding: 20px;
+    transition: var(--transition);
+    cursor: pointer;
+    position: relative;
+}
+
+.memory-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow);
+}
+
+.memory-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: rgba(74, 111, 165, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+}
+
+.memory-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.memory-description {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.memory-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.memory-meta div {
+    display: flex;
+    align-items: center;
+}
+
+.memory-meta i {
+    margin-right: 5px;
+}
+
+.memory-tag {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.memory-tag.text {
+    background-color: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+}
+
+.memory-tag.pdf {
+    background-color: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+}
+
+.memory-tag.audio {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-light);
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    color: var(--border-color);
+}
+
+.empty-state p {
+    margin-bottom: 20px;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Memory Preview Panel */
+.memory-preview-panel {
+    position: fixed;
+    top: 0;
+    right: -450px;
+    width: 450px;
+    height: 100vh;
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    z-index: 100;
+    overflow-y: auto;
+}
+
+.memory-preview-panel.active {
+    right: 0;
+}
+
+.preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    background-color: var(--card-bg);
+    z-index: 10;
+}
+
+.preview-header h3 {
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
+
+.close-preview {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.close-preview:hover {
+    color: var(--primary-color);
+}
+
+.preview-content {
+    padding: 20px;
+}
+
+.preview-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.preview-meta div {
+    display: flex;
+    align-items: center;
+}
+
+.preview-meta i {
+    margin-right: 8px;
+    width: 16px;
+}
+
+.preview-description {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.preview-description strong {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--text-color);
+}
+
+.preview-description p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+}
+
+.preview-content-area {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.text-content {
+    white-space: pre-wrap;
+    font-size: 0.95rem;
+    color: var(--text-color);
+    line-height: 1.6;
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 15px;
+    background-color: var(--background-color);
+    border-radius: 8px;
+}
+
+.pdf-content {
+    text-align: center;
+}
+
+.pdf-content iframe {
+    width: 100%;
+    height: 400px;
+    border: none;
+    border-radius: 8px;
+}
+
+.audio-content {
+    text-align: center;
+}
+
+.audio-content audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.preview-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn i {
+    margin-right: 8px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+}
+
+.btn-secondary {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--sidebar-active);
+}
+
+.btn-danger {
+    background-color: var(--danger-color);
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: var(--danger-dark);
+}
+
+.btn-sm {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 0.3s, opacity 0.3s;
+}
+
+.modal.active {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+}
+
+.modal-content {
+    background-color: var(--card-bg);
+    border-radius: 10px;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transform: scale(0.8);
+    transition: transform 0.3s;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h2 {
+    font-size: 1.3rem;
+    color: var(--text-color);
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.close-modal:hover {
+    color: var(--error-color);
+}
+
+.modal-body {
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* File Upload */
+.file-upload-container {
+    margin-bottom: 15px;
+}
+
+.file-upload-area {
+    border: 2px dashed var(--border-color);
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 15px;
+}
+
+.file-upload-area:hover, .file-upload-area.dragover {
+    border-color: var(--primary-color);
+    background-color: rgba(74, 111, 165, 0.05);
+}
+
+.file-upload-area i {
+    font-size: 2.5rem;
+    color: var(--text-light);
+    margin-bottom: 15px;
+}
+
+.file-upload-area p {
+    color: var(--text-color);
+    margin-bottom: 5px;
+}
+
+.file-upload-area .file-types {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.file-upload-area input[type="file"] {
+    display: none;
+}
+
+.file-preview {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: var(--background-color);
+    border-radius: 6px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+.file-preview.active {
+    display: flex;
+}
+
+.file-info {
+    display: flex;
+    align-items: center;
+}
+
+.file-info i {
+    margin-right: 10px;
+    color: var(--text-light);
+}
+
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    height: 10px;
+    background-color: var(--background-color);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: var(--primary-color);
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+#upload-progress-text {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--card-bg);
+    outline: none;
+    transition: var(--transition);
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.1);
+}
+
+.form-group textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Notification */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.notification {
+    padding: 15px 20px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    animation: slideIn 0.3s forwards;
+}
+
+.notification.success {
+    background-color: var(--success-color);
+    color: white;
+}
+
+.notification.error {
+    background-color: var(--error-color);
+    color: white;
+}
+
+.notification i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .collection-header {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .collection-actions {
+        align-self: flex-start;
+    }
+    
+    .memory-preview-panel {
+        width: 100%;
+        right: -100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 70px;
+    }
+
+    .sidebar-header .app-name, 
+    .sidebar-nav span, 
+    .user-details,
+    .logout-button span {
+        display: none;
+    }
+
+    .user-avatar {
+        margin-right: 0;
+    }
+
+    .sidebar-header {
+        justify-content: center;
+    }
+
+    .sidebar-header .logo-icon {
+        margin-right: 12px;
+        fill: var(--primary-color);
+        transition: var(--transition);
+    }
+    
+
+    .main-content {
+        margin-left: 70px;
+        padding: 20px;
+    }
+
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .section-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .search-container, .filter-container select {
+        width: 100%;
+    }
+}
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-brain logo-icon"></i>
+                <h1 class="app-name">Mem</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="/">
+                            <i class="fas fa-home"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="/collections">
+                            <i class="fas fa-folder"></i>
+                            <span>Collections</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/chats">
+                            <i class="fas fa-comments"></i>
+                            <span>Chats</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/diary">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M21 4H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 15H3V6h18v13z" fill="none" stroke="currentColor" stroke-width="2"/>
+                                <path d="M8 8h12v2H8V8zm0 4h12v2H8v-2zm0 4h8v2H8v-2zM4 8h2v2H4V8zm0 4h2v2H4v-2zm0 4h2v2H4v-2z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            </svg>
+                            <span>Personal Diary</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="user-details">
+                        <p class="user-name" id="current-username">Username</p>
+                    </div>
+                </div>
+                <a href="/logout" class="logout-button">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Page Header -->
+            <header class="content-header">
+                <div class="breadcrumb">
+                    <a href="/">Dashboard</a>
+                    <i class="fas fa-angle-right"></i>
+                    <span id="collection-name">Collection Name</span>
+                </div>
+                <div class="header-actions">
+                    <button id="upload-memory-btn" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Upload Memory
+                    </button>
+                    <button id="chat-collection-btn" class="btn btn-secondary">
+                        <i class="fas fa-comments"></i> Chat with Collection
+                    </button>
+                </div>
+            </header>
+
+            <!-- Collection Details -->
+            <section class="collection-details">
+                <div class="collection-header">
+                    <div class="collection-info">
+                        <h1 id="collection-title">Collection Name</h1>
+                        <p id="collection-description" class="collection-description">Loading collection description...</p>
+                        <div class="collection-meta">
+                            <div><i class="fas fa-calendar-alt"></i> Created: <span id="collection-created">--/--/----</span></div>
+                            <div><i class="fas fa-file"></i> Total Memories: <span id="memories-count">0</span></div>
+                        </div>
+                    </div>
+                    <div class="collection-actions">
+                        <button id="delete-collection-btn" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Delete Collection
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Memories Section -->
+            <section class="memories-section">
+                <div class="section-header">
+                    <h2>Memories</h2>
+                    <div class="section-actions">
+                        <div class="filter-container">
+                            <select id="memory-type-filter">
+                                <option value="all">All Types</option>
+                                <option value="text">Text</option>
+                                <option value="pdf">PDF</option>
+                                <option value="audio">Audio</option>
+                            </select>
+                        </div>
+                        <div class="search-container">
+                            <input type="text" id="search-memories" placeholder="Search memories...">
+                            <i class="fas fa-search"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="memories-grid" id="memories-container">
+                    <!-- Memories will be inserted here by JS -->
+                    <div class="empty-state" id="empty-memories">
+                        <i class="fas fa-file-alt"></i>
+                        <p>No memories in this collection yet. Upload your first memory to get started!</p>
+                        <button id="empty-upload-memory-btn" class="btn btn-secondary">Upload Memory</button>
+                    </div>
+                </div>
+
+                <!-- Memory Preview Panel -->
+                <div class="memory-preview-panel" id="memory-preview">
+                    <div class="preview-header">
+                        <h3 id="preview-title">Memory Title</h3>
+                        <button class="close-preview">&times;</button>
+                    </div>
+                    <div class="preview-content">
+                        <div class="preview-meta">
+                            <div><i class="fas fa-calendar-alt"></i> Created: <span id="preview-created">--/--/----</span></div>
+                            <div><i class="fas fa-file"></i> Type: <span id="preview-type">Type</span></div>
+                            <div><i class="fas fa-file-alt"></i> Original Filename: <span id="preview-filename">filename.ext</span></div>
+                        </div>
+                        
+                        <div class="preview-description">
+                            <strong>Description:</strong>
+                            <p id="preview-description">Memory description</p>
+                        </div>
+                        
+                        <div class="preview-content-area" id="preview-content-area">
+                            <!-- Content preview will be inserted here -->
+                        </div>
+                        
+                        <div class="preview-actions">
+                            <button id="chat-memory-btn" class="btn btn-primary">
+                                <i class="fas fa-comments"></i> Chat with this Memory
+                            </button>
+                            <button id="delete-memory-btn" class="btn btn-danger">
+                                <i class="fas fa-trash"></i> Delete Memory
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Upload Memory Modal -->
+    <div class="modal" id="upload-memory-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Upload Memory</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="upload-memory-form">
+                    <div class="form-group">
+                        <label for="memory-title">Title</label>
+                        <input type="text" id="memory-title" name="title" placeholder="Memory Title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="memory-description">Description (Optional)</label>
+                        <textarea id="memory-description" name="description" placeholder="What's this memory about?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="memory-type">Type</label>
+                        <select id="memory-type" name="type">
+                            <option value="">Auto-detect</option>
+                            <option value="text">Text</option>
+                            <option value="pdf">PDF</option>
+                            <option value="audio">Audio</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="memory-file">File</label>
+                        <div class="file-upload-container">
+                            <div class="file-upload-area" id="file-upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>Drag & drop a file here, or click to select a file</p>
+                                <p class="file-types">Supported types: .txt, .md, .pdf, .mp3, .wav, .ogg, .m4a</p>
+                                <input type="file" id="memory-file" name="file" required>
+                            </div>
+                            <div class="file-preview" id="file-preview">
+                                <div class="file-info">
+                                    <i class="fas fa-file"></i>
+                                    <span id="file-name">No file selected</span>
+                                </div>
+                                <button type="button" id="remove-file" class="btn btn-sm btn-secondary">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group" id="upload-progress-container" style="display: none;">
+                        <label>Upload Progress</label>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar" id="upload-progress-bar"></div>
+                        </div>
+                        <p id="upload-progress-text">0%</p>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary cancel-modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Upload Memory</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification-container"></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const uploadMemoryBtn = document.getElementById('upload-memory-btn');
+    const emptyUploadMemoryBtn = document.getElementById('empty-upload-memory-btn');
+    const chatCollectionBtn = document.getElementById('chat-collection-btn');
+    const uploadMemoryModal = document.getElementById('upload-memory-modal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const cancelModalBtn = document.querySelector('.cancel-modal');
+    const uploadMemoryForm = document.getElementById('upload-memory-form');
+    const memoriesContainer = document.getElementById('memories-container');
+    const emptyMemories = document.getElementById('empty-memories');
+    const searchMemoriesInput = document.getElementById('search-memories');
+    const memoryTypeFilter = document.getElementById('memory-type-filter');
+    const deleteCollectionBtn = document.getElementById('delete-collection-btn');
+    const notificationContainer = document.getElementById('notification-container');
+    const memoryPreview = document.getElementById('memory-preview');
+    const closePreviewBtn = document.querySelector('.close-preview');
+    const chatMemoryBtn = document.getElementById('chat-memory-btn');
+    const deleteMemoryBtn = document.getElementById('delete-memory-btn');
+    const currentUsernameEl = document.getElementById('current-username');
+    
+    // File upload elements
+    const fileUploadArea = document.getElementById('file-upload-area');
+    const fileInput = document.getElementById('memory-file');
+    const filePreview = document.getElementById('file-preview');
+    const fileName = document.getElementById('file-name');
+    const removeFileBtn = document.getElementById('remove-file');
+    const uploadProgressContainer = document.getElementById('upload-progress-container');
+    const uploadProgressBar = document.getElementById('upload-progress-bar');
+    const uploadProgressText = document.getElementById('upload-progress-text');
+    
+    // Collection elements
+    const collectionTitle = document.getElementById('collection-title');
+    const collectionName = document.getElementById('collection-name');
+    const collectionDescription = document.getElementById('collection-description');
+    const collectionCreated = document.getElementById('collection-created');
+    const memoriesCount = document.getElementById('memories-count');
+    
+    // Preview elements
+    const previewTitle = document.getElementById('preview-title');
+    const previewCreated = document.getElementById('preview-created');
+    const previewType = document.getElementById('preview-type');
+    const previewFilename = document.getElementById('preview-filename');
+    const previewDescription = document.getElementById('preview-description');
+    const previewContentArea = document.getElementById('preview-content-area');
+
+    // State
+    let collection = null;
+    let memories = [];
+    let currentUser = null;
+    let selectedMemory = null;
+    
+    // Get collection ID from URL
+    const collectionId = getCollectionIdFromUrl();
+    
+    // Initialize
+    init();
+    
+    async function init() {
+        await getCurrentUser();
+        await fetchCollection();
+        setupEventListeners();
+    }
+    
+    // Get collection ID from URL
+    function getCollectionIdFromUrl() {
+    const path = window.location.pathname;
+    console.log('Current path:', path); // Debug logging
+    
+    // If the URL is just /collections (with optional trailing slash)
+    if (path === '/collections' || path === '/collections/') {
+        console.log('This is the collections index page, not a specific collection');
+        // Redirect to dashboard or show all collections
+        window.location.href = '/';
+        return null;
+    }
+    
+    const pathParts = path.split('/');
+    console.log('Path parts:', pathParts); // Debug logging
+    
+    // Extract the collection ID more safely
+    const collectionsIndex = pathParts.indexOf('collections');
+    if (collectionsIndex !== -1 && collectionsIndex < pathParts.length - 1 && pathParts[collectionsIndex + 1]) {
+        const id = pathParts[collectionsIndex + 1];
+        console.log('Extracted collection ID:', id); // Debug logging
+        return id;
+    }
+    
+    console.error('Could not find valid collection ID in URL');
+    window.location.href = '/';
+    return null;
+}
+    
+    // Get current user info
+    async function getCurrentUser() {
+        try {
+            const response = await fetch('/api/user/current');
+            if (!response.ok) {
+                window.location.href = '/login';
+                return;
+            }
+
+            const data = await response.json();
+            if (data.success) {
+                currentUser = data.user;
+                currentUsernameEl.textContent = currentUser.username;
+            } else {
+                window.location.href = '/login';
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+            window.location.href = '/login';
+        }
+    }
+    
+    // Fetch collection details
+    async function fetchCollection() {
+        try {
+            const response = await fetch(`/api/collections/${collectionId}`);
+            const data = await response.json();
+            
+            if (data.success) {
+                collection = data.collection;
+                memories = collection.memories || [];
+                
+                // Update collection details
+                updateCollectionDetails();
+                
+                // Render memories
+                renderMemories();
+            } else {
+                showNotification(data.error || 'Failed to load collection', 'error');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 3000);
+            }
+        } catch (error) {
+            console.error('Error fetching collection:', error);
+            showNotification('An error occurred while loading the collection', 'error');
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 3000);
+        }
+    }
+    
+    // Update collection details in the DOM
+    function updateCollectionDetails() {
+        document.title = `Memory Vault - ${collection.name}`;
+        collectionTitle.textContent = collection.name;
+        collectionName.textContent = collection.name;
+        collectionDescription.textContent = collection.description || 'No description provided.';
+        collectionCreated.textContent = new Date(collection.created_at).toLocaleDateString();
+        memoriesCount.textContent = memories.length;
+    }
+    
+    // Render memories to the DOM
+    function renderMemories() {
+        if (memories.length === 0) {
+            emptyMemories.style.display = 'block';
+            memoriesContainer.innerHTML = '';
+            return;
+        }
+        
+        emptyMemories.style.display = 'none';
+        
+        // Clear previous memories
+        memoriesContainer.innerHTML = '';
+        
+        // Filter memories
+        const searchTerm = searchMemoriesInput.value.toLowerCase();
+        const typeFilter = memoryTypeFilter.value;
+        
+        const filteredMemories = memories.filter(memory => {
+            // Type filter
+            if (typeFilter !== 'all' && memory.type !== typeFilter) {
+                return false;
+            }
+            
+            // Search filter
+            if (searchTerm && !memory.title.toLowerCase().includes(searchTerm) && 
+                (!memory.description || !memory.description.toLowerCase().includes(searchTerm))) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        // Render filtered memories
+        filteredMemories.forEach(memory => {
+            const dateCreated = new Date(memory.created_at).toLocaleDateString();
+            
+            const memoryEl = document.createElement('div');
+            memoryEl.className = 'memory-card';
+            memoryEl.dataset.id = memory.id;
+            
+            // Set appropriate icon based on memory type
+            let icon;
+            switch(memory.type) {
+                case 'text':
+                    icon = 'fa-file-alt';
+                    break;
+                case 'pdf':
+                    icon = 'fa-file-pdf';
+                    break;
+                case 'audio':
+                    icon = 'fa-headphones';
+                    break;
+                default:
+                    icon = 'fa-file';
+            }
+            
+            memoryEl.innerHTML = `
+                <div class="memory-tag ${memory.type}">${memory.type}</div>
+                <div class="memory-icon">
+                    <i class="fas ${icon}"></i>
+                </div>
+                <h3 class="memory-title">${memory.title}</h3>
+                <p class="memory-description">${memory.description || 'No description provided.'}</p>
+                <div class="memory-meta">
+                    <div>
+                        <i class="fas fa-calendar-alt"></i> ${dateCreated}
+                    </div>
+                    <div>
+                        <i class="fas fa-file"></i> ${memory.original_filename}
+                    </div>
+                </div>
+            `;
+            
+            memoriesContainer.appendChild(memoryEl);
+            
+            // Open memory preview on click
+            memoryEl.addEventListener('click', () => {
+                openMemoryPreview(memory);
+            });
+        });
+    }
+    
+    // Open memory preview
+    async function openMemoryPreview(memory) {
+        selectedMemory = memory;
+        
+        // Update preview details
+        previewTitle.textContent = memory.title;
+        previewCreated.textContent = new Date(memory.created_at).toLocaleDateString();
+        previewType.textContent = memory.type.charAt(0).toUpperCase() + memory.type.slice(1); // Capitalize
+        previewFilename.textContent = memory.original_filename;
+        previewDescription.textContent = memory.description || 'No description provided.';
+        
+        // Clear previous content
+        previewContentArea.innerHTML = '';
+        
+        // Show loading indicator
+        previewContentArea.innerHTML = '<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> Loading content...</div>';
+        
+        try {
+            // Fetch memory content
+            const response = await fetch(`/api/collections/${collectionId}/memories/${memory.id}/content`);
+            
+            if (!response.ok) {
+                throw new Error('Failed to load memory content');
+            }
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Display different content based on memory type
+                switch(memory.type) {
+                    case 'text':
+                        previewContentArea.innerHTML = `
+                            <div class="text-content">${data.content}</div>
+                        `;
+                        break;
+                    case 'pdf':
+                        previewContentArea.innerHTML = `
+                            <div class="pdf-content">
+                                <iframe src="/api/collections/${collectionId}/memories/${memory.id}/file" title="${memory.title}"></iframe>
+                            </div>
+                        `;
+                        break;
+                    case 'audio':
+                        previewContentArea.innerHTML = `
+                            <div class="audio-content">
+                                <p>Audio Transcription:</p>
+                                <div class="text-content">${data.content}</div>
+                                <audio controls src="/api/collections/${collectionId}/memories/${memory.id}/file"></audio>
+                            </div>
+                        `;
+                        break;
+                    default:
+                        previewContentArea.innerHTML = `<p>Preview not available for this memory type.</p>`;
+                }
+            } else {
+                throw new Error(data.error || 'Failed to load memory content');
+            }
+        } catch (error) {
+            console.error('Error loading memory content:', error);
+            previewContentArea.innerHTML = `<p class="error-message">Error loading content: ${error.message}</p>`;
+        }
+        
+        // Show preview panel
+        memoryPreview.classList.add('active');
+    }
+    
+    // Close memory preview
+    function closeMemoryPreview() {
+        memoryPreview.classList.remove('active');
+        selectedMemory = null;
+    }
+    
+    // Chat with memory
+    function chatWithMemory(memoryId) {
+        window.location.href = `/collections/${collectionId}/memory/${memoryId}/chat`;
+    }
+    
+    // Chat with collection
+    function chatWithCollection() {
+        window.location.href = `/collections/${collectionId}/chat`;
+    }
+    
+    // Delete memory
+    async function deleteMemory(memoryId) {
+        if (!confirm('Are you sure you want to delete this memory? This action cannot be undone.')) {
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/collections/${collectionId}/memories/${memoryId}`, {
+                method: 'DELETE'
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                // Remove memory from array
+                memories = memories.filter(m => m.id !== memoryId);
+                
+                // Update UI
+                renderMemories();
+                closeMemoryPreview();
+                updateCollectionDetails();
+                
+                showNotification('Memory deleted successfully', 'success');
+            } else {
+                showNotification(data.error || 'Failed to delete memory', 'error');
+            }
+        } catch (error) {
+            console.error('Error deleting memory:', error);
+            showNotification('An error occurred while deleting the memory', 'error');
+        }
+    }
+    
+    // Delete collection
+    async function deleteCollection() {
+        if (!confirm('Are you sure you want to delete this collection? This action cannot be undone and will delete all memories and chats associated with this collection.')) {
+            return;
+        }
+        
+        try {
+            const response = await fetch(`/api/collections/${collectionId}`, {
+                method: 'DELETE'
+            });
+            
+            const data = await response.json();
+            
+            if (data.success) {
+                showNotification('Collection deleted successfully', 'success');
+                
+                // Redirect to dashboard
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1500);
+            } else {
+                showNotification(data.error || 'Failed to delete collection', 'error');
+            }
+        } catch (error) {
+            console.error('Error deleting collection:', error);
+            showNotification('An error occurred while deleting the collection', 'error');
+        }
+    }
+    
+    // Upload memory
+    async function uploadMemory(formData) {
+        try {
+            // Show progress container
+            uploadProgressContainer.style.display = 'block';
+            
+            const xhr = new XMLHttpRequest();
+            
+            // Setup progress tracking
+            xhr.upload.addEventListener('progress', (event) => {
+                if (event.lengthComputable) {
+                    const percentComplete = Math.round((event.loaded / event.total) * 100);
+                    uploadProgressBar.style.width = percentComplete + '%';
+                    uploadProgressText.textContent = percentComplete + '%';
+                }
+            });
+            
+            // Setup completion handler
+            xhr.addEventListener('load', () => {
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    const data = JSON.parse(xhr.responseText);
+                    
+                    if (data.success) {
+                        // Add new memory to array
+                        memories.push(data.memory);
+                        
+                        // Update UI
+                        renderMemories();
+                        updateCollectionDetails();
+                        
+                        // Reset form
+                        uploadMemoryForm.reset();
+                        resetFileUpload();
+                        
+                        // Close modal
+                        uploadMemoryModal.classList.remove('active');
+                        
+                        showNotification('Memory uploaded successfully', 'success');
+                    } else {
+                        showNotification(data.error || 'Failed to upload memory', 'error');
+                    }
+                } else {
+                    let errorMsg = 'Failed to upload memory';
+                    try {
+                        const errorData = JSON.parse(xhr.responseText);
+                        if (errorData && errorData.error) {
+                            errorMsg = errorData.error;
+                        }
+                    } catch (e) {
+                        console.error('Error parsing error response:', e);
+                    }
+                    showNotification(errorMsg, 'error');
+                }
+                
+                // Hide progress container
+                uploadProgressContainer.style.display = 'none';
+            });
+            
+            // Setup error handler
+            xhr.addEventListener('error', () => {
+                showNotification('Network error occurred during upload', 'error');
+                uploadProgressContainer.style.display = 'none';
+            });
+            
+            // Open and send request
+            xhr.open('POST', `/api/collections/${collectionId}/memories`);
+            xhr.send(formData);
+        } catch (error) {
+            console.error('Error uploading memory:', error);
+            showNotification('An error occurred while uploading the memory', 'error');
+            uploadProgressContainer.style.display = 'none';
+        }
+    }
+    
+    // Reset file upload
+    function resetFileUpload() {
+        fileInput.value = '';
+        filePreview.classList.remove('active');
+        fileUploadArea.style.display = 'block';
+        uploadProgressBar.style.width = '0';
+        uploadProgressText.textContent = '0%';
+        uploadProgressContainer.style.display = 'none';
+    }
+    
+    // Show notification
+    function showNotification(message, type = 'success') {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        
+        // Add appropriate icon
+        const icon = document.createElement('i');
+        icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+        notification.appendChild(icon);
+        
+        // Add message
+        const messageText = document.createElement('span');
+        messageText.textContent = message;
+        notification.appendChild(messageText);
+        
+        // Add notification to container
+        notificationContainer.appendChild(notification);
+        
+        // Auto-remove notification after 5 seconds
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notificationContainer.removeChild(notification);
+            }, 300);
+        }, 5000);
+    }
+    
+    // Setup event listeners
+    function setupEventListeners() {
+        // Upload memory button
+        uploadMemoryBtn.addEventListener('click', () => {
+            uploadMemoryModal.classList.add('active');
+        });
+        
+        emptyUploadMemoryBtn.addEventListener('click', () => {
+            uploadMemoryModal.classList.add('active');
+        });
+        
+        // Chat with collection button
+        chatCollectionBtn.addEventListener('click', () => {
+            chatWithCollection();
+        });
+        
+        // Delete collection button
+        deleteCollectionBtn.addEventListener('click', () => {
+            deleteCollection();
+        });
+        
+        // Close modal buttons
+        closeModalBtn.addEventListener('click', () => {
+            uploadMemoryModal.classList.remove('active');
+        });
+        
+        cancelModalBtn.addEventListener('click', () => {
+            uploadMemoryModal.classList.remove('active');
+        });
+        
+        // Close modal on outside click
+        uploadMemoryModal.addEventListener('click', (e) => {
+            if (e.target === uploadMemoryModal) {
+                uploadMemoryModal.classList.remove('active');
+            }
+        });
+        
+        // Close preview button
+        closePreviewBtn.addEventListener('click', () => {
+            closeMemoryPreview();
+        });
+        
+        // Chat with memory button
+        chatMemoryBtn.addEventListener('click', () => {
+            if (selectedMemory) {
+                chatWithMemory(selectedMemory.id);
+            }
+        });
+        
+        // Delete memory button
+        deleteMemoryBtn.addEventListener('click', () => {
+            if (selectedMemory) {
+                deleteMemory(selectedMemory.id);
+            }
+        });
+        
+        // Search and filter
+        searchMemoriesInput.addEventListener('input', () => {
+            renderMemories();
+        });
+        
+        memoryTypeFilter.addEventListener('change', () => {
+            renderMemories();
+        });
+        
+        // File upload
+        fileUploadArea.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        // File drag and drop
+        fileUploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.add('dragover');
+        });
+        
+        fileUploadArea.addEventListener('dragleave', () => {
+            fileUploadArea.classList.remove('dragover');
+        });
+        
+        fileUploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            fileUploadArea.classList.remove('dragover');
+            
+            if (e.dataTransfer.files.length) {
+                fileInput.files = e.dataTransfer.files;
+                handleFileSelection();
+            }
+        });
+        
+        // File input change
+        fileInput.addEventListener('change', () => {
+            handleFileSelection();
+        });
+        
+        // Remove file button
+        removeFileBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            resetFileUpload();
+        });
+        
+        // Upload memory form
+        uploadMemoryForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const titleInput = document.getElementById('memory-title');
+            const descriptionInput = document.getElementById('memory-description');
+            const typeSelect = document.getElementById('memory-type');
+            
+            if (!titleInput.value.trim()) {
+                showNotification('Please enter a title for your memory', 'error');
+                return;
+            }
+            
+            if (!fileInput.files || !fileInput.files[0]) {
+                showNotification('Please select a file to upload', 'error');
+                return;
+            }
+            
+            const formData = new FormData();
+            formData.append('title', titleInput.value.trim());
+            formData.append('description', descriptionInput.value.trim());
+            formData.append('file', fileInput.files[0]);
+            
+            if (typeSelect.value) {
+                formData.append('type', typeSelect.value);
+            }
+            
+            uploadMemory(formData);
+        });
+    }
+    
+    // Handle file selection
+    function handleFileSelection() {
+        if (fileInput.files && fileInput.files[0]) {
+            const file = fileInput.files[0];
+            
+            // Show file preview
+            fileName.textContent = file.name;
+            filePreview.classList.add('active');
+            fileUploadArea.style.display = 'none';
+            
+            // Try to detect file type
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+            const memoryTypeSelect = document.getElementById('memory-type');
+            
+            if (['txt', 'md', 'csv', 'json'].includes(fileExtension)) {
+                memoryTypeSelect.value = 'text';
+            } else if (fileExtension === 'pdf') {
+                memoryTypeSelect.value = 'pdf';
+            } else if (['mp3', 'wav', 'ogg', 'm4a'].includes(fileExtension)) {
+                memoryTypeSelect.value = 'audio';
+            }
+        }
+    }
+});
+    </script>
+</body>
+</html>

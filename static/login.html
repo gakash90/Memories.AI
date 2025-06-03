@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memories.AI - Login/Signup</title>
+    <style>
+/* Base Styles */
+:root {
+    --primary-color: #6366f1;
+    --primary-light: #818cf8;
+    --primary-dark: #4f46e5;
+    --secondary-color: #8b5cf6;
+    --accent-color: #f59e0b;
+    --danger-color: #ef4444;
+    --danger-dark: #dc2626;
+    --text-color: #e5e7eb;
+    --text-light: #9ca3af;
+    --text-muted: #6b7280;
+    --background-color: #111827;
+    --card-bg: #1f2937;
+    --border-color: #374151;
+    --light-border: #4b5563;
+    --error-color: #ef4444;
+    --success-color: #10b981;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --radius-sm: 0.375rem;
+    --radius-md: 0.5rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container Styles */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.forms-container {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    max-width: 450px;
+    margin: 0 auto;
+    border: 1px solid var(--border-color);
+    transition: var(--transition);
+}
+
+.forms-container:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--shadow-lg);
+}
+
+.forms-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.forms-wrapper {
+    padding: 30px;
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(31, 41, 55, 0.95) 100%);
+    backdrop-filter: blur(10px);
+}
+
+/* Logo Styles */
+.logo-container {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.logo-icon {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    transition: var(--transition);
+}
+
+.logo-icon:hover {
+    color: var(--primary-light);
+    transform: scale(1.1);
+}
+
+.app-name {
+    font-size: 2rem;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 5px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.app-tagline {
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+/* Form Styles */
+.form-panel {
+    display: none;
+}
+
+.form-panel.active {
+    display: block;
+}
+
+.form-panel h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--text-color);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: var(--transition);
+    background-color: var(--card-bg);
+}
+
+.input-group:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.input-group i {
+    width: 50px;
+    text-align: center;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.input-group:focus-within i {
+    color: var(--primary-color);
+}
+
+.input-group input {
+    flex: 1;
+    border: none;
+    padding: 12px 15px;
+    font-size: 1rem;
+    outline: none;
+    background: transparent;
+    color: var(--text-color);
+}
+
+.toggle-password {
+    cursor: pointer;
+    padding-right: 15px;
+    color: var(--text-light);
+    transition: var(--transition);
+}
+
+.toggle-password:hover {
+    color: var(--primary-color);
+}
+
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-lg);
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px -1px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--text-light);
+}
+
+.form-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.form-footer a:hover {
+    color: var(--primary-light);
+    text-decoration: underline;
+}
+
+/* Notification Styles */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.notification {
+    padding: 15px 20px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 10px;
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    align-items: center;
+    animation: slideIn 0.3s forwards;
+    border: 1px solid;
+}
+
+.notification.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success-color);
+    border-color: var(--success-color);
+}
+
+.notification.error {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error-color);
+    border-color: var(--error-color);
+}
+
+.notification i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Modal Styles for Model Setup */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.model-setup-modal {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    width: 90%;
+    max-width: 500px;
+    overflow: hidden;
+    transform: translateY(-20px);
+    transition: transform 0.3s ease;
+    border: 1px solid var(--border-color);
+}
+
+.modal-overlay.active .model-setup-modal {
+    transform: translateY(0);
+}
+
+.model-setup-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.model-setup-header h2 {
+    font-size: 1.25rem;
+    color: var(--text-color);
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.model-setup-header p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.model-setup-body {
+    padding: 24px;
+}
+
+.models-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.model-download-container {
+    background-color: rgba(31, 41, 55, 0.5);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    border: 1px solid var(--border-color);
+}
+
+.model-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.model-info i {
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    margin-right: 12px;
+}
+
+.model-name {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-right: auto;
+}
+
+.model-size {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.progress-container {
+    height: 8px;
+    background-color: var(--border-color);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    transition: width 0.3s ease;
+}
+
+.model-status {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-bottom: 12px;
+}
+
+.download-btn {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: 8px 16px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.download-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.download-btn:disabled {
+    background-color: var(--border-color);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.setup-complete-btn {
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 1rem;
+    transition: var(--transition);
+}
+
+.setup-complete-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .forms-container {
+        max-width: 100%;
+    }
+    
+    .forms-wrapper {
+        padding: 20px;
+    }
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="forms-container">
+            <div class="forms-wrapper">
+                <!-- Logo and App Name -->
+                <div class="logo-container">
+                    <i class="fas fa-brain logo-icon"></i>
+                    <h1 class="app-name">Memories.AI</h1>
+                    <p class="app-tagline">Your personal knowledge assistant</p>
+                </div>
+
+                <!-- Login Form -->
+                <div class="form-panel active" id="login-panel">
+                    <h2>Welcome Back</h2>
+                    <form id="login-form">
+                        <div class="form-group">
+                            <label for="login-username">Username</label>
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="login-username" name="username" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="login-password" name="password" required>
+                                <i class="fas fa-eye toggle-password" data-for="login-password"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        <div class="form-footer">
+                            <p>Don't have an account? <a href="#" id="show-signup">Sign Up</a></p>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Signup Form -->
+                <div class="form-panel" id="signup-panel">
+                    <h2>Create Account</h2>
+                    <form id="signup-form">
+                        <div class="form-group">
+                            <label for="signup-username">Username</label>
+                            <div class="input-group">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="signup-username" name="username" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="signup-password" name="password" required>
+                                <i class="fas fa-eye toggle-password" data-for="signup-password"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm-password">Confirm Password</label>
+                            <div class="input-group">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="signup-confirm-password" name="confirm-password" required>
+                                <i class="fas fa-eye toggle-password" data-for="signup-confirm-password"></i>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Sign Up</button>
+                        </div>
+                        <div class="form-footer">
+                            <p>Already have an account? <a href="#" id="show-login">Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Container -->
+        <div id="notification-container"></div>
+    </div>
+    
+    <!-- Modal Overlay for Model Setup -->
+    <div id="modelSetupModal" class="modal-overlay">
+        <div class="model-setup-modal">
+            <div class="model-setup-header">
+                <h2>Model Setup Required</h2>
+                <p>Memory Vault needs to download required models to function properly</p>
+            </div>
+            <div class="model-setup-body">
+                <div class="models-container">
+                    <div class="model-download-container" id="whisperModel">
+                        <div class="model-info">
+                            <i class="fas fa-microphone-alt"></i>
+                            <span class="model-name">Speech Recognition Model</span>
+                            <span class="model-size">~150MB</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="whisperProgressBar"></div>
+                        </div>
+                        <div class="model-status" id="whisperStatus">Ready to download</div>
+                        <button id="startSetupBtn" class="download-btn">Download</button>
+                    </div>
+
+                    <div class="model-download-container" id="ollamaModel">
+                        <div class="model-info">
+                            <i class="fas fa-brain"></i>
+                            <span class="model-name">Language Model</span>
+                            <span class="model-size">~4GB</span>
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="ollamaProgressBar"></div>
+                        </div>
+                        <div class="model-status" id="ollamaStatus">Waiting for speech model</div>
+                        <button id="ollamaDownloadBtn" class="download-btn" disabled>Download</button>
+                    </div>
+                </div>
+
+                <button id="setupCompleteBtn" class="setup-complete-btn" style="display: none;">Continue to Login</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // DOM Elements
+        const loginPanel = document.getElementById('login-panel');
+        const signupPanel = document.getElementById('signup-panel');
+        const showLoginLink = document.getElementById('show-login');
+        const showSignupLink = document.getElementById('show-signup');
+        const loginForm = document.getElementById('login-form');
+        const signupForm = document.getElementById('signup-form');
+        const togglePasswordButtons = document.querySelectorAll('.toggle-password');
+        const notificationContainer = document.getElementById('notification-container');
+        
+        // Model Setup Elements
+        const modelSetupModal = document.getElementById('modelSetupModal');
+        const startSetupBtn = document.getElementById('startSetupBtn');
+        const ollamaDownloadBtn = document.getElementById('ollamaDownloadBtn');
+        const setupCompleteBtn = document.getElementById('setupCompleteBtn');
+        const whisperProgressBar = document.getElementById('whisperProgressBar');
+        const ollamaProgressBar = document.getElementById('ollamaProgressBar');
+        const whisperStatus = document.getElementById('whisperStatus');
+        const ollamaStatus = document.getElementById('ollamaStatus');
+        
+        // Model download status tracking
+        let whisperModelReady = false;
+        let ollamaModelReady = false;
+        let whisperProgressInterval = null;
+        
+        // Check if models are ready
+        checkModelsStatus();
+        
+        // Toggle between login and signup forms
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupPanel.classList.remove('active');
+            loginPanel.classList.add('active');
+        });
+    
+        showSignupLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginPanel.classList.remove('active');
+            signupPanel.classList.add('active');
+        });
+    
+        // Toggle password visibility
+        togglePasswordButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const inputId = button.getAttribute('data-for');
+                const passwordInput = document.getElementById(inputId);
+                
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    button.classList.remove('fa-eye');
+                    button.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    button.classList.remove('fa-eye-slash');
+                    button.classList.add('fa-eye');
+                }
+            });
+        });
+        
+        // Function to check both models status
+        function checkModelsStatus() {
+            Promise.all([
+                fetch('/model/status').then(res => res.json()).catch(err => ({status: 'error'})),
+                fetch('/api/model/status').then(res => res.json()).catch(err => ({status: 'error'}))
+            ])
+                .then(([whisperData, ollamaData]) => {
+                    // Check whisper model status
+                    if (whisperData.status === 'ready') {
+                        whisperProgressBar.style.width = '100%';
+                        whisperStatus.textContent = 'Speech model ready';
+                        startSetupBtn.textContent = 'Completed';
+                        startSetupBtn.disabled = true;
+                        whisperModelReady = true;
+
+                        // Enable Ollama download button but don't automatically start
+                        ollamaDownloadBtn.disabled = false;
+                        ollamaStatus.textContent = 'Ready to download';
+                    }
+
+                    // Check ollama model status
+                    if (ollamaData.status === "completed" || ollamaData.completed) {
+                        ollamaProgressBar.style.width = '100%';
+                        ollamaStatus.textContent = 'Language model ready';
+                        ollamaDownloadBtn.textContent = 'Completed';
+                        ollamaDownloadBtn.disabled = true;
+                        ollamaModelReady = true;
+                    } else if (whisperModelReady && !(ollamaData.status === "downloading")) {
+                        // If whisper is ready, ollama is not ready, and ollama is not currently downloading,
+                        // enable the ollama download button
+                        ollamaDownloadBtn.disabled = false;
+                        ollamaStatus.textContent = 'Ready to download';
+                    }
+
+                    // If both models are ready, no need to show the modal
+                    if (whisperModelReady && ollamaModelReady) {
+                        // Both models are ready, don't show the modal
+                        console.log("All models are ready, proceeding to login");
+                    } else {
+                        // Show modal if any model is not ready
+                        modelSetupModal.classList.add('active');
+                    }
+
+                    // Update setup complete button visibility
+                    updateSetupCompleteButton();
+                })
+                .catch(error => {
+                    console.error('Error checking model status:', error);
+                    // Show modal on error, assuming models need setup
+                    modelSetupModal.classList.add('active');
+                });
+        }
+
+        // Update setup complete button visibility based on models status
+        function updateSetupCompleteButton() {
+            if (whisperModelReady && ollamaModelReady) {
+                setupCompleteBtn.style.display = 'block';
+            } else {
+                setupCompleteBtn.style.display = 'none';
+            }
+        }
+
+        // Setup complete button - closes the modal
+        setupCompleteBtn.addEventListener('click', function () {
+            modelSetupModal.classList.remove('active');
+        });
+
+        // Start setup button handler
+        startSetupBtn.addEventListener('click', function () {
+            startWhisperModelDownload();
+        });
+
+        // Whisper model functions
+        function startWhisperModelDownload() {
+            // Update UI
+            startSetupBtn.textContent = 'Starting...';
+            startSetupBtn.disabled = true;
+            whisperStatus.textContent = 'Starting download...';
+
+            // Start the download
+            fetch('/model/download', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Start polling for progress
+                        if (!whisperProgressInterval) {
+                            whisperProgressInterval = setInterval(updateWhisperProgress, 500);
+                        }
+                    } else {
+                        whisperStatus.textContent = data.error || 'Failed to start download';
+                        startSetupBtn.textContent = 'Try Again';
+                        startSetupBtn.disabled = false;
+                        whisperModelReady = false;
+                        updateSetupCompleteButton();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error starting model download:', error);
+                    whisperStatus.textContent = 'Network error';
+                    startSetupBtn.textContent = 'Try Again';
+                    startSetupBtn.disabled = false;
+                    whisperModelReady = false;
+                    updateSetupCompleteButton();
+                });
+        }
+
+        function updateWhisperProgress() {
+            fetch('/model/progress')
+                .then(response => response.json())
+                .then(data => {
+                    // Update progress bar based on response
+                    if (data.status === 'downloading' || data.status === 'starting') {
+                        const percent = data.percentage || Math.round(data.progress * 100);
+                        whisperProgressBar.style.width = `${percent}%`;
+
+                        // Update status message with details
+                        let statusText = `Downloading... ${percent}%`;
+                        if (data.downloaded && data.total) {
+                            statusText += ` (${data.downloaded}/${data.total})`;
+                        }
+                        if (data.speed) {
+                            statusText += ` at ${data.speed}`;
+                        }
+                        whisperStatus.textContent = statusText;
+
+                        whisperModelReady = false;
+                        updateSetupCompleteButton();
+                    }
+                    // Check if completed
+                    else if (data.status === 'completed') {
+                        clearInterval(whisperProgressInterval);
+                        whisperProgressInterval = null;
+
+                        whisperProgressBar.style.width = '100%';
+                        whisperStatus.textContent = 'Speech model ready';
+                        startSetupBtn.textContent = 'Completed';
+                        startSetupBtn.disabled = true;
+                        whisperModelReady = true;
+
+                        // Enable ollama download when whisper is completed
+                        ollamaDownloadBtn.disabled = false;
+                        ollamaStatus.textContent = 'Ready to download';
+
+                        updateSetupCompleteButton();
+                    }
+                    // Check if error
+                    else if (data.status === 'error') {
+                        clearInterval(whisperProgressInterval);
+                        whisperProgressInterval = null;
+
+                        whisperStatus.textContent = data.error || 'Download failed';
+                        startSetupBtn.textContent = 'Try Again';
+                        startSetupBtn.disabled = false;
+                        whisperModelReady = false;
+                        updateSetupCompleteButton();
+                    }
+                    // Check if ready
+                    else if (data.status === 'ready') {
+                        clearInterval(whisperProgressInterval);
+                        whisperProgressInterval = null;
+
+                        whisperProgressBar.style.width = '100%';
+                        whisperStatus.textContent = 'Speech model ready';
+                        startSetupBtn.textContent = 'Completed';
+                        startSetupBtn.disabled = true;
+                        whisperModelReady = true;
+
+                        // Enable ollama download when whisper is ready
+                        ollamaDownloadBtn.disabled = false;
+                        ollamaStatus.textContent = 'Ready to download';
+
+                        updateSetupCompleteButton();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error checking progress:', error);
+                    // Don't clear interval on error, try again next time
+                });
+        }
+
+        // Ollama model functions
+        ollamaDownloadBtn.addEventListener('click', function () {
+            startOllamaModelDownload();
+        });
+
+        function startOllamaModelDownload() {
+            // Check if we already have Ollama model ready or if it's downloading
+            fetch('/api/model/status')
+                .then(response => response.json())
+                .then(data => {
+                    // If already completed or downloading, don't start again
+                    if (data.status === "completed" || data.completed) {
+                        ollamaProgressBar.style.width = '100%';
+                        ollamaStatus.textContent = 'Language model ready';
+                        ollamaDownloadBtn.textContent = 'Completed';
+                        ollamaDownloadBtn.disabled = true;
+                        ollamaModelReady = true;
+                        updateSetupCompleteButton();
+                        return;
+                    }
+
+                    if (data.status === "downloading") {
+                        // Already downloading, just start polling
+                        pollOllamaDownloadProgress();
+                        return;
+                    }
+
+                    // Update UI
+                    ollamaStatus.textContent = 'Starting download...';
+                    ollamaDownloadBtn.textContent = 'Starting...';
+                    ollamaDownloadBtn.disabled = true;
+
+                    // Start the download
+                    fetch('/api/model/start-download', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                pollOllamaDownloadProgress();
+                            } else {
+                                ollamaStatus.textContent = data.message || 'Failed to start download';
+                                ollamaDownloadBtn.textContent = 'Try Again';
+                                ollamaDownloadBtn.disabled = false;
+                                ollamaModelReady = false;
+                                updateSetupCompleteButton();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error starting Ollama download:', error);
+                            ollamaStatus.textContent = 'Network error';
+                            ollamaDownloadBtn.textContent = 'Try Again';
+                            ollamaDownloadBtn.disabled = false;
+                            ollamaModelReady = false;
+                            updateSetupCompleteButton();
+                        });
+                })
+                .catch(error => {
+                    console.error('Error checking Ollama status:', error);
+                    // In case of error, try to start download anyway
+                    ollamaStatus.textContent = 'Starting download...';
+                    ollamaDownloadBtn.textContent = 'Starting...';
+                    ollamaDownloadBtn.disabled = true;
+
+                    fetch('/api/model/start-download', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                pollOllamaDownloadProgress();
+                            } else {
+                                ollamaStatus.textContent = data.message || 'Failed to start download';
+                                ollamaDownloadBtn.textContent = 'Try Again';
+                                ollamaDownloadBtn.disabled = false;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error starting Ollama download:', error);
+                            ollamaStatus.textContent = 'Network error';
+                            ollamaDownloadBtn.textContent = 'Try Again';
+                            ollamaDownloadBtn.disabled = false;
+                        });
+                });
+        }
+
+        function pollOllamaDownloadProgress() {
+            const progressInterval = setInterval(() => {
+                fetch('/api/model/status')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === "downloading") {
+                            const progress = data.progress;
+                            ollamaProgressBar.style.width = `${progress}%`;
+                            ollamaStatus.textContent = `Downloading... ${data.downloaded}MB / ${data.total_size}MB`;
+                            ollamaModelReady = false;
+                            updateSetupCompleteButton();
+                        } else if (data.status === "completed" || data.completed) {
+                            clearInterval(progressInterval);
+                            ollamaProgressBar.style.width = '100%';
+                            ollamaStatus.textContent = 'Language model ready';
+                            ollamaDownloadBtn.textContent = 'Completed';
+                            ollamaDownloadBtn.disabled = true;
+                            ollamaModelReady = true;
+                            updateSetupCompleteButton();
+                        } else if (data.status === "error") {
+                            clearInterval(progressInterval);
+                            ollamaStatus.textContent = data.error || 'Download failed';
+                            ollamaDownloadBtn.textContent = 'Try Again';
+                            ollamaDownloadBtn.disabled = false;
+                            ollamaModelReady = false;
+                            updateSetupCompleteButton();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error checking Ollama progress:', error);
+                        ollamaModelReady = false;
+                        updateSetupCompleteButton();
+                    });
+            }, 1000);
+        }
+        
+        // Form validation and submission
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('login-username').value.trim();
+            const password = document.getElementById('login-password').value;
+            
+            if (!username || !password) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            try {
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+                
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Login successful!', 'success');
+                    // Redirect to dashboard after successful login
+                    window.location.href = '/';
+                } else {
+                    showNotification(data.error || 'Login failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                showNotification('An error occurred. Please try again.', 'error');
+                console.error('Login error:', error);
+            }
+        });
+    
+        signupForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('signup-username').value.trim();
+            const password = document.getElementById('signup-password').value;
+            const confirmPassword = document.getElementById('signup-confirm-password').value;
+            
+            if (!username || !password || !confirmPassword) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showNotification('Password must be at least 6 characters', 'error');
+                return;
+            }
+            
+            try {
+                const formData = new FormData();
+                formData.append('username', username);
+                formData.append('password', password);
+                
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Registration successful!', 'success');
+                    // Redirect to dashboard after successful registration
+                    window.location.href = '/';
+                } else {
+                    showNotification(data.error || 'Registration failed. Please try again.', 'error');
+                }
+            } catch (error) {
+                showNotification('An error occurred. Please try again.', 'error');
+                console.error('Registration error:', error);
+            }
+        });
+    
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            
+            // Add appropriate icon
+            const icon = document.createElement('i');
+            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            notification.appendChild(icon);
+            
+            // Add message
+            const messageText = document.createElement('span');
+            messageText.textContent = message;
+            notification.appendChild(messageText);
+            
+            // Add notification to container
+            notificationContainer.appendChild(notification);
+            
+            // Auto-remove notification after 5 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    notificationContainer.removeChild(notification);
+                }, 300);
+            }, 5000);
+        }
+    });
+    </script>
+</body>
+</html>
